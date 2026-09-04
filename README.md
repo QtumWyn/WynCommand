@@ -16,7 +16,7 @@ The project is intentionally polyglot: part productivity tool, part programming-
 | **M2** | Bash | Linux / system utilities |
 | **M3** | Java | Git tooling |
 | **M4** | Zig | Build / test / run / debug |
-| **M5** | F# | Desktop utilities |
+| **M5** | Scala | Desktop utilities |
 | **M6** | Rust | Developer dashboard |
 
 NASM/x86-64 assembly may be integrated into any suite where it provides a legitimate low-level capability, measurable performance improvement, hardware-specific feature, or useful learning opportunity.
