@@ -5,24 +5,21 @@ use std::{
     time::Duration,
 };
 
-use crate::{protocol, telemetry::TelemetryCollector};
+use crate::runtime::TelemetryRuntime;
 
-const LISTEN_ADDRESS: &str = "127.0.0.1:4767";
-const SAMPLE_INTERVAL: Duration = Duration::from_millis(500);
+const POLL_INTERVAL: Duration = Duration::from_millis(25);
 
-pub fn run_server() -> io::Result<()> {
-    let listener = TcpListener::bind(LISTEN_ADDRESS)?;
+pub fn run_server(runtime: TelemetryRuntime, listen_address: &str) -> io::Result<()> {
+    let listener = TcpListener::bind(listen_address)?;
 
-    println!("Telemetry server listening on {LISTEN_ADDRESS}");
-
-    let mut telemetry = TelemetryCollector::new();
+    println!("Telemetry server listening on {listen_address}");
 
     for stream in listener.incoming() {
         match stream {
             Ok(stream) => {
                 println!("Observatory client connected");
 
-                if let Err(error) = stream_snapshots(stream, &mut telemetry) {
+                if let Err(error) = stream_snapshots(stream, &runtime) {
                     eprintln!("Observatory client disconnected: {error}");
                 }
             }
@@ -36,18 +33,28 @@ pub fn run_server() -> io::Result<()> {
     Ok(())
 }
 
-fn stream_snapshots(mut stream: TcpStream, telemetry: &mut TelemetryCollector) -> io::Result<()> {
+fn stream_snapshots(mut stream: TcpStream, runtime: &TelemetryRuntime) -> io::Result<()> {
+    let mut last_sequence: Option<u64> = None;
+
     loop {
-        let snapshot = telemetry.sample();
+        let Some(published) = runtime.latest() else {
+            thread::sleep(POLL_INTERVAL);
 
-        let wire_snapshot = protocol::to_wire(&snapshot);
+            continue;
+        };
 
-        let json = serde_json::to_string(&wire_snapshot).map_err(io::Error::other)?;
+        if last_sequence == Some(published.sequence) {
+            thread::sleep(POLL_INTERVAL);
+
+            continue;
+        }
+
+        let json = serde_json::to_string(&published.snapshot).map_err(io::Error::other)?;
 
         writeln!(stream, "{json}")?;
 
         stream.flush()?;
 
-        thread::sleep(SAMPLE_INTERVAL);
+        last_sequence = Some(published.sequence);
     }
 }

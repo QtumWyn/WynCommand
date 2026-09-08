@@ -4,7 +4,7 @@ use crate::snapshot::SystemSnapshot;
 
 pub fn to_wire(snapshot: &SystemSnapshot) -> wire::TelemetrySnapshot {
     wire::TelemetrySnapshot {
-        schema_version: snapshot.schema_version,
+        schema_version: wire::TELEMETRY_SCHEMA_VERSION,
 
         captured_at_unix_ms: snapshot.captured_at_unix_ms,
 
