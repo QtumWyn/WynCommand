@@ -1,11 +1,14 @@
 use crate::metrics::{
     cpu::CpuSnapshot,
+    gpu::GpuSnapshot,
     memory::MemorySnapshot,
-    scheduler::SchedulerSnapshot,
+    network::NetworkSnapshot,
     npu::NpuSnapshot,
+    scheduler::SchedulerSnapshot,
+    storage::StorageSnapshot,
+    processes::ProcessSnapshot,
 };
-use serde::{Serialize, Deserialize};
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SystemSnapshot {
@@ -15,4 +18,13 @@ pub struct SystemSnapshot {
     pub memory: MemorySnapshot,
     pub npu: NpuSnapshot,
     pub scheduler: SchedulerSnapshot,
+    pub gpu: GpuSnapshot,
+    pub storage: StorageSnapshot,
+    pub network: NetworkSnapshot,
+    pub processes_available: bool,
+
+    pub process_count: usize,
+    pub thread_count: usize,
+
+    pub processes: Vec<ProcessSnapshot>,
 }

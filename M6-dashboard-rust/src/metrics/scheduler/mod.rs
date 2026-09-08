@@ -1,7 +1,4 @@
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::{Deserialize, Serialize};
 
 #[cfg(target_os = "linux")]
 mod linux;
@@ -15,13 +12,8 @@ use linux::PlatformSchedulerCollector;
 #[cfg(target_os = "windows")]
 use windows::PlatformSchedulerCollector;
 
-#[cfg(not(any(
-    target_os = "linux",
-    target_os = "windows"
-)))]
-compile_error!(
-    "WynCommand scheduler telemetry currently supports Linux and Windows"
-);
+#[cfg(not(any(target_os = "linux", target_os = "windows")))]
+compile_error!("WynCommand scheduler telemetry currently supports Linux and Windows");
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SchedulerSnapshot {
@@ -41,14 +33,11 @@ pub struct SchedulerCollector {
 impl SchedulerCollector {
     pub fn new() -> Self {
         Self {
-            platform:
-            PlatformSchedulerCollector::new(),
+            platform: PlatformSchedulerCollector::new(),
         }
     }
 
-    pub fn sample(
-        &mut self,
-    ) -> SchedulerSnapshot {
+    pub fn sample(&mut self) -> SchedulerSnapshot {
         self.platform.sample()
     }
 }

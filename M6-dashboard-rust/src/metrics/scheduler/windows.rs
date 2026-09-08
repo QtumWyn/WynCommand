@@ -8,9 +8,7 @@ impl PlatformSchedulerCollector {
         Self
     }
 
-    pub(super) fn sample(
-        &mut self,
-    ) -> SchedulerSnapshot {
+    pub(super) fn sample(&mut self) -> SchedulerSnapshot {
         SchedulerSnapshot {
             context_switches_per_second: 0,
             runnable_tasks: 0,

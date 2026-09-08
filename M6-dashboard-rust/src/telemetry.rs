@@ -6,14 +6,18 @@ use std::{
 use sysinfo::{CpuRefreshKind, System};
 
 use crate::{
+    cpu_identity::{CpuIdentity, read_cpu_identity},
     metrics::{
         cpu::collect_cpu,
-        memory::MemoryCollector,
-        npu::NpuCollector,
-        scheduler::SchedulerCollector,
+        gpu::GpuCollector,
+        memory::{MemoryCollector, MemorySnapshot},
+        network::{NetworkCollector, NetworkSnapshot},
+        npu::{NpuCollector, NpuSnapshot},
+        scheduler::{SchedulerCollector, SchedulerSnapshot},
+        storage::{StorageCollector, StorageSnapshot},
+        processes::{ProcessCollector, ProcessSnapshot},
     },
     snapshot::SystemSnapshot,
-    cpu_identity::{read_cpu_identity, CpuIdentity},
 };
 
 fn unix_timestamp_ms() -> u64 {
@@ -29,6 +33,10 @@ pub struct TelemetryCollector {
     memory: MemoryCollector,
     npu: NpuCollector,
     scheduler: SchedulerCollector,
+    gpu: GpuCollector,
+    storage: StorageCollector,
+    network: NetworkCollector,
+    processes: ProcessCollector,
 }
 
 impl TelemetryCollector {
@@ -37,6 +45,10 @@ impl TelemetryCollector {
         let memory = MemoryCollector::new();
         let npu = NpuCollector::new();
         let scheduler = SchedulerCollector::new();
+        let gpu = GpuCollector::new();
+        let storage = StorageCollector::new();
+        let network = NetworkCollector::new();
+        let processes = ProcessCollector::new();
 
         let mut system = System::new();
 
@@ -63,34 +75,40 @@ impl TelemetryCollector {
             memory,
             npu,
             scheduler,
+            gpu,
+            storage,
+            network,
+            processes,
         }
     }
 
     pub fn sample(&mut self) -> SystemSnapshot {
         self.system.refresh_cpu_all();
         self.system.refresh_memory();
-        let scheduler =
-            self.scheduler.sample();
+        let scheduler = self.scheduler.sample();
+        let storage = self.storage.sample();
+
+        let network = self.network.sample();
+        let process_sample = self.processes.sample();
 
         SystemSnapshot {
             schema_version: 1,
-            captured_at_unix_ms:
-            unix_timestamp_ms(),
+            captured_at_unix_ms: unix_timestamp_ms(),
 
-            cpu: collect_cpu(
-                &self.system,
-                &self.cpu_identity,
-            ),
+            cpu: collect_cpu(&self.system, &self.cpu_identity),
 
-            memory:
-            self.memory.sample(
-                &self.system,
-            ),
+            memory: self.memory.sample(&self.system),
 
-            npu:
-            self.npu.sample(),
+            npu: self.npu.sample(),
 
             scheduler,
+            gpu: self.gpu.sample(),
+            storage,
+            network,
+            processes_available: process_sample.available,
+            process_count: process_sample.total_processes,
+            thread_count: process_sample.total_threads,
+            processes: process_sample.processes,
         }
     }
 }
@@ -100,3 +118,4 @@ impl Default for TelemetryCollector {
         Self::new()
     }
 }
+use crate::metrics::gpu;

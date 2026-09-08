@@ -1,57 +1,55 @@
-use std::{
-    env,
-    path::PathBuf,
-    process::Command,
-};
+use std::{env, path::PathBuf, process::Command};
 
 fn main() {
-    let out_dir = PathBuf::from(
-        env::var("OUT_DIR")
-            .expect("OUT_DIR missing"),
-    );
+    let target_os = env::var("CARGO_CFG_TARGET_OS").expect("missing target OS");
 
-    let asm = PathBuf::from("../asm/cpuid.asm");
-    let object = out_dir.join("cpuid.o");
+    let target_arch = env::var("CARGO_CFG_TARGET_ARCH").expect("missing target architecture");
+
+    if target_arch != "x86_64" {
+        panic!("WynCommand CPUID currently supports x86_64 only");
+    }
+
+    let manifest_dir =
+        PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("missing manifest directory"));
+
+    let asm_dir = manifest_dir.join("../asm");
+
+    let out_dir = PathBuf::from(env::var("OUT_DIR").expect("missing OUT_DIR"));
+
+    let (asm_file, object_format, object_name) = match target_os.as_str() {
+        "linux" => (asm_dir.join("cpuid_sysv.asm"), "elf64", "cpuid.o"),
+
+        "windows" => (asm_dir.join("cpuid_win64.asm"), "win64", "cpuid.obj"),
+
+        other => {
+            panic!("unsupported target OS: {other}");
+        }
+    };
+
+    let object_path = out_dir.join(object_name);
 
     let status = Command::new("nasm")
         .arg("-f")
-        .arg("elf64")
-        .arg(&asm)
+        .arg(object_format)
+        .arg(&asm_file)
         .arg("-o")
-        .arg(&object)
+        .arg(&object_path)
         .status()
         .expect("failed to run NASM");
 
-    assert!(
-        status.success(),
-        "NASM failed"
-    );
+    if !status.success() {
+        panic!("NASM failed while assembling {}", asm_file.display());
+    }
 
-    let library = out_dir.join("libwynasm.a");
-
-    let status = Command::new("ar")
-        .arg("rcs")
-        .arg(&library)
-        .arg(&object)
-        .status()
-        .expect("failed to run ar");
-
-    assert!(
-        status.success(),
-        "ar failed"
-    );
+    cc::Build::new().object(&object_path).compile("wynasm");
 
     println!(
-        "cargo:rustc-link-search=native={}",
-        out_dir.display()
-    );
-
-    println!(
-        "cargo:rustc-link-lib=static=wynasm"
+        "cargo:rerun-if-changed={}",
+        asm_dir.join("cpuid_sysv.asm").display()
     );
 
     println!(
         "cargo:rerun-if-changed={}",
-        asm.display()
+        asm_dir.join("cpuid_win64.asm").display()
     );
 }

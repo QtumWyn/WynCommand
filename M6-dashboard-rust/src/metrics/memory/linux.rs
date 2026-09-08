@@ -41,66 +41,49 @@ impl PlatformMemoryCollector {
 
         let memory_detail_available = proc_mem.is_some();
 
-        let cached_bytes = proc_mem
-            .as_ref()
-            .map(|info| info.cached_bytes)
-            .unwrap_or(0);
+        let cached_bytes = proc_mem.as_ref().map(|info| info.cached_bytes).unwrap_or(0);
 
-        let active_bytes = proc_mem
-            .as_ref()
-            .map(|info| info.active_bytes)
-            .unwrap_or(0);
+        let active_bytes = proc_mem.as_ref().map(|info| info.active_bytes).unwrap_or(0);
 
-        let dirty_bytes = proc_mem
-            .as_ref()
-            .map(|info| info.dirty_bytes)
-            .unwrap_or(0);
+        let dirty_bytes = proc_mem.as_ref().map(|info| info.dirty_bytes).unwrap_or(0);
 
         let mut fault_rates_available = false;
 
-        let (page_faults_per_second, major_page_faults_per_second) =
-            if let Some(vmstat) = vmstat {
-                let rates = match (
-                    self.previous_page_faults,
-                    self.previous_major_page_faults,
-                    self.previous_sample_at,
-                ) {
-                    (
-                        Some(previous_faults),
-                        Some(previous_major),
-                        Some(previous_time),
-                    ) => {
-                        let elapsed = now.duration_since(previous_time).as_secs_f64();
+        let (page_faults_per_second, major_page_faults_per_second) = if let Some(vmstat) = vmstat {
+            let rates = match (
+                self.previous_page_faults,
+                self.previous_major_page_faults,
+                self.previous_sample_at,
+            ) {
+                (Some(previous_faults), Some(previous_major), Some(previous_time)) => {
+                    let elapsed = now.duration_since(previous_time).as_secs_f64();
 
-                        if elapsed <= 0.0 {
-                            (0, 0)
-                        } else {
-                            fault_rates_available = true;
+                    if elapsed <= 0.0 {
+                        (0, 0)
+                    } else {
+                        fault_rates_available = true;
 
-                            let fault_delta =
-                                vmstat.page_faults.saturating_sub(previous_faults);
+                        let fault_delta = vmstat.page_faults.saturating_sub(previous_faults);
 
-                            let major_delta = vmstat
-                                .major_page_faults
-                                .saturating_sub(previous_major);
+                        let major_delta = vmstat.major_page_faults.saturating_sub(previous_major);
 
-                            (
-                                (fault_delta as f64 / elapsed).round() as u64,
-                                (major_delta as f64 / elapsed).round() as u64,
-                            )
-                        }
+                        (
+                            (fault_delta as f64 / elapsed).round() as u64,
+                            (major_delta as f64 / elapsed).round() as u64,
+                        )
                     }
-                    _ => (0, 0),
-                };
-
-                self.previous_page_faults = Some(vmstat.page_faults);
-                self.previous_major_page_faults = Some(vmstat.major_page_faults);
-                self.previous_sample_at = Some(now);
-
-                rates
-            } else {
-                (0, 0)
+                }
+                _ => (0, 0),
             };
+
+            self.previous_page_faults = Some(vmstat.page_faults);
+            self.previous_major_page_faults = Some(vmstat.major_page_faults);
+            self.previous_sample_at = Some(now);
+
+            rates
+        } else {
+            (0, 0)
+        };
 
         MemorySnapshot {
             total_bytes: system.total_memory(),

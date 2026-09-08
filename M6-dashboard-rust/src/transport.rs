@@ -12,16 +12,16 @@ const SAMPLE_INTERNAL: Duration = Duration::from_millis(500);
 
 pub fn run_server() -> io::Result<()> {
     let listener = TcpListener::bind(LISTEN_ADDRESS)?;
-    
+
     println!("Telemetry server listening on {LISTEN_ADDRESS}");
-    
+
     let mut telemetry = TelemetryCollector::new();
-    
+
     for stream in listener.incoming() {
         match stream {
             Ok(stream) => {
                 println!("Observatory client connected");
-                
+
                 if let Err(error) = stream_snapshot(stream, &mut telemetry) {
                     eprintln!("Observatory client disconnected: {error}");
                 }
@@ -34,19 +34,15 @@ pub fn run_server() -> io::Result<()> {
     Ok(())
 }
 
-fn stream_snapshot(
-    mut stream: TcpStream,
-    telemetry: &mut TelemetryCollector,
-) -> io::Result<()> {
+fn stream_snapshot(mut stream: TcpStream, telemetry: &mut TelemetryCollector) -> io::Result<()> {
     loop {
         let snapshot = telemetry.sample();
-        
-        let json = serde_json::to_string(&snapshot)
-            .map_err(io::Error::other)?;
-        
+
+        let json = serde_json::to_string(&snapshot).map_err(io::Error::other)?;
+
         writeln!(stream, "{json}")?;
         stream.flush()?;
-        
+
         thread::sleep(SAMPLE_INTERNAL);
     }
 }
