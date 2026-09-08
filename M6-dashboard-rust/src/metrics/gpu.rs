@@ -88,10 +88,6 @@ impl GpuCollector {
             .map(|state| format!("{state:?}"))
             .ok();
 
-        let model = device
-            .name()
-            .unwrap_or_else(|_| "Unknwon NVIDIA GPU".to_string());
-
         let utilization = device.utilization_rates().ok();
 
         let memory = device.memory_info().ok();

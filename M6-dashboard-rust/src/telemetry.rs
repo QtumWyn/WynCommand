@@ -13,9 +13,9 @@ use crate::{
         memory::{MemoryCollector, MemorySnapshot},
         network::{NetworkCollector, NetworkSnapshot},
         npu::{NpuCollector, NpuSnapshot},
+        processes::{ProcessCollector, ProcessSnapshot},
         scheduler::{SchedulerCollector, SchedulerSnapshot},
         storage::{StorageCollector, StorageSnapshot},
-        processes::{ProcessCollector, ProcessSnapshot},
     },
     snapshot::SystemSnapshot,
 };
@@ -118,4 +118,3 @@ impl Default for TelemetryCollector {
         Self::new()
     }
 }
-use crate::metrics::gpu;

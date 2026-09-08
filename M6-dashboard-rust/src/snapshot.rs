@@ -1,12 +1,7 @@
 use crate::metrics::{
-    cpu::CpuSnapshot,
-    gpu::GpuSnapshot,
-    memory::MemorySnapshot,
-    network::NetworkSnapshot,
-    npu::NpuSnapshot,
-    scheduler::SchedulerSnapshot,
+    cpu::CpuSnapshot, gpu::GpuSnapshot, memory::MemorySnapshot, network::NetworkSnapshot,
+    npu::NpuSnapshot, processes::ProcessSnapshot, scheduler::SchedulerSnapshot,
     storage::StorageSnapshot,
-    processes::ProcessSnapshot,
 };
 use serde::{Deserialize, Serialize};
 

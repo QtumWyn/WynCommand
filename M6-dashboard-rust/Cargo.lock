@@ -12,6 +12,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sysinfo",
+ "wyn-protocol",
 ]
 
 [[package]]
@@ -500,6 +501,13 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.119",
+]
+
+[[package]]
+name = "wyn-protocol"
+version = "0.1.0"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

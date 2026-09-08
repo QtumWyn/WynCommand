@@ -1,7 +1,4 @@
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::{Deserialize, Serialize};
 
 #[cfg(target_os = "linux")]
 mod linux;
@@ -15,20 +12,10 @@ use linux::PlatformProcessCollector;
 #[cfg(target_os = "windows")]
 use windows::PlatformProcessCollector;
 
-#[cfg(not(any(
-    target_os = "linux",
-    target_os = "windows"
-)))]
-compile_error!(
-    "WynCommand process telemetry currently supports Linux and Windows"
-);
+#[cfg(not(any(target_os = "linux", target_os = "windows")))]
+compile_error!("WynCommand process telemetry currently supports Linux and Windows");
 
-#[derive(
-    Debug,
-    Clone,
-    Serialize,
-    Deserialize,
-)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProcessSnapshot {
     pub pid: u32,
     pub parent_pid: u32,
@@ -53,12 +40,7 @@ pub struct ProcessSnapshot {
     pub started_at_unix_ms: Option<u64>,
 }
 
-#[derive(
-    Debug,
-    Clone,
-    Serialize,
-    Deserialize,
-)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProcessCollectionSnapshot {
     pub available: bool,
 
@@ -76,14 +58,11 @@ pub struct ProcessCollector {
 impl ProcessCollector {
     pub fn new() -> Self {
         Self {
-            platform:
-            PlatformProcessCollector::new(),
+            platform: PlatformProcessCollector::new(),
         }
     }
 
-    pub fn sample(
-        &mut self,
-    ) -> ProcessCollectionSnapshot {
+    pub fn sample(&mut self) -> ProcessCollectionSnapshot {
         self.platform.sample()
     }
 }

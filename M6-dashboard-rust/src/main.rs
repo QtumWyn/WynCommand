@@ -1,6 +1,7 @@
 mod cpu_identity;
 mod format;
 mod metrics;
+mod protocol;
 mod snapshot;
 mod telemetry;
 mod transport;

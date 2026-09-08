@@ -1,9 +1,6 @@
 use super::ProcessCollectionSnapshot;
 
-#[derive(
-    Debug,
-    Default,
-)]
+#[derive(Debug, Default)]
 pub(super) struct PlatformProcessCollector;
 
 impl PlatformProcessCollector {
@@ -11,9 +8,7 @@ impl PlatformProcessCollector {
         Self
     }
 
-    pub(super) fn sample(
-        &mut self,
-    ) -> ProcessCollectionSnapshot {
+    pub(super) fn sample(&mut self) -> ProcessCollectionSnapshot {
         ProcessCollectionSnapshot {
             available: false,
 
