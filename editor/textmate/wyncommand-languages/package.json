@@ -1,0 +1,36 @@
+{
+  "name": "wyncommand-languages",
+  "displayName": "WynCommand Languages",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "*"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "wren",
+        "aliases": ["Wren"],
+        "extensions": [".wren"],
+        "configuration": "./wren.language-configuration.json"
+      },
+      {
+        "id": "prolog",
+        "aliases": ["Prolog", "SWI-Prolog"],
+        "extensions": [".pl", ".pro", ".prolog"],
+        "configuration": "./prolog.language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "wren",
+        "scopeName": "source.wren",
+        "path": "./syntaxes/wren.tmLanguage.json"
+      },
+      {
+        "language": "prolog",
+        "scopeName": "source.prolog",
+        "path": "./syntaxes/prolog.tmLanguage.json"
+      }
+    ]
+  }
+}
