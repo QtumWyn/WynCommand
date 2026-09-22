@@ -1,18 +1,16 @@
 defmodule WynCommand.Networking do
-  @moduledoc """
-  Documentation for `WynCommand.Networking`.
-  """
+  alias WynCommand.Networking.Host
+  alias WynCommand.Networking.Checks.Runner
 
-  @doc """
-  Hello world.
+  def check(
+        address,
+        ports \\ [22, 80, 443]
+      )
+      when is_binary(address) and is_list(ports) do
+    host = %Host{
+      address: address
+    }
 
-  ## Examples
-
-      iex> WynCommand.Networking.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    Runner.run(host, ports)
   end
 end

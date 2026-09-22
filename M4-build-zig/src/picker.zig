@@ -1,6 +1,6 @@
 const std = @import("std");
 const project = @import("project.zig");
-const config = @import("config.zig");
+const project_add = @import("project_add.zig");
 const action = @import("action.zig");
 
 const Project = project.Project;
@@ -12,9 +12,15 @@ const PickerItem = struct {
     detail: []const u8,
 };
 
+pub const ProjectActionSelection = struct {
+    project_index: usize,
+    selected_action: Action,
+};
+
 pub const PickerError = error{
     InvalidSelection,
     PickerFailed,
+    TooManyProjects,
 };
 
 fn runPicker(
@@ -22,6 +28,9 @@ fn runPicker(
     heading: []const u8,
     prompt: []const u8,
     items: []const PickerItem,
+    inline_actions: bool,
+    allow_add_project: bool,
+    config_path: ?[]const u8,
     allocator: std.mem.Allocator,
     io: std.Io,
 ) !?usize {
@@ -41,6 +50,20 @@ fn runPicker(
     try argv.append(allocator, "qml6");
     try argv.append(allocator, qml_path);
     try argv.append(allocator, "--");
+
+    if (inline_actions) {
+        try argv.append(
+            allocator,
+            "--wyn-inline-actions=true",
+        );
+    }
+
+    if (allow_add_project) {
+        try argv.append(
+            allocator,
+            "--wyn-add-project=true",
+        );
+    }
 
     {
         const heading_arg = try std.fmt.allocPrint(
@@ -85,13 +108,23 @@ fn runPicker(
     const result = try std.process.run(
         allocator,
         io,
-        .{
-            .argv = argv.items,
-        },
+        .{ .argv = argv.items },
     );
 
     defer allocator.free(result.stdout);
     defer allocator.free(result.stderr);
+
+    var added_project_count: usize = 0;
+
+    if (config_path) |path| {
+        added_project_count = try project_add.persistPickerAdditions(
+            path,
+            result.stdout,
+            result.stderr,
+            allocator,
+            io,
+        );
+    }
 
     return switch (result.term) {
         .exited => |code| {
@@ -100,8 +133,13 @@ fn runPicker(
             }
 
             const selected_index: usize = @intCast(code - 1);
+            const project_count = items.len + added_project_count;
+            const selection_count = if (inline_actions)
+                project_count * 4
+            else
+                project_count;
 
-            if (selected_index >= items.len) {
+            if (selected_index >= selection_count) {
                 return error.InvalidSelection;
             }
 
@@ -159,6 +197,9 @@ pub fn pickProject(
         "WYNCOMMAND // BUILD",
         "Choose a project",
         items.items,
+        false,
+        false,
+        null,
         allocator,
         io,
     );
@@ -203,6 +244,9 @@ pub fn pickAction(
         "WYNCOMMAND // BUILD",
         "Choose an action  :3",
         &items,
+        false,
+        false,
+        null,
         allocator,
         io,
     );
@@ -216,63 +260,87 @@ pub fn pickAction(
     return null;
 }
 
-test "captures child process stdout" {
-    const allocator = std.testing.allocator;
-    const io = std.testing.io;
-
-    const result = try std.process.run(
-        allocator,
-        io,
-        .{
-            .argv = &.{
-                "kdialog",
-                "--title",
-                "WynCommand",
-                "--menu",
-                "Select Project",
-
-                "devdoctor",
-                "DevDoctor — Zig, Lua",
-
-                "aplus360",
-                "APlus360_Flask — React, Flask",
-            },
-        },
-    );
-
-    const selected = std.mem.trim(
-        u8,
-        result.stdout,
-        " \t\r\n",
-    );
-
-    defer allocator.free(result.stdout);
-    defer allocator.free(result.stderr);
-
-    try std.testing.expectEqualStrings(
-        "devdoctor",
-        selected,
-    );
-}
-
-test "pickProject returns selected project path" {
-    const parsed = try config.loadProjects(
-        "config/projects.json",
-        std.testing.allocator,
-        std.testing.io,
-    );
-    defer parsed.deinit();
-
-    const selected = try pickProject(
-        parsed.value.projects,
-        std.testing.allocator,
-        std.testing.io,
-    );
-    defer if (selected) |path| {
-        std.testing.allocator.free(path);
+pub fn pickProjectAction(
+    projects: []const Project,
+    config_path: []const u8,
+    qml_path: []const u8,
+    allocator: std.mem.Allocator,
+    io: std.Io,
+) !?ProjectActionSelection {
+    const actions = [_]Action{
+        .test_project,
+        .build,
+        .run,
+        .debug,
     };
 
-    if (selected) |path| {
-        std.debug.print("Selected: {s}\n", .{path});
+    // The current QML protocol returns the project/action pair in an
+    // 8-bit process exit status: 1 + project_index * 4 + action_index.
+    if (projects.len > 63) {
+        return error.TooManyProjects;
     }
+
+    var items: std.ArrayList(PickerItem) = .empty;
+    defer items.deinit(allocator);
+
+    var owned_details: std.ArrayList([]u8) = .empty;
+
+    defer {
+        for (owned_details.items) |detail| {
+            allocator.free(detail);
+        }
+
+        owned_details.deinit(allocator);
+    }
+
+    for (projects) |proj| {
+        const language_text = try std.mem.join(
+            allocator,
+            " • ",
+            proj.languages,
+        );
+        errdefer allocator.free(language_text);
+
+        try items.append(
+            allocator,
+            .{
+                .key = proj.path,
+                .label = proj.name,
+                .detail = language_text,
+            },
+        );
+
+        try owned_details.append(
+            allocator,
+            language_text,
+        );
+    }
+
+    const encoded_selection = try runPicker(
+        qml_path,
+        "WYNCOMMAND // BUILD",
+        "Choose a project, then an action",
+        items.items,
+        true,
+        true,
+        config_path,
+        allocator,
+        io,
+    );
+
+    if (encoded_selection) |encoded| {
+        const project_index = encoded / actions.len;
+        const action_index = encoded % actions.len;
+
+        if (action_index >= actions.len) {
+            return error.InvalidSelection;
+        }
+
+        return .{
+            .project_index = project_index,
+            .selected_action = actions[action_index],
+        };
+    }
+
+    return null;
 }

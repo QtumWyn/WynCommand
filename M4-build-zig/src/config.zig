@@ -2,9 +2,11 @@ const std = @import("std");
 const project = @import("project.zig");
 
 const ProjectConfig = project.ProjectConfig;
+const Project = project.Project;
 
 pub const ConfigError = error{
     MissingConfigDirectory,
+    ProjectAlreadyExists,
 };
 
 pub fn configPath(
@@ -93,9 +95,70 @@ pub fn loadProjects(
     return parsed;
 }
 
+pub fn appendProject(
+    path: []const u8,
+    new_project: Project,
+    allocator: std.mem.Allocator,
+    io: std.Io,
+) !void {
+    const parsed = try loadProjects(
+        path,
+        allocator,
+        io,
+    );
+    defer parsed.deinit();
+
+    for (parsed.value.projects) |existing| {
+        if (std.mem.eql(
+            u8,
+            existing.path,
+            new_project.path,
+        )) {
+            return error.ProjectAlreadyExists;
+        }
+    }
+
+    const projects = try allocator.alloc(
+        Project,
+        parsed.value.projects.len + 1,
+    );
+    defer allocator.free(projects);
+
+    @memcpy(
+        projects[0..parsed.value.projects.len],
+        parsed.value.projects,
+    );
+
+    projects[projects.len - 1] = new_project;
+
+    const updated = ProjectConfig{
+        .projects = projects,
+    };
+
+    var output: std.Io.Writer.Allocating =
+        .init(allocator);
+    defer output.deinit();
+
+    try std.json.Stringify.value(
+        updated,
+        .{
+            .whitespace = .indent_2,
+        },
+        &output.writer,
+    );
+
+    try std.Io.Dir.cwd().writeFile(
+        io,
+        .{
+            .sub_path = path,
+            .data = output.written(),
+        },
+    );
+}
+
 test "loadProjects loads project config" {
     const parsed = try loadProjects(
-        "config/projects.json",
+        "testdata/projects.json",
         std.testing.allocator,
         std.testing.io,
     );
@@ -103,9 +166,33 @@ test "loadProjects loads project config" {
 
     const projects = parsed.value.projects;
 
-    try std.testing.expect(projects.len > 0);
+    try std.testing.expectEqual(
+        @as(usize, 1),
+        projects.len,
+    );
+
     try std.testing.expectEqualStrings(
-        "APlus360_Flask",
+        "TestProject",
         projects[0].name,
+    );
+
+    try std.testing.expectEqualStrings(
+        "/tmp/test-project",
+        projects[0].path,
+    );
+
+    try std.testing.expectEqual(
+        @as(usize, 2),
+        projects[0].languages.len,
+    );
+
+    try std.testing.expectEqualStrings(
+        "Zig",
+        projects[0].languages[0],
+    );
+
+    try std.testing.expectEqualStrings(
+        "Elixir",
+        projects[0].languages[1],
     );
 }
