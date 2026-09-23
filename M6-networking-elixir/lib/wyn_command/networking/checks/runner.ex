@@ -5,19 +5,34 @@ defmodule WynCommand.Networking.Checks.Runner do
   def run(
         %Host{} = host,
         ports \\ [22, 80, 443]
-      ) when is_list(ports) do
-    ping_result = Ping.run(host)
-    # Conceptually:
-    # [
-    #   Port.run(host, 22),
-    #   Port.run(host, 80),
-    #   Port.run(host, 443)
-    # ]
-    port_results =
-      Enum.map(ports, fn port ->
-        Port.run(host, port)
-      end)
+      )
+      when is_list(ports) do
+    checks =
+      [
+        fn ->
+          Ping.run(host)
+        end
+        | Enum.map(ports, fn port ->
+            fn ->
+              Port.run(host, port)
+            end
+          end)
+      ]
 
-    [ping_result | port_results]
+    checks
+    |> Task.async_stream(
+      fn check ->
+        check.()
+      end,
+      ordered: true,
+      timeout: 2_000
+    )
+    |> Enum.map(fn
+      {:ok, result} ->
+        result
+
+      {:exit, reason} ->
+        {:task_failed, reason}
+    end)
   end
 end

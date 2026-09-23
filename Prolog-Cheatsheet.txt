@@ -1,0 +1,249 @@
+% ==============================
+% PROLOG QUICK REFERENCE
+% ==============================
+
+***THINKING IN PROLOG***
+
+Imperative thinking:
+"Check whether port 5432 belongs to postgres."
+
+Prolog thinking:
+"These relationships are true.
+What else follows from them?"
+
+
+% COMMENTS
+
+% Single line
+
+/*
+   Multi-line
+*/
+
+
+% FACTS
+
+listener(tcp, 22).
+listener(tcp, 80).
+listener(tcp, 443).
+
+owned_by(22, sshd).
+owned_by(5432, postgres).
+
+
+% QUERIES
+
+?- listener(tcp, 22).
+
+true.
+
+
+% VARIABLES START WITH CAPITAL LETTERS
+
+?- listener(tcp, Port).
+
+Port = 22 ;
+Port = 80 ;
+Port = 443.
+
+
+% `_` MEANS "I DON'T CARE"
+
+?- listener(_, 443).
+
+true.
+
+
+% RULES
+
+web_port(Port) :-
+    listener(tcp, Port),
+    Port = 80.
+
+
+% Multiple possible rules
+
+web_port(80).
+web_port(443).
+web_port(8080).
+web_port(8443).
+
+
+% RULE WITH VARIABLES
+
+service_running(Service) :-
+    owned_by(_, Service).
+
+
+// WRONG: // isn't a Prolog comment
+% use % instead
+
+
+% AND / CONJUNCTION
+
+reachable_service(Port) :-
+    listener(tcp, Port),
+    Port > 0.
+
+
+% OR / DISJUNCTION
+
+web_port(Port) :-
+    Port = 80 ;
+    Port = 443.
+
+
+% NEGATION
+
+unexpected_port(Port) :-
+    listener(tcp, Port),
+    \+ expected_port(Port).
+
+
+% UNIFICATION
+
+X = hello.
+
+Host = host('1.1.1.1', 443).
+
+
+% STRUCTURED TERMS
+
+host('1.1.1.1', 443).
+
+process(1234, postgres, user(postgres)).
+
+
+// VARIABLES
+//
+// Uppercase = variable
+// lowercase = atom
+
+Port       % variable
+Process    % variable
+
+postgres   % atom
+tcp        % atom
+
+
+% LISTS
+
+Ports = [22, 80, 443].
+
+
+% HEAD / TAIL
+
+[Head | Tail] = [22, 80, 443].
+
+% Head = 22
+% Tail = [80, 443]
+
+
+% MEMBER
+
+member(443, [22, 80, 443]).
+
+
+% RECURSION
+
+contains_port(Port, [Port | _]).
+
+contains_port(Port, [_ | Rest]) :-
+    contains_port(Port, Rest).
+
+
+% ARITHMETIC
+
+X is 5 + 3.
+
+% X = 8
+
+
+% IMPORTANT:
+% = does NOT perform arithmetic evaluation
+
+X = 5 + 3.
+
+% X becomes the term 5 + 3
+
+
+% ARITHMETIC COMPARISONS
+
+X =:= Y      % numeric equality
+X =\= Y      % numeric inequality
+
+X < Y
+X > Y
+X =< Y
+X >= Y
+
+
+% UNIFICATION
+
+X = Y
+
+
+% STRICT TERM IDENTITY
+
+X == Y
+
+
+% COLLECT RESULTS
+
+findall(
+    Port,
+    listener(tcp, Port),
+    Ports
+).
+
+
+% MODULE
+
+:- module(diagnostics, [
+    unexpected_listener/1,
+    service_running/1
+]).
+
+
+% DYNAMIC FACTS
+
+:- dynamic listener/2.
+
+assertz(listener(tcp, 8080)).
+
+retract(listener(tcp, 8080)).
+
+retractall(listener(_, _)).
+
+
+foo.                    atom
+
+Foo                     variable
+
+_                       anonymous variable
+
+listener(tcp, 22).      fact
+
+reachable(X) :- ...     rule
+
+?- reachable(X).        query
+
+predicate/2             predicate name + arity
+
+,                       AND
+
+;                       OR
+
+\+                      NOT
+
+=                       unify
+
+is                      evaluate arithmetic
+
+=:=                     numeric equality
+
+[H | T]                 list head/tail
+
+member(X, List)         membership
+
+findall(...)            collect solutions

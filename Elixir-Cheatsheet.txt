@@ -1,0 +1,411 @@
+# ==============================
+# ELIXIR QUICK REFERENCE
+# ==============================
+
+***THINKING IN ELIXIR***
+
+1.) = means match, not merely assignment.
+2.) Prefer pattern matching and function clauses over giant conditional trees.
+3.) Think of |> as data flowing through transformations.
+4.) Data is immutable, so you produce transformed values rather than modifying them in place.
+5.) BEAM processes are cheap enough that concurrency is often an architectural tool, not an exotic optimization.
+
+
+# COMMENTS
+
+# single-line comment
+
+
+# BASIC VALUES
+
+name = "Wyn"
+port = 443
+enabled = true
+nothing = nil
+
+atom = :tcp
+status = :ok
+
+
+# STRINGS
+
+"hello"
+
+"Port #{port}"
+
+
+# CHARLIST
+
+~c"hello"
+
+
+# LIST
+
+ports = [22, 80, 443]
+
+[head | tail] = ports
+
+
+# TUPLE
+
+{:ok, result}
+
+{:error, :timeout}
+
+
+# MAP
+
+host = %{
+  address: "1.1.1.1",
+  port: 443
+}
+
+host.address
+host[:address]
+
+
+# KEYWORD LIST
+
+options = [
+  timeout: 1000,
+  ordered: true
+]
+
+
+# STRUCT
+
+defmodule Host do
+  @enforce_keys [:address]
+
+  defstruct [
+    :address,
+    :name,
+    ports: []
+  ]
+end
+
+
+host =
+  %Host{
+    address: "1.1.1.1",
+    name: "Cloudflare"
+  }
+
+
+# FUNCTION
+
+def add(a, b) do
+  a + b
+end
+
+
+# ONE-LINE FUNCTION
+
+def add(a, b), do: a + b
+
+
+# PRIVATE FUNCTION
+
+defp parse_result(result) do
+  result
+end
+
+
+# DEFAULT ARGUMENT
+
+def scan(host, timeout \\ 1000) do
+  ...
+end
+
+
+# run/2 means:
+#
+# function = run
+# arity    = 2
+
+
+# ANONYMOUS FUNCTION
+
+double =
+  fn number ->
+    number * 2
+  end
+
+double.(5)
+
+
+# CAPTURE SYNTAX
+
+Enum.map(numbers, &double/1)
+
+Enum.map(numbers, &(&1 * 2))
+
+
+# PATTERN MATCHING
+
+{:ok, result} = some_function()
+
+
+# MULTIPLE FUNCTION CLAUSES
+
+def handle({:ok, result}) do
+  result
+end
+
+def handle({:error, reason}) do
+  reason
+end
+
+
+# STRUCT PATTERN
+
+def run(%Host{} = host) do
+  ...
+end
+
+
+# GUARDS
+
+def scan(port)
+    when is_integer(port) and
+           port > 0 do
+  ...
+end
+
+
+# CASE
+
+case result do
+  {:ok, value} ->
+    value
+
+  {:error, reason} ->
+    reason
+end
+
+
+# COND
+
+cond do
+  port == 80 ->
+    :http
+
+  port == 443 ->
+    :https
+
+  true ->
+    :unknown
+end
+
+
+# IF
+
+if port == 443 do
+  :https
+else
+  :other
+end
+
+
+# PIPELINE
+
+output
+|> String.split("\n")
+|> Enum.map(&parse_line/1)
+|> Enum.reject(&is_nil/1)
+
+
+# Equivalent idea:
+
+Enum.reject(
+  Enum.map(
+    String.split(output, "\n"),
+    &parse_line/1
+  ),
+  &is_nil/1
+)
+
+
+# ENUM
+
+Enum.map([1, 2, 3], fn x ->
+  x * 2
+end)
+
+Enum.filter(ports, fn port ->
+  port > 100
+end)
+
+Enum.reject(values, &is_nil/1)
+
+Enum.each(ports, &IO.inspect/1)
+
+Enum.count(ports)
+
+Enum.member?(ports, 443)
+
+Enum.reduce([1, 2, 3], 0, fn number, acc ->
+  acc + number
+end)
+
+
+# MODULES
+
+defmodule WynCommand.Networking do
+  ...
+end
+
+
+# ALIAS
+
+alias WynCommand.Networking.Host
+
+alias WynCommand.Networking.Checks.{
+  Ping,
+  Port
+}
+
+
+# TYPE
+
+@type t :: %__MODULE__{
+        port: integer(),
+        status: atom()
+      }
+
+
+# SPEC
+
+@spec listeners() ::
+        {:ok, [Listener.t()]}
+        | {:error, term()}
+
+
+# CALLBACK
+
+@callback listeners() ::
+            {:ok, [Listener.t()]}
+
+
+# BEHAVIOUR
+
+@behaviour WynCommand.Networking.Platform
+
+
+# CALLBACK IMPLEMENTATION
+
+@impl true
+def listeners do
+  ...
+end
+
+
+# SYSTEM COMMAND
+
+{output, exit_code} =
+  System.cmd(
+    "ping",
+    ["-c", "1", "1.1.1.1"],
+    stderr_to_stdout: true
+  )
+
+
+# ERLANG FUNCTION
+
+:os.type()
+
+:gen_tcp.connect(
+  ~c"1.1.1.1",
+  443,
+  [:binary, active: false],
+  1000
+)
+
+
+# TASK
+
+task =
+  Task.async(fn ->
+    expensive_work()
+  end)
+
+result =
+  Task.await(task)
+
+
+# CONCURRENT MAP
+
+results =
+  ports
+  |> Task.async_stream(
+    fn port ->
+      Port.run(host, port)
+    end,
+    ordered: true,
+    timeout: 2000
+  )
+  |> Enum.to_list()
+
+
+# RAW BEAM PROCESS
+
+pid =
+  spawn(fn ->
+    receive do
+      message ->
+        IO.inspect(message)
+    end
+  end)
+
+send(pid, :hello)
+
+
+=                       pattern match
+
+==                      equality
+
+===                     strict equality
+
+:thing                  atom
+
+{:ok, value}            tuple
+
+[head | tail]           linked-list decomposition
+
+%{key: value}           map
+
+%Host{}                 struct
+
+def                     public function
+
+defp                    private function
+
+fn -> ... end           anonymous function
+
+fun.()                  call anonymous function
+
+&foo/1                  capture function
+
+|>                      pipe
+
+case                    pattern-based branching
+
+when                    guard
+
+Enum                    eager collection processing
+
+Stream                  lazy collection processing
+
+Task                    concurrent work
+
+spawn                    raw BEAM process
+
+send / receive          process messaging
+
+@type                   type definition
+
+@spec                   function type specification
+
+@callback               behaviour requirement
+
+@behaviour              implement behaviour

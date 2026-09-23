@@ -9,9 +9,9 @@ defmodule WynCommand.Networking.Checks.Port do
         timeout_ms \\ @default_timeout_ms
       )
       when is_integer(port) and
-           port in 1..65_535 and
-           is_integer(timeout_ms) and
-           timeout_ms > 0 do
+             port in 1..65_535 and
+             is_integer(timeout_ms) and
+             timeout_ms > 0 do
     started_at = System.monotonic_time(:millisecond)
 
     connection_result =
