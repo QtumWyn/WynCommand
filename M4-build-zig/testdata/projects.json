@@ -1,0 +1,9 @@
+{
+  "projects": [
+    {
+      "name": "TestProject",
+      "path": "/tmp/test-project",
+      "languages": ["Zig", "Elixir"]
+    }
+  ]
+}

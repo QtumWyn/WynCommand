@@ -207,7 +207,7 @@ Controls.ApplicationWindow {
         projectNameField.text = ""
         projectPathField.text = ""
         languagesField.text = ""
-        editorMessage.text = "Choose a directory. WynCommand will scan it automatically."
+        editorMessage.text = "Choose a platform. WynCommand will scan it automatically."
         editorMessage.color = root.dimAsh
 
         projectEditor.open()
@@ -497,7 +497,7 @@ Controls.ApplicationWindow {
     FolderDialog {
         id: projectFolderDialog
 
-        title: "Choose a project directory"
+        title: "Choose a project platform"
         parentWindow: root
 
         currentFolder:
@@ -1221,7 +1221,7 @@ Controls.ApplicationWindow {
                     Text {
                         id: editorMessage
                         Layout.fillWidth: true
-                        text: "Choose a directory. WynCommand will scan it automatically."
+                        text: "Choose a platform. WynCommand will scan it automatically."
                         color: root.dimAsh
                         elide: Text.ElideRight
                         font.family: "JetBrains Mono"

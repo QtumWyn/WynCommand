@@ -91,7 +91,7 @@ pub fn commandFor(
         },
 
         .cmake => switch (selected_action) {
-            // Do not silently configure into an arbitrary directory or guess
+            // Do not silently configure into an arbitrary platform or guess
             // an executable target. These assume the conventional ./build
             // tree already exists.
             .test_project => &.{ "ctest", "--test-dir", "build" },
