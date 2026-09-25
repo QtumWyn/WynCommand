@@ -1,0 +1,134 @@
+.
+├── config
+│   └── blackwidow.conf
+├── directory-tree.txt
+├── editor
+│   └── textmate
+│       ├── tests
+│       │   ├── syntax_test.prolog
+│       │   └── syntax_test.wren
+│       └── wyncommand-languages
+│           ├── package.json
+│           ├── prolog.language-configuration.json
+│           ├── syntaxes
+│           │   ├── prolog.tmLanguage.json
+│           │   └── wren.tmLanguage.json
+│           └── wren.language-configuration.json
+├── M1-projects-python
+├── M2-system-bash
+├── M3-git-java
+│   ├── pom.xml
+│   ├── src
+│   │   ├── main
+│   │   │   └── java
+│   │   │       └── dev
+│   │   │           └── wyncommand
+│   │   │               └── git
+│   │   │                   ├── ChangeType.java
+│   │   │                   ├── ConflictType.java
+│   │   │                   ├── FileChange.java
+│   │   │                   ├── FileStatus.java
+│   │   │                   ├── GitClient.java
+│   │   │                   ├── GitStatuaParser.java
+│   │   │                   ├── Main.java
+│   │   │                   └── RepositoryStatus.java
+│   │   └── test
+│   │       └── java
+│   │           └── dev
+│   │               └── wyncommand
+│   │                   └── git
+│   └── target
+│       ├── classes
+│       │   └── dev
+│       │       └── wyncommand
+│       │           └── git
+│       │               ├── ChangeType.class
+│       │               ├── ConflictType.class
+│       │               ├── FileChange.class
+│       │               ├── FileStatus.class
+│       │               ├── GitClient.class
+│       │               ├── Main.class
+│       │               └── RepositoryStatus.class
+│       ├── generated-sources
+│       │   └── annotations
+│       └── maven-status
+│           └── maven-compiler-plugin
+│               └── compile
+│                   └── default-compile
+│                       ├── createdFiles.lst
+│                       └── inputFiles.lst
+├── M4-build-zig
+│   ├── build.zig
+│   ├── src
+│   │   ├── action.zig
+│   │   ├── config.zig
+│   │   ├── detect.zig
+│   │   ├── main.zig
+│   │   ├── picker.zig
+│   │   ├── project.zig
+│   │   ├── runner.zig
+│   │   └── tests.zig
+│   ├── ui
+│   │   └── picker.qml
+│   └── zig-out
+│       └── bin
+│           └── wyn-build
+├── M5-desktop-scala
+├── M6-networking-elixir
+│   ├── _build
+│   │   ├── dev
+│   │   │   └── lib
+│   │   │       └── wyncommand_networking
+│   │   │           ├── consolidated
+│   │   │           │   ├── Elixir.Collectable.beam
+│   │   │           │   ├── Elixir.Enumerable.beam
+│   │   │           │   ├── Elixir.IEx.Info.beam
+│   │   │           │   ├── Elixir.Inspect.beam
+│   │   │           │   ├── Elixir.JSON.Encoder.beam
+│   │   │           │   ├── Elixir.List.Chars.beam
+│   │   │           │   └── Elixir.String.Chars.beam
+│   │   │           └── ebin
+│   │   │               ├── Elixir.WynCommand.Networking.Application.beam
+│   │   │               ├── Elixir.WynCommand.Networking.beam
+│   │   │               └── wyncommand_networking.app
+│   │   └── test
+│   │       └── lib
+│   │           └── wyncommand_networking
+│   │               ├── consolidated
+│   │               │   ├── Elixir.Collectable.beam
+│   │               │   ├── Elixir.Enumerable.beam
+│   │               │   ├── Elixir.IEx.Info.beam
+│   │               │   ├── Elixir.Inspect.beam
+│   │               │   ├── Elixir.JSON.Encoder.beam
+│   │               │   ├── Elixir.List.Chars.beam
+│   │               │   └── Elixir.String.Chars.beam
+│   │               └── ebin
+│   │                   ├── Elixir.WynCommand.Networking.Application.beam
+│   │                   ├── Elixir.WynCommand.Networking.beam
+│   │                   └── wyncommand_networking.app
+│   ├── lib
+│   │   └── wyn_command
+│   │       ├── networking
+│   │       │   ├── application.ex
+│   │       │   ├── checks
+│   │       │   │   ├── ping.ex
+│   │       │   │   ├── port.ex
+│   │       │   │   └── runner.ex
+│   │       │   ├── host.ex
+│   │       │   └── result.ex
+│   │       └── networking.ex
+│   ├── mix.exs
+│   ├── README.md
+│   └── test
+│       ├── test_helper.exs
+│       └── wyn_command
+│           └── networking_test.exs
+├── README.md
+└── shared
+    ├── asm
+    ├── prolog
+    │   └── diagnostics.prolog
+    └── wren
+        └── preflight.wren
+
+60 directories, 72 files

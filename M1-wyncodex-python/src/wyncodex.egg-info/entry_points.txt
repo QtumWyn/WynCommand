@@ -1,0 +1,2 @@
+[console_scripts]
+wyncodex = wyncodex.main:main

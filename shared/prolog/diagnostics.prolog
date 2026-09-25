@@ -1,22 +1,24 @@
-macro(m3, java, git).
-macro(m4, zig, build).
-macro(m6, elixir, networking).
+:- dynamic listener/1.
+:- dynamic owned_by/2.
 
-healthy(git).
-healthy(build).
-unhealthy(networking).
+:- multifile listener/1.
+:- multifile owned_by/2.
 
-depends_on(deploy, git).
-depends_on(deploy, build).
-depends_on(deploy, networking).
+expected_owner(1716, kdeconnectd).
+expected_owner(4768, wyn_hub).
+expected_owner(4769, wyn_hub).
+expected_owner(6463, discord).
 
-blocked(Task) :-
-    blocked_by(Task, _).
+healthy_listener(Port) :-
+    listener(Port),
+    owned_by(Port, Process),
+    expected_owner(Port, Process).
 
-unhealthy_macro(Macro, Purpose) :-
-    macro(Macro, _, Purpose),
-    unhealthy(Purpose).
+unexpected_owner(Port, Expected, Actual) :-
+    listener(Port),
+    expected_owner(Port, Expected),
+    owned_by(Port, Actual),
+    dif(Expected, Actual).
 
-blocked_by(Task, Macro) :-
-    depends_on(Task, Purpose),
-    unhealthy_macro(Macro, Purpose).
+ports_owned_by(Process, Ports) :-
+    findall(Port, owned_by(Port, Process), Ports).

@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: wyncodex
+Version: 0.1.0
+Summary: Implementation-focused developer knowledge encyclopedia for WynCommand.
+Requires-Python: >=3.11
+Requires-Dist: PySide6<7,>=6.8
+Requires-Dist: Pygments<3,>=2.18

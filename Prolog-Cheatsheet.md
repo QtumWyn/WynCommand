@@ -1,8 +1,6 @@
-% ==============================
-% PROLOG QUICK REFERENCE
-% ==============================
+# Prolog Quick Reference
 
-***THINKING IN PROLOG***
+## Thinking in Prolog
 
 Imperative thinking:
 "Check whether port 5432 belongs to postgres."
@@ -11,51 +9,56 @@ Prolog thinking:
 "These relationships are true.
 What else follows from them?"
 
+## Comments
 
-% COMMENTS
-
+```prolog
 % Single line
 
 /*
    Multi-line
 */
+```
 
+## Facts
 
-% FACTS
-
+```prolog
 listener(tcp, 22).
 listener(tcp, 80).
 listener(tcp, 443).
 
 owned_by(22, sshd).
 owned_by(5432, postgres).
+```
 
+## Queries
 
-% QUERIES
-
+```prolog
 ?- listener(tcp, 22).
 
 true.
+```
 
+## Variables Start With Capital Letters
 
-% VARIABLES START WITH CAPITAL LETTERS
-
+```prolog
 ?- listener(tcp, Port).
 
 Port = 22 ;
 Port = 80 ;
 Port = 443.
+```
 
+## `_` Means "I Don't Care"
 
-% `_` MEANS "I DON'T CARE"
-
+```prolog
 ?- listener(_, 443).
 
 true.
+```
 
+## Rules
 
-% RULES
-
+```prolog
 web_port(Port) :-
     listener(tcp, Port),
     Port = 80.
@@ -67,48 +70,54 @@ web_port(80).
 web_port(443).
 web_port(8080).
 web_port(8443).
+```
 
+## Rule With Variables
 
-% RULE WITH VARIABLES
-
+```prolog
 service_running(Service) :-
     owned_by(_, Service).
 
 
 // WRONG: // isn't a Prolog comment
 % use % instead
+```
 
+## And / Conjunction
 
-% AND / CONJUNCTION
-
+```prolog
 reachable_service(Port) :-
     listener(tcp, Port),
     Port > 0.
+```
 
+## Or / Disjunction
 
-% OR / DISJUNCTION
-
+```prolog
 web_port(Port) :-
     Port = 80 ;
     Port = 443.
+```
 
+## Negation
 
-% NEGATION
-
+```prolog
 unexpected_port(Port) :-
     listener(tcp, Port),
     \+ expected_port(Port).
+```
 
+## Unification
 
-% UNIFICATION
-
+```prolog
 X = hello.
 
 Host = host('1.1.1.1', 443).
+```
 
+## Structured Terms
 
-% STRUCTURED TERMS
-
+```prolog
 host('1.1.1.1', 443).
 
 process(1234, postgres, user(postgres)).
@@ -124,51 +133,60 @@ Process    % variable
 
 postgres   % atom
 tcp        % atom
+```
 
+## Lists
 
-% LISTS
-
+```prolog
 Ports = [22, 80, 443].
+```
 
+## Head / Tail
 
-% HEAD / TAIL
-
+```prolog
 [Head | Tail] = [22, 80, 443].
 
 % Head = 22
 % Tail = [80, 443]
+```
 
+## Member
 
-% MEMBER
-
+```prolog
 member(443, [22, 80, 443]).
+```
 
+## Recursion
 
-% RECURSION
-
+```prolog
 contains_port(Port, [Port | _]).
 
 contains_port(Port, [_ | Rest]) :-
     contains_port(Port, Rest).
+```
 
+## Arithmetic
 
-% ARITHMETIC
-
+```prolog
 X is 5 + 3.
+```
 
-% X = 8
+## X = 8
 
 
-% IMPORTANT:
+## Important:
+
+```prolog
 % = does NOT perform arithmetic evaluation
 
 X = 5 + 3.
 
 % X becomes the term 5 + 3
+```
 
+## Arithmetic Comparisons
 
-% ARITHMETIC COMPARISONS
-
+```prolog
 X =:= Y      % numeric equality
 X =\= Y      % numeric inequality
 
@@ -176,37 +194,42 @@ X < Y
 X > Y
 X =< Y
 X >= Y
+```
 
+## Unification
 
-% UNIFICATION
-
+```prolog
 X = Y
+```
 
+## Strict Term Identity
 
-% STRICT TERM IDENTITY
-
+```prolog
 X == Y
+```
 
+## Collect Results
 
-% COLLECT RESULTS
-
+```prolog
 findall(
     Port,
     listener(tcp, Port),
     Ports
 ).
+```
 
+## Module
 
-% MODULE
-
+```prolog
 :- module(diagnostics, [
     unexpected_listener/1,
     service_running/1
 ]).
+```
 
+## Dynamic Facts
 
-% DYNAMIC FACTS
-
+```prolog
 :- dynamic listener/2.
 
 assertz(listener(tcp, 8080)).
@@ -214,8 +237,11 @@ assertz(listener(tcp, 8080)).
 retract(listener(tcp, 8080)).
 
 retractall(listener(_, _)).
+```
 
+## Brain Map
 
+```text
 foo.                    atom
 
 Foo                     variable
@@ -247,3 +273,4 @@ is                      evaluate arithmetic
 member(X, List)         membership
 
 findall(...)            collect solutions
+```

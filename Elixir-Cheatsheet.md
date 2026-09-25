@@ -1,23 +1,22 @@
-# ==============================
-# ELIXIR QUICK REFERENCE
-# ==============================
+# Elixir Quick Reference
 
-***THINKING IN ELIXIR***
+## Thinking in Elixir
 
-1.) = means match, not merely assignment.
-2.) Prefer pattern matching and function clauses over giant conditional trees.
-3.) Think of |> as data flowing through transformations.
-4.) Data is immutable, so you produce transformed values rather than modifying them in place.
-5.) BEAM processes are cheap enough that concurrency is often an architectural tool, not an exotic optimization.
+1. = means match, not merely assignment.
+2. Prefer pattern matching and function clauses over giant conditional trees.
+3. Think of |> as data flowing through transformations.
+4. Data is immutable, so you produce transformed values rather than modifying them in place.
+5. BEAM processes are cheap enough that concurrency is often an architectural tool, not an exotic optimization.
 
+## Comments
 
-# COMMENTS
-
+```elixir
 # single-line comment
+```
 
+## Basic Values
 
-# BASIC VALUES
-
+```elixir
 name = "Wyn"
 port = 443
 enabled = true
@@ -25,36 +24,41 @@ nothing = nil
 
 atom = :tcp
 status = :ok
+```
 
+## Strings
 
-# STRINGS
-
+```elixir
 "hello"
 
 "Port #{port}"
+```
 
+## Charlist
 
-# CHARLIST
-
+```elixir
 ~c"hello"
+```
 
+## List
 
-# LIST
-
+```elixir
 ports = [22, 80, 443]
 
 [head | tail] = ports
+```
 
+## Tuple
 
-# TUPLE
-
+```elixir
 {:ok, result}
 
 {:error, :timeout}
+```
 
+## Map
 
-# MAP
-
+```elixir
 host = %{
   address: "1.1.1.1",
   port: 443
@@ -62,18 +66,20 @@ host = %{
 
 host.address
 host[:address]
+```
 
+## Keyword List
 
-# KEYWORD LIST
-
+```elixir
 options = [
   timeout: 1000,
   ordered: true
 ]
+```
 
+## Struct
 
-# STRUCT
-
+```elixir
 defmodule Host do
   @enforce_keys [:address]
 
@@ -90,29 +96,33 @@ host =
     address: "1.1.1.1",
     name: "Cloudflare"
   }
+```
 
+## Function
 
-# FUNCTION
-
+```elixir
 def add(a, b) do
   a + b
 end
+```
 
+## One-Line Function
 
-# ONE-LINE FUNCTION
-
+```elixir
 def add(a, b), do: a + b
+```
 
+## Private Function
 
-# PRIVATE FUNCTION
-
+```elixir
 defp parse_result(result) do
   result
 end
+```
 
+## Default Argument
 
-# DEFAULT ARGUMENT
-
+```elixir
 def scan(host, timeout \\ 1000) do
   ...
 end
@@ -122,32 +132,36 @@ end
 #
 # function = run
 # arity    = 2
+```
 
+## Anonymous Function
 
-# ANONYMOUS FUNCTION
-
+```elixir
 double =
   fn number ->
     number * 2
   end
 
 double.(5)
+```
 
+## Capture Syntax
 
-# CAPTURE SYNTAX
-
+```elixir
 Enum.map(numbers, &double/1)
 
 Enum.map(numbers, &(&1 * 2))
+```
 
+## Pattern Matching
 
-# PATTERN MATCHING
-
+```elixir
 {:ok, result} = some_function()
+```
 
+## Multiple Function Clauses
 
-# MULTIPLE FUNCTION CLAUSES
-
+```elixir
 def handle({:ok, result}) do
   result
 end
@@ -155,26 +169,29 @@ end
 def handle({:error, reason}) do
   reason
 end
+```
 
+## Struct Pattern
 
-# STRUCT PATTERN
-
+```elixir
 def run(%Host{} = host) do
   ...
 end
+```
 
+## Guards
 
-# GUARDS
-
+```elixir
 def scan(port)
     when is_integer(port) and
            port > 0 do
   ...
 end
+```
 
+## Case
 
-# CASE
-
+```elixir
 case result do
   {:ok, value} ->
     value
@@ -182,10 +199,11 @@ case result do
   {:error, reason} ->
     reason
 end
+```
 
+## Cond
 
-# COND
-
+```elixir
 cond do
   port == 80 ->
     :http
@@ -196,19 +214,21 @@ cond do
   true ->
     :unknown
 end
+```
 
+## If
 
-# IF
-
+```elixir
 if port == 443 do
   :https
 else
   :other
 end
+```
 
+## Pipeline
 
-# PIPELINE
-
+```elixir
 output
 |> String.split("\n")
 |> Enum.map(&parse_line/1)
@@ -224,10 +244,11 @@ Enum.reject(
   ),
   &is_nil/1
 )
+```
 
+## Enum
 
-# ENUM
-
+```elixir
 Enum.map([1, 2, 3], fn x ->
   x * 2
 end)
@@ -247,71 +268,80 @@ Enum.member?(ports, 443)
 Enum.reduce([1, 2, 3], 0, fn number, acc ->
   acc + number
 end)
+```
 
+## Modules
 
-# MODULES
-
+```elixir
 defmodule WynCommand.Networking do
   ...
 end
+```
 
+## Alias
 
-# ALIAS
-
+```elixir
 alias WynCommand.Networking.Host
 
 alias WynCommand.Networking.Checks.{
   Ping,
   Port
 }
+```
 
+## Type
 
-# TYPE
-
+```elixir
 @type t :: %__MODULE__{
         port: integer(),
         status: atom()
       }
+```
 
+## Spec
 
-# SPEC
-
+```elixir
 @spec listeners() ::
         {:ok, [Listener.t()]}
         | {:error, term()}
+```
 
+## Callback
 
-# CALLBACK
-
+```elixir
 @callback listeners() ::
             {:ok, [Listener.t()]}
+```
 
+## Behaviour
 
-# BEHAVIOUR
-
+```elixir
 @behaviour WynCommand.Networking.Platform
+```
 
+## Callback Implementation
 
-# CALLBACK IMPLEMENTATION
-
+```elixir
 @impl true
 def listeners do
   ...
 end
+```
 
+## System Command
 
-# SYSTEM COMMAND
-
+```elixir
 {output, exit_code} =
   System.cmd(
     "ping",
     ["-c", "1", "1.1.1.1"],
     stderr_to_stdout: true
   )
+```
 
+## Erlang Function
 
-# ERLANG FUNCTION
-
+```elixir
 :os.type()
 
 :gen_tcp.connect(
@@ -320,10 +350,11 @@ end
   [:binary, active: false],
   1000
 )
+```
 
+## Task
 
-# TASK
-
+```elixir
 task =
   Task.async(fn ->
     expensive_work()
@@ -331,10 +362,11 @@ task =
 
 result =
   Task.await(task)
+```
 
+## Concurrent Map
 
-# CONCURRENT MAP
-
+```elixir
 results =
   ports
   |> Task.async_stream(
@@ -345,10 +377,11 @@ results =
     timeout: 2000
   )
   |> Enum.to_list()
+```
 
+## Raw Beam Process
 
-# RAW BEAM PROCESS
-
+```elixir
 pid =
   spawn(fn ->
     receive do
@@ -358,8 +391,11 @@ pid =
   end)
 
 send(pid, :hello)
+```
 
+## Brain Map
 
+```text
 =                       pattern match
 
 ==                      equality
@@ -409,3 +445,4 @@ send / receive          process messaging
 @callback               behaviour requirement
 
 @behaviour              implement behaviour
+```
