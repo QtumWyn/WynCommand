@@ -1,0 +1,143 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Lua",
+      "description": "A lightweight, embeddable scripting language designed around a small core and simple semantics.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Fundamental Lua syntax and language constructs.",
+          "entries": [
+            {
+              "title": "local",
+              "summary": "Declare a variable with local scope.",
+              "signature": "local name = value",
+              "definition": "The local keyword declares a variable whose scope is limited to the current block or function.",
+              "mental_model": "Create a name that belongs only to the current neighborhood of code rather than the entire program.",
+              "return_value": null,
+              "gotchas": "Forgetting local can cause a variable to become global.",
+              "notes": "Local variables are generally preferred unless global state is intentionally required.",
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Basic local variable",
+                  "type": "basic",
+                  "syntax": "lua",
+                  "code": "local bat = \"Wyn\"\n\nprint(bat)",
+                  "explanation": "Creates a local variable named bat and prints its value."
+                },
+                {
+                  "title": "Local number",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local macro_keys = 6\n\nprint(macro_keys)",
+                  "explanation": "Stores a numeric value in a local variable."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Standard Library",
+          "description": "Built-in Lua libraries and their functions.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "table",
+              "summary": "Functions for manipulating Lua tables.",
+              "description": "The table library provides operations for inserting, removing, sorting, concatenating, and otherwise working with sequence-like tables.",
+              "entries": [
+                {
+                  "title": "table.insert()",
+                  "summary": "Insert a value into a table.",
+                  "signature": "table.insert(list, [pos,] value)",
+                  "definition": "Inserts a value into a sequence-like table, either at the end or at a specified position.",
+                  "mental_model": "Take an existing ordered table and push a new item into one of its slots.",
+                  "return_value": null,
+                  "gotchas": "Inserting into the middle of a large sequence requires later elements to be shifted.",
+                  "notes": null,
+                  "arguments": [
+                    {
+                      "name": "list",
+                      "type": "table",
+                      "description": "The table that will receive the new value.",
+                      "required": true,
+                      "default": null
+                    },
+                    {
+                      "name": "pos",
+                      "type": "integer",
+                      "description": "Optional position where the value should be inserted.",
+                      "required": false,
+                      "default": null
+                    },
+                    {
+                      "name": "value",
+                      "type": "any",
+                      "description": "The value to insert into the table.",
+                      "required": true,
+                      "default": null
+                    }
+                  ],
+                  "examples": [
+                    {
+                      "title": "Append a value",
+                      "type": "basic",
+                      "syntax": "lua",
+                      "code": "local bats = {\n    \"fruit bat\",\n    \"vampire bat\"\n}\n\ntable.insert(bats, \"flying fox\")\n\nprint(bats[3])",
+                      "explanation": "With no position supplied, table.insert adds the value to the end of the sequence."
+                    },
+                    {
+                      "title": "Insert at a position",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "local keys = {\n    \"M1\",\n    \"M3\"\n}\n\ntable.insert(keys, 2, \"M2\")\n\nfor index, key in ipairs(keys) do\n    print(index, key)\nend",
+                      "explanation": "Inserts M2 into position 2, shifting the previous second element to the right."
+                    }
+                  ]
+                },
+                {
+                  "title": "table.concat()",
+                  "summary": "Join sequence values into a string.",
+                  "signature": "table.concat(list, sep, i, j)",
+                  "definition": "Combines values from a sequence-like table into a single string.",
+                  "mental_model": "Take several string fragments and stitch them together with an optional separator.",
+                  "return_value": "A string containing the joined values.",
+                  "gotchas": "The sequence values must be compatible with string concatenation.",
+                  "notes": null,
+                  "arguments": [
+                    {
+                      "name": "list",
+                      "type": "table",
+                      "description": "Sequence containing the values to join.",
+                      "required": true,
+                      "default": null
+                    },
+                    {
+                      "name": "sep",
+                      "type": "string",
+                      "description": "Separator placed between values.",
+                      "required": false,
+                      "default": "\"\""
+                    }
+                  ],
+                  "examples": [
+                    {
+                      "title": "Build a sentence",
+                      "type": "basic",
+                      "syntax": "lua",
+                      "code": "local words = {\n    \"Trans\",\n    \"Rights\",\n    \"are\",\n    \"Human\",\n    \"Rights\"\n}\n\nlocal message = table.concat(words, \" \")\n\nprint(message)",
+                      "explanation": "Joins every table element with a space between them."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

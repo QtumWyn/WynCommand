@@ -13,6 +13,8 @@ class ExampleRepository:
     def create(
             self,
             example: Example,
+            *,
+            commit: bool = True,
     ) -> Example:
         cursor = self._connection.execute(
             """
@@ -40,7 +42,8 @@ class ExampleRepository:
             ),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
         row = self._connection.execute(
             """
@@ -98,6 +101,8 @@ class ExampleRepository:
     def delete_for_entry(
             self,
             entry_id: int,
+            *,
+            commit: bool = True,
     ) -> None:
         self._connection.execute(
             """
@@ -107,4 +112,5 @@ class ExampleRepository:
             (entry_id,),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()

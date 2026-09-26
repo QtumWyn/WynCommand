@@ -13,6 +13,8 @@ class EntryRepository:
     def create(
             self,
             entry: Entry,
+            *,
+            commit: bool = True,
     ) -> Entry:
         cursor = self._connection.execute(
             """
@@ -55,7 +57,8 @@ class EntryRepository:
             ),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
         row = self._connection.execute(
             """
@@ -180,6 +183,8 @@ class EntryRepository:
     def delete(
             self,
             entry_id: int,
+            *,
+            commit: bool = True,
     ) -> None:
         self._connection.execute(
             """
@@ -189,11 +194,14 @@ class EntryRepository:
             (entry_id,),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
     def update(
             self,
             entry: Entry,
+            *,
+            commit: bool = True,
     ) -> Entry:
         if entry.id is None:
             raise ValueError(
@@ -235,7 +243,8 @@ class EntryRepository:
             ),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
         updated = self.get_by_id(
             entry.id

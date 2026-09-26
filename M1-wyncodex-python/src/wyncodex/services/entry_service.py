@@ -60,6 +60,7 @@ class EntryService:
             notes: str | None = None,
             arguments: list[ArgumentDraft] | None = None,
             examples: list[ExampleDraft] | None = None,
+            commit: bool = True,
     ) -> Entry:
         title = title.strip()
 
@@ -141,7 +142,8 @@ class EntryService:
 
         created_entry = (
             self._entry_repository.create(
-                entry
+                entry,
+                commit=commit,
             )
         )
 
@@ -179,7 +181,8 @@ class EntryService:
                 )
 
                 self._argument_repository.create(
-                    argument
+                    argument,
+                    commit=commit,
                 )
 
             for sort_order, draft in enumerate(
@@ -220,12 +223,14 @@ class EntryService:
                 )
 
                 self._example_repository.create(
-                    example
+                    example,
+                    commit=commit,
                 )
 
         except Exception:
             self._entry_repository.delete(
-                created_entry.id
+                created_entry.id,
+                commit=commit,
             )
             raise
 
@@ -292,6 +297,7 @@ class EntryService:
             notes: str | None = None,
             arguments: list[ArgumentDraft] | None = None,
             examples: list[ExampleDraft] | None = None,
+            commit: bool = True,
     ) -> Entry:
         existing = (
             self._entry_repository
@@ -403,18 +409,21 @@ class EntryService:
 
         updated_entry = (
             self._entry_repository.update(
-                updated_entry
+                updated_entry,
+                commit=commit,
             )
         )
 
         # Replace the child collections with
         # whatever currently exists in the editor.
         self._argument_repository.delete_for_entry(
-            entry_id
+            entry_id,
+            commit=commit,
         )
 
         self._example_repository.delete_for_entry(
-            entry_id
+            entry_id,
+            commit=commit,
         )
 
         for position, draft in enumerate(
@@ -441,7 +450,8 @@ class EntryService:
             )
 
             self._argument_repository.create(
-                argument
+                argument,
+                commit=commit,
             )
 
         for sort_order, draft in enumerate(
@@ -471,7 +481,21 @@ class EntryService:
             )
 
             self._example_repository.create(
-                example
+                example,
+                commit=commit,
             )
 
         return updated_entry
+
+    def get_entry_by_slug(
+            self,
+            language_id: int,
+            slug: str,
+    ) -> Entry | None:
+        return (
+            self._entry_repository
+            .get_by_slug(
+                language_id,
+                slug,
+            )
+        )

@@ -25,6 +25,7 @@ class PackageService:
             slug: str | None = None,
             summary: str | None = None,
             description: str | None = None,
+            commit: bool = True,
     ) -> Package:
         name = name.strip()
 
@@ -84,7 +85,8 @@ class PackageService:
         )
 
         return self._package_repository.create(
-            package
+            package,
+            commit=commit,
         )
 
     def get_packages_for_category(
@@ -103,4 +105,17 @@ class PackageService:
         return (
             self._package_repository
             .get_by_id(package_id)
+        )
+
+    def get_package_by_slug(
+            self,
+            category_id: int,
+            slug: str,
+    ) -> Package | None:
+        return (
+            self._package_repository
+            .get_by_slug(
+                category_id,
+                slug,
+            )
         )

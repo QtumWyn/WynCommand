@@ -39,6 +39,9 @@ from wyncodex.repositories.argument_repository import (
 from wyncodex.repositories.example_repository import (
     ExampleRepository,
 )
+from wyncodex.importers.json_importer import (
+    JsonImportService,
+)
 
 def main() -> int:
     app = QApplication(sys.argv)
@@ -90,11 +93,20 @@ def main() -> int:
 
         language_service = LanguageService(language_repository)
 
+        import_service = JsonImportService(
+            connection,
+            language_service,
+            category_service,
+            package_service,
+            entry_service,
+        )
+
         window = MainWindow(
             language_service,
             category_service,
             package_service,
             entry_service,
+            import_service,
         )
 
         window.show()

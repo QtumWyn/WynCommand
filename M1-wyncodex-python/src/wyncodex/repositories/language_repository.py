@@ -7,7 +7,12 @@ class LanguageRepository:
     def __init__(self, connection: sqlite3.Connection) -> None:
         self._connection = connection
 
-    def create(self, language: Language) -> Language:
+    def create(
+            self,
+            language: Language,
+            *,
+            commit: bool = True,
+    ) -> Language:
         cursor = self._connection.execute(
             """
             INSERT INTO languages (
@@ -34,7 +39,8 @@ class LanguageRepository:
             ),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
         row = self._connection.execute(
             """

@@ -1,4 +1,5 @@
 from PySide6.QtCore import QModelIndex, Qt
+from pathlib import Path
 from PySide6.QtWidgets import (
     QDialog,
     QFrame,
@@ -10,6 +11,9 @@ from PySide6.QtWidgets import (
     QTreeView,
     QVBoxLayout,
     QWidget,
+    QFileDialog,
+    QMessageBox,
+    QInputDialog,
 )
 
 from wyncodex.services.language_service import LanguageService
@@ -20,6 +24,10 @@ from wyncodex.ui.models.navigation_model import (
     NODE_TYPE_ROLE,
     NavigationModel,
     NavigationNodeType,
+)
+from wyncodex.importers.models import (
+    ImportMode,
+    ImportValidationError,
 )
 from wyncodex.ui.dialogs.language_editor import LanguageEditorDialog
 from wyncodex.ui.dialogs.category_editor import (
@@ -50,6 +58,9 @@ from wyncodex.ui.dialogs.entry_editor import (
 from wyncodex.ui.pages.entry_detail_page import (
     EntryDetailPage,
 )
+from wyncodex.importers.json_importer import (
+    JsonImportService,
+)
 
 
 class MainWindow(QMainWindow):
@@ -59,6 +70,7 @@ class MainWindow(QMainWindow):
             category_service: CategoryService,
             package_service: PackageService,
             entry_service: EntryService,
+            import_service: JsonImportService,
     ) -> None:
         super().__init__()
 
@@ -66,6 +78,9 @@ class MainWindow(QMainWindow):
         self._category_service = category_service
         self._package_service = package_service
         self._entry_service = entry_service
+        self._import_service = (
+            import_service
+        )
 
         self.setWindowTitle("WynCodex")
         self.resize(1100, 700)
@@ -149,9 +164,30 @@ class MainWindow(QMainWindow):
             self._open_language_editor
         )
 
+        import_json_button = QPushButton(
+            "IMPORT JSON"
+        )
+
+        import_json_button.setObjectName(
+            "primaryButton"
+        )
+
+        import_json_button.clicked.connect(
+            self._import_json
+        )
+
         layout.addWidget(title)
-        layout.addWidget(self._language_tree)
-        layout.addWidget(add_language_button)
+        layout.addWidget(
+            self._language_tree
+        )
+
+        layout.addWidget(
+            import_json_button
+        )
+
+        layout.addWidget(
+            add_language_button
+        )
 
         return panel
 
@@ -677,32 +713,6 @@ class MainWindow(QMainWindow):
 
         return language.slug
 
-    def _syntax_hint_for_category(
-            self,
-            category_id: int,
-    ) -> str | None:
-        category = (
-            self._category_service
-            .get_category_by_id(
-                category_id
-            )
-        )
-
-        if category is None:
-            return None
-
-        language = (
-            self._language_service
-            .get_language_by_id(
-                category.language_id
-            )
-        )
-
-        if language is None:
-            return None
-
-        return language.slug
-
     def _open_entry_editor(
             self,
             entry_id: int,
@@ -757,3 +767,153 @@ class MainWindow(QMainWindow):
             self._show_entry(
                 entry_id
             )
+
+    def _import_json(self) -> None:
+        file_name, _ = (
+            QFileDialog.getOpenFileName(
+                self,
+                "Import WynCodex JSON",
+                "",
+                (
+                    "WynCodex JSON (*.json);;"
+                    "All Files (*)"
+                ),
+            )
+        )
+
+        if not file_name:
+            return
+
+        mode_label, accepted = (
+            QInputDialog.getItem(
+                self,
+                "Import Mode",
+                "How should WynCodex handle "
+                "existing content?",
+                [
+                    "Merge safely",
+                    "Strict create",
+                ],
+                0,
+                False,
+            )
+        )
+
+        if not accepted:
+            return
+
+        if mode_label == "Merge safely":
+            mode = (
+                ImportMode
+                .MERGE_SKIP_EXISTING
+            )
+        else:
+            mode = (
+                ImportMode
+                .STRICT_CREATE
+            )
+
+        try:
+            preview = (
+                self._import_service
+                .preview(
+                    Path(file_name),
+                    mode=mode,
+                )
+            )
+
+        except ImportValidationError as error:
+            QMessageBox.critical(
+                self,
+                "Import Validation Failed",
+                str(error),
+            )
+            return
+
+        counts = preview.counts
+
+        message = (
+            "This import contains:\n\n"
+            f"{counts.languages} languages\n"
+            f"{counts.categories} categories\n"
+            f"{counts.packages} packages\n"
+            f"{counts.entries} entries\n"
+            f"{counts.arguments} arguments\n"
+            f"{counts.examples} examples\n\n"
+            "Import all of this into WynCodex?"
+        )
+
+        confirmation = QMessageBox.question(
+            self,
+            "Import Preview",
+            message,
+            (
+                    QMessageBox.StandardButton.Yes
+                    | QMessageBox.StandardButton.No
+            ),
+            QMessageBox.StandardButton.No,
+        )
+
+        if (
+                confirmation
+                != QMessageBox.StandardButton.Yes
+        ):
+            return
+
+        try:
+            import_result = (
+                self._import_service
+                .import_preview(
+                    preview,
+                    mode=mode,
+                )
+            )
+
+        except (
+            ValueError,
+            RuntimeError,
+            OSError,
+        ) as error:
+            QMessageBox.critical(
+                self,
+                "Import Failed",
+                str(error),
+            )
+            return
+
+        self._navigation_model.reload()
+        self._language_tree.expandAll()
+
+        QMessageBox.information(
+            self,
+            "Import Complete",
+            (
+                "Import complete!\n\n"
+
+                "CREATED\n"
+                f"Languages: "
+                f"{import_result.languages_created}\n"
+                f"Categories: "
+                f"{import_result.categories_created}\n"
+                f"Packages: "
+                f"{import_result.packages_created}\n"
+                f"Entries: "
+                f"{import_result.entries_created}\n"
+                f"Arguments: "
+                f"{import_result.arguments_created}\n"
+                f"Examples: "
+                f"{import_result.examples_created}\n\n"
+
+                "REUSED\n"
+                f"Languages: "
+                f"{import_result.languages_reused}\n"
+                f"Categories: "
+                f"{import_result.categories_reused}\n"
+                f"Packages: "
+                f"{import_result.packages_reused}\n\n"
+
+                "SKIPPED\n"
+                f"Existing entries: "
+                f"{import_result.entries_skipped}"
+            ),
+        )

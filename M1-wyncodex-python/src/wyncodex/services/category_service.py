@@ -24,6 +24,7 @@ class CategoryService:
             name: str,
             slug: str | None = None,
             description: str | None = None,
+            commit: bool = True,
     ) -> Category:
         name = name.strip()
 
@@ -74,7 +75,8 @@ class CategoryService:
         )
 
         return self._category_repository.create(
-            category
+            category,
+            commit=commit,
         )
 
     def get_categories_for_language(
@@ -93,4 +95,17 @@ class CategoryService:
         return (
             self._category_repository
             .get_by_id(category_id)
+        )
+
+    def get_category_by_slug(
+            self,
+            language_id: int,
+            slug: str,
+    ) -> Category | None:
+        return (
+            self._category_repository
+            .get_by_slug(
+                language_id,
+                slug,
+            )
         )

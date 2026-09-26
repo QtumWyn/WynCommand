@@ -13,6 +13,8 @@ class ArgumentRepository:
     def create(
             self,
             argument: Argument,
+            *,
+            commit: bool = True,
     ) -> Argument:
         cursor = self._connection.execute(
             """
@@ -40,7 +42,8 @@ class ArgumentRepository:
             ),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
         row = self._connection.execute(
             """
@@ -98,6 +101,8 @@ class ArgumentRepository:
     def delete_for_entry(
             self,
             entry_id: int,
+            *,
+            commit: bool = True,
     ) -> None:
         self._connection.execute(
             """
@@ -107,4 +112,5 @@ class ArgumentRepository:
             (entry_id,),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()

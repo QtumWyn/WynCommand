@@ -13,6 +13,7 @@ class LanguageService:
             name: str,
             description: str | None = None,
             slug: str | None = None,
+            commit: bool = True,
     ) -> Language:
         name = name.strip()
 
@@ -45,7 +46,10 @@ class LanguageService:
             description=description,
         )
 
-        return self._repository.create(language)
+        return self._repository.create(
+            language,
+            commit=commit,
+        )
 
     def get_all_languages(self) -> list[Language]:
         return self._repository.get_all()
@@ -55,3 +59,11 @@ class LanguageService:
             language_id: int,
     ) -> Language | None:
         return self._repository.get_by_id(language_id)
+
+    def get_language_by_slug(
+            self,
+            slug: str,
+    ) -> Language | None:
+        return self._repository.get_by_slug(
+            slug
+        )

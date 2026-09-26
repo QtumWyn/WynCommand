@@ -13,6 +13,7 @@ class PackageRepository:
     def create(
             self,
             package: Package,
+            commit: bool = True,
     ) -> Package:
         cursor = self._connection.execute(
             """
@@ -38,7 +39,8 @@ class PackageRepository:
             ),
         )
 
-        self._connection.commit()
+        if commit:
+            self._connection.commit()
 
         row = self._connection.execute(
             """
