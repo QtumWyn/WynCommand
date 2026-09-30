@@ -1,0 +1,325 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "JavaScript",
+      "description": "JavaScript language reference plus runtime and framework knowledge.",
+      "categories": [
+        {
+          "name": "Node.js Runtime",
+          "description": "Server-side and tooling-oriented JavaScript concepts in Node.js.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "Node.js Core",
+              "summary": "Core Node.js runtime APIs",
+              "description": "Practical Node.js concepts for files, events, streams, processes, networking, workers, and modules.",
+              "entries": [
+                {
+                  "title": "ECMAScript modules",
+                  "summary": "Use import/export with Node's ESM module system.",
+                  "signature": "import { readFile } from \"node:fs/promises\";",
+                  "definition": "Use import/export with Node's ESM module system.",
+                  "mental_model": "Think of ECMAScript modules as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "ECMAScript modules example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { readFile } from \"node:fs/promises\";\nconst text = await readFile(\"notes.txt\", \"utf8\");\nconsole.log(text);",
+                      "explanation": "A compact example of ECMAScript modules in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "CommonJS modules",
+                  "summary": "Load and export modules with require() and module.exports.",
+                  "signature": "const fs = require(\"node:fs\");",
+                  "definition": "Load and export modules with require() and module.exports.",
+                  "mental_model": "Think of CommonJS modules as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "CommonJS modules example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const path = require(\"node:path\");\nmodule.exports = { join: path.join };",
+                      "explanation": "A compact example of CommonJS modules in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "process",
+                  "summary": "Inspect and control the current Node.js process.",
+                  "signature": "process.env.NAME",
+                  "definition": "Inspect and control the current Node.js process.",
+                  "mental_model": "Think of process as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "process example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const port = process.env.PORT ?? \"3000\";\nconsole.log(process.pid, port);",
+                      "explanation": "A compact example of process in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Environment variables",
+                  "summary": "Read configuration supplied through the process environment.",
+                  "signature": "process.env.KEY",
+                  "definition": "Read configuration supplied through the process environment.",
+                  "mental_model": "Think of Environment variables as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Environment variables example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const mode = process.env.NODE_ENV ?? \"development\";",
+                      "explanation": "A compact example of Environment variables in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "EventEmitter",
+                  "summary": "Publish named events and attach listeners.",
+                  "signature": "emitter.on(\"event\", listener)",
+                  "definition": "Publish named events and attach listeners.",
+                  "mental_model": "Think of EventEmitter as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "EventEmitter example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { EventEmitter } from \"node:events\";\nconst bus = new EventEmitter();\nbus.on(\"ready\", console.log);\nbus.emit(\"ready\", \"WynCodex\");",
+                      "explanation": "A compact example of EventEmitter in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Readable streams",
+                  "summary": "Consume data incrementally instead of loading an entire payload at once.",
+                  "signature": "for await (const chunk of readable)",
+                  "definition": "Consume data incrementally instead of loading an entire payload at once.",
+                  "mental_model": "Think of Readable streams as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Readable streams example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { createReadStream } from \"node:fs\";\nfor await (const chunk of createReadStream(\"large.log\")) console.log(chunk.length);",
+                      "explanation": "A compact example of Readable streams in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Writable streams",
+                  "summary": "Write data incrementally with stream APIs.",
+                  "signature": "writable.write(chunk)",
+                  "definition": "Write data incrementally with stream APIs.",
+                  "mental_model": "Think of Writable streams as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Writable streams example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { createWriteStream } from \"node:fs\";\nconst out = createWriteStream(\"out.txt\");\nout.write(\"hello\\n\");\nout.end();",
+                      "explanation": "A compact example of Writable streams in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "fs/promises",
+                  "summary": "Use promise-based filesystem operations.",
+                  "signature": "await readFile(path, \"utf8\")",
+                  "definition": "Use promise-based filesystem operations.",
+                  "mental_model": "Think of fs/promises as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "fs/promises example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { readFile, writeFile } from \"node:fs/promises\";\nconst text = await readFile(\"a.txt\",\"utf8\");\nawait writeFile(\"b.txt\", text.toUpperCase());",
+                      "explanation": "A compact example of fs/promises in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "path",
+                  "summary": "Build and inspect platform-correct filesystem paths.",
+                  "signature": "path.join(...parts)",
+                  "definition": "Build and inspect platform-correct filesystem paths.",
+                  "mental_model": "Think of path as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "path example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import path from \"node:path\";\nconsole.log(path.join(\"data\",\"rust.json\"));",
+                      "explanation": "A compact example of path in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Buffer",
+                  "summary": "Represent raw binary data in Node.js.",
+                  "signature": "Buffer.from(value)",
+                  "definition": "Represent raw binary data in Node.js.",
+                  "mental_model": "Think of Buffer as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Buffer example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const bytes = Buffer.from(\"WYN\",\"utf8\");\nconsole.log(bytes.toString(\"hex\"));",
+                      "explanation": "A compact example of Buffer in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "HTTP server",
+                  "summary": "Create a low-level HTTP server with Node's built-in HTTP module.",
+                  "signature": "http.createServer(handler)",
+                  "definition": "Create a low-level HTTP server with Node's built-in HTTP module.",
+                  "mental_model": "Think of HTTP server as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "HTTP server example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import http from \"node:http\";\nhttp.createServer((req,res)=>res.end(\"hello\")).listen(3000);",
+                      "explanation": "A compact example of HTTP server in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "URL",
+                  "summary": "Parse and construct URLs with the WHATWG URL API.",
+                  "signature": "new URL(input, base)",
+                  "definition": "Parse and construct URLs with the WHATWG URL API.",
+                  "mental_model": "Think of URL as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "URL example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const url = new URL(\"/search?q=rust\",\"https://example.com\");\nconsole.log(url.searchParams.get(\"q\"));",
+                      "explanation": "A compact example of URL in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "child_process",
+                  "summary": "Launch and communicate with operating-system processes.",
+                  "signature": "spawn(command, args)",
+                  "definition": "Launch and communicate with operating-system processes.",
+                  "mental_model": "Think of child_process as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "child_process example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { spawn } from \"node:child_process\";\nspawn(\"git\",[\"status\"],{stdio:\"inherit\"});",
+                      "explanation": "A compact example of child_process in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "worker_threads",
+                  "summary": "Run CPU-heavy JavaScript work in additional threads.",
+                  "signature": "new Worker(filename)",
+                  "definition": "Run CPU-heavy JavaScript work in additional threads.",
+                  "mental_model": "Think of worker_threads as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "worker_threads example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import { Worker } from \"node:worker_threads\";\nconst worker = new Worker(new URL(\"./worker.js\", import.meta.url));",
+                      "explanation": "A compact example of worker_threads in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Built-in test runner",
+                  "summary": "Define Node.js tests without a third-party framework.",
+                  "signature": "test(\"name\", fn)",
+                  "definition": "Define Node.js tests without a third-party framework.",
+                  "mental_model": "Think of Built-in test runner as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Built-in test runner example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import test from \"node:test\";\nimport assert from \"node:assert/strict\";\ntest(\"math\",()=>assert.equal(2+2,4));",
+                      "explanation": "A compact example of Built-in test runner in use."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

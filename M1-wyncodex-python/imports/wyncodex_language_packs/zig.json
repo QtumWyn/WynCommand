@@ -1,0 +1,439 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Zig",
+      "description": "Zig systems programming reference focused on builds, project detection, process execution, explicit memory, and WynCommand M4 tooling.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Values, control flow, and compile-time features.",
+          "entries": [
+            {
+              "title": "const and var",
+              "summary": "Declare immutable and mutable bindings.",
+              "signature": "const name = value; / var name = value;",
+              "definition": "Declare immutable and mutable bindings.",
+              "mental_model": "const prevents rebinding; var allows mutation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const project = \"WynCommand\";\nvar count: usize = 0;\ncount += 1;",
+                  "explanation": "Uses immutable and mutable bindings."
+                }
+              ]
+            },
+            {
+              "title": "if expressions",
+              "summary": "Branch and optionally produce a value.",
+              "signature": "if (condition) a else b",
+              "definition": "Branch and optionally produce a value.",
+              "mental_model": "Control flow can directly compute values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const label = if (ready) \"go\" else \"stop\";",
+                  "explanation": "Selects a string value."
+                }
+              ]
+            },
+            {
+              "title": "switch",
+              "summary": "Pattern-match tagged values or integer-like values exhaustively.",
+              "signature": "switch (value) { ... }",
+              "definition": "Pattern-match tagged values or integer-like values exhaustively.",
+              "mental_model": "An exhaustive branch table checked by the compiler.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const text = switch (mode) {\n    .build => \"Build\",\n    .test => \"Test\",\n};",
+                  "explanation": "Maps enum cases to text."
+                }
+              ]
+            },
+            {
+              "title": "for loops",
+              "summary": "Iterate over arrays, slices, or ranges.",
+              "signature": "for (items) |item| { ... }",
+              "definition": "Iterate over arrays, slices, or ranges.",
+              "mental_model": "Iteration binds each element explicitly.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "for ([_][]const u8{\"Python\", \"Zig\"}) |name| {\n    std.debug.print(\"{s}\\n\", .{name});\n}",
+                  "explanation": "Iterates over names."
+                }
+              ]
+            },
+            {
+              "title": "defer",
+              "summary": "Schedule cleanup code to run when the current scope exits.",
+              "signature": "defer cleanup();",
+              "definition": "Schedule cleanup code to run when the current scope exits.",
+              "mental_model": "Register cleanup next to acquisition.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "var file = try std.fs.cwd().openFile(\"README.md\", .{});\ndefer file.close();",
+                  "explanation": "Guarantees the file closes on scope exit."
+                }
+              ]
+            },
+            {
+              "title": "errdefer",
+              "summary": "Run cleanup only when the scope exits with an error.",
+              "signature": "errdefer cleanup();",
+              "definition": "Run cleanup only when the scope exits with an error.",
+              "mental_model": "Rollback cleanup specialized for error paths.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const buf = try allocator.alloc(u8, 1024);\nerrdefer allocator.free(buf);",
+                  "explanation": "Frees the buffer if later work fails."
+                }
+              ]
+            },
+            {
+              "title": "comptime",
+              "summary": "Evaluate code or require values during compilation.",
+              "signature": "comptime expression",
+              "definition": "Evaluate code or require values during compilation.",
+              "mental_model": "The same language executes in a compile-time phase.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "fn square(comptime n: usize) usize { return n * n; }\nconst x = square(6);",
+                  "explanation": "Computes x at compile time."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Types and Error Handling",
+          "description": "Optionals, errors, slices, structs, enums, and unions.",
+          "entries": [
+            {
+              "title": "Error unions",
+              "summary": "Represent either a success value or an error.",
+              "signature": "!T",
+              "definition": "Represent either a success value or an error.",
+              "mental_model": "Success and failure share one explicit type.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "fn parse(ok: bool) !u8 {\n    if (!ok) return error.Invalid;\n    return 42;\n}",
+                  "explanation": "Returns either u8 or error.Invalid."
+                }
+              ]
+            },
+            {
+              "title": "try",
+              "summary": "Propagate an error union failure from the current function.",
+              "signature": "try expression",
+              "definition": "Propagate an error union failure from the current function.",
+              "mental_model": "Concise early return for errors.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const value = try parse(true);",
+                  "explanation": "Unwraps success or returns the error."
+                }
+              ]
+            },
+            {
+              "title": "catch",
+              "summary": "Handle an error union with a fallback or error binding.",
+              "signature": "expr catch fallback",
+              "definition": "Handle an error union with a fallback or error binding.",
+              "mental_model": "Turn the error branch into a chosen recovery path.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const value = parse(false) catch 0;",
+                  "explanation": "Uses 0 when parsing fails."
+                }
+              ]
+            },
+            {
+              "title": "Optionals",
+              "summary": "Represent maybe-present values with ?T.",
+              "signature": "?T",
+              "definition": "Represent maybe-present values with ?T.",
+              "mental_model": "Presence/absence is encoded in the type.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "var found: ?usize = null;\nfound = 3;\nif (found) |index| std.debug.print(\"{}\\n\", .{index});",
+                  "explanation": "Safely unwraps an optional."
+                }
+              ]
+            },
+            {
+              "title": "Slices",
+              "summary": "Represent runtime-length views over contiguous elements.",
+              "signature": "[]T / []const T",
+              "definition": "Represent runtime-length views over contiguous elements.",
+              "mental_model": "Pointer plus length with explicit mutability.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const text: []const u8 = \"Wyn\";\nstd.debug.print(\"{s}\\n\", .{text});",
+                  "explanation": "Creates a byte slice view."
+                }
+              ]
+            },
+            {
+              "title": "Structs",
+              "summary": "Define product types with named fields and methods.",
+              "signature": "const Name = struct { ... };",
+              "definition": "Define product types with named fields and methods.",
+              "mental_model": "Named fields laid out under compiler-controlled rules.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const Macro = struct { key: []const u8, language: []const u8 };",
+                  "explanation": "Defines a simple data model."
+                }
+              ]
+            },
+            {
+              "title": "Enums",
+              "summary": "Define a finite set of named values.",
+              "signature": "const Mode = enum { ... };",
+              "definition": "Define a finite set of named values.",
+              "mental_model": "Tagged values ideal for exhaustive switch.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const Mode = enum { build, test, run };",
+                  "explanation": "Defines three modes."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Memory and Standard Library",
+          "description": "Allocators, files, and processes.",
+          "entries": [
+            {
+              "title": "Allocators",
+              "summary": "Request and free dynamic memory through explicit allocator interfaces.",
+              "signature": "allocator.alloc/free",
+              "definition": "Request and free dynamic memory through explicit allocator interfaces.",
+              "mental_model": "Memory policy is passed in rather than hidden globally.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const data = try allocator.alloc(u8, 128);\ndefer allocator.free(data);",
+                  "explanation": "Allocates and frees 128 bytes."
+                }
+              ]
+            },
+            {
+              "title": "ArrayList",
+              "summary": "Grow a dynamic array using an allocator.",
+              "signature": "std.ArrayList(T)",
+              "definition": "Grow a dynamic array using an allocator.",
+              "mental_model": "Resizable buffer with explicit allocator ownership.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "var list = std.ArrayList(u8).init(allocator);\ndefer list.deinit();\ntry list.append(42);",
+                  "explanation": "Appends a byte to a dynamic list."
+                }
+              ]
+            },
+            {
+              "title": "std.fs",
+              "summary": "Work with files and directories through Zig standard library filesystem APIs.",
+              "signature": "std.fs.cwd()",
+              "definition": "Work with files and directories through Zig standard library filesystem APIs.",
+              "mental_model": "Filesystem operations remain explicit about errors and lifetimes.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "var file = try std.fs.cwd().createFile(\"out.txt\", .{});\ndefer file.close();\ntry file.writeAll(\"Wyn\\n\");",
+                  "explanation": "Creates and writes a file."
+                }
+              ]
+            },
+            {
+              "title": "std.process.Child",
+              "summary": "Launch and control child processes.",
+              "signature": "std.process.Child.init(argv, allocator)",
+              "definition": "Launch and control child processes.",
+              "mental_model": "External process execution as an explicit stateful object.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "var child = std.process.Child.init(&.{ \"git\", \"status\" }, allocator);\nconst term = try child.spawnAndWait();\n_ = term;",
+                  "explanation": "Runs git status."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Build System",
+          "description": "Zig build graph concepts central to WynCommand M4.",
+          "entries": [
+            {
+              "title": "build.zig",
+              "summary": "Define project build steps in Zig code.",
+              "signature": "pub fn build(b: *std.Build) void",
+              "definition": "Define project build steps in Zig code.",
+              "mental_model": "The build is a programmable dependency graph.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "pub fn build(b: *std.Build) void {\n    const exe = b.addExecutable(.{ .name = \"app\", .root_module = b.createModule(.{ .root_source_file = b.path(\"src/main.zig\") }) });\n    b.installArtifact(exe);\n}",
+                  "explanation": "Defines a minimal executable artifact."
+                }
+              ]
+            },
+            {
+              "title": "Build steps",
+              "summary": "Create named commands that depend on other build graph nodes.",
+              "signature": "b.step(name, description)",
+              "definition": "Create named commands that depend on other build graph nodes.",
+              "mental_model": "User-facing commands are graph nodes with dependencies.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "zig",
+                  "code": "const run_step = b.step(\"run\", \"Run app\");\nrun_step.dependOn(&run_cmd.step);",
+                  "explanation": "Creates a named run step."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

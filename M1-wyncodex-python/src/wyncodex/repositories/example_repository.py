@@ -23,18 +23,20 @@ class ExampleRepository:
                 entry_id,
                 title,
                 code,
+                output,
                 explanation,
                 example_type,
                 syntax_hint,
                 sort_order
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 example.uuid,
                 example.entry_id,
                 example.title,
                 example.code,
+                example.output,
                 example.explanation,
                 example.example_type,
                 example.syntax_hint,
@@ -90,6 +92,7 @@ class ExampleRepository:
             entry_id=row["entry_id"],
             title=row["title"],
             code=row["code"],
+            output=row["output"],
             explanation=row["explanation"],
             example_type=row["example_type"],
             syntax_hint=row["syntax_hint"],

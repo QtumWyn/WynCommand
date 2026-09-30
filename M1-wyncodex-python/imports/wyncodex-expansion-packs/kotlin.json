@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Kotlin",
+      "description": "Concise JVM and multiplatform language with null safety, coroutines, and strong Java interoperability.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Kotlin syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "val and var",
+              "summary": "Declare immutable and mutable bindings.",
+              "signature": "val name = value / var name = value",
+              "definition": "Declare immutable and mutable bindings.",
+              "mental_model": "Think of val and var as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "val and var example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val app = \"WynCodex\"\nvar count = 0\ncount++",
+                  "explanation": "A compact example of val and var in use."
+                }
+              ]
+            },
+            {
+              "title": "Nullable types",
+              "summary": "Represent potentially absent values explicitly with ?.",
+              "signature": "Type?",
+              "definition": "Represent potentially absent values explicitly with ?.",
+              "mental_model": "Think of Nullable types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Nullable types example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "var nickname: String? = null",
+                  "explanation": "A compact example of Nullable types in use."
+                }
+              ]
+            },
+            {
+              "title": "Safe calls",
+              "summary": "Access members only when a nullable receiver is non-null.",
+              "signature": "value?.member",
+              "definition": "Access members only when a nullable receiver is non-null.",
+              "mental_model": "Think of Safe calls as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Safe calls example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val length = nickname?.length",
+                  "explanation": "A compact example of Safe calls in use."
+                }
+              ]
+            },
+            {
+              "title": "Elvis operator",
+              "summary": "Provide a fallback when an expression is null.",
+              "signature": "value ?: fallback",
+              "definition": "Provide a fallback when an expression is null.",
+              "mental_model": "Think of Elvis operator as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Elvis operator example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val display = nickname ?: \"anonymous\"",
+                  "explanation": "A compact example of Elvis operator in use."
+                }
+              ]
+            },
+            {
+              "title": "Data classes",
+              "summary": "Generate common value-object behavior from declared properties.",
+              "signature": "data class Name(...)",
+              "definition": "Generate common value-object behavior from declared properties.",
+              "mental_model": "Think of Data classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Data classes example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "data class Host(val name: String, val port: Int)",
+                  "explanation": "A compact example of Data classes in use."
+                }
+              ]
+            },
+            {
+              "title": "Sealed classes",
+              "summary": "Model closed hierarchies of related variants.",
+              "signature": "sealed class Name",
+              "definition": "Model closed hierarchies of related variants.",
+              "mental_model": "Think of Sealed classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Sealed classes example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "sealed interface Result\n\ndata class Ok(val value: Int) : Result\ndata class Error(val message: String) : Result",
+                  "explanation": "A compact example of Sealed classes in use."
+                }
+              ]
+            },
+            {
+              "title": "when",
+              "summary": "Pattern-match-like branching over values and types.",
+              "signature": "when (value) { ... }",
+              "definition": "Pattern-match-like branching over values and types.",
+              "mental_model": "Think of when as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "when example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val text = when (result) {\n    is Ok -> result.value.toString()\n    is Error -> result.message\n}",
+                  "explanation": "A compact example of when in use."
+                }
+              ]
+            },
+            {
+              "title": "Extension functions",
+              "summary": "Add callable syntax to existing types without modifying them.",
+              "signature": "fun Type.name(...) = ...",
+              "definition": "Add callable syntax to existing types without modifying them.",
+              "mental_model": "Think of Extension functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Extension functions example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "fun String.slug() = lowercase().replace(\" \", \"-\")",
+                  "explanation": "A compact example of Extension functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Lambdas",
+              "summary": "Use anonymous functions with concise trailing-lambda syntax.",
+              "signature": "{ value -> expression }",
+              "definition": "Use anonymous functions with concise trailing-lambda syntax.",
+              "mental_model": "Think of Lambdas as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Lambdas example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val doubled = listOf(1, 2, 3).map { it * 2 }",
+                  "explanation": "A compact example of Lambdas in use."
+                }
+              ]
+            },
+            {
+              "title": "Collection transformations",
+              "summary": "Use map/filter/fold and related operations on collections.",
+              "signature": "map / filter / fold",
+              "definition": "Use map/filter/fold and related operations on collections.",
+              "mental_model": "Think of Collection transformations as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Collection transformations example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val ports = listOf(22, 80, 443)\nval web = ports.filter { it >= 80 }",
+                  "explanation": "A compact example of Collection transformations in use."
+                }
+              ]
+            },
+            {
+              "title": "Coroutines",
+              "summary": "Run suspendable concurrent work in structured coroutine scopes.",
+              "signature": "launch / async",
+              "definition": "Run suspendable concurrent work in structured coroutine scopes.",
+              "mental_model": "Think of Coroutines as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Coroutines example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "coroutineScope {\n    launch { refresh() }\n}",
+                  "explanation": "A compact example of Coroutines in use."
+                }
+              ]
+            },
+            {
+              "title": "suspend functions",
+              "summary": "Mark functions that can suspend without blocking their thread.",
+              "signature": "suspend fun name()",
+              "definition": "Mark functions that can suspend without blocking their thread.",
+              "mental_model": "Think of suspend functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "suspend functions example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "suspend fun loadUser(): User = client.fetchUser()",
+                  "explanation": "A compact example of suspend functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Flow",
+              "summary": "Represent asynchronous streams of values.",
+              "signature": "Flow<T>",
+              "definition": "Represent asynchronous streams of values.",
+              "mental_model": "Think of Flow as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Flow example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val ticks = flow {\n    repeat(3) {\n        emit(it)\n        delay(1000)\n    }\n}",
+                  "explanation": "A compact example of Flow in use."
+                }
+              ]
+            },
+            {
+              "title": "Smart casts",
+              "summary": "Let the compiler refine types after safe checks.",
+              "signature": "if (x is Type) ...",
+              "definition": "Let the compiler refine types after safe checks.",
+              "mental_model": "Think of Smart casts as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Smart casts example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "if (value is String) {\n    println(value.length)\n}",
+                  "explanation": "A compact example of Smart casts in use."
+                }
+              ]
+            },
+            {
+              "title": "Delegated properties",
+              "summary": "Delegate property storage or behavior to another object.",
+              "signature": "val x by delegate",
+              "definition": "Delegate property storage or behavior to another object.",
+              "mental_model": "Think of Delegated properties as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Delegated properties example",
+                  "type": "practical",
+                  "syntax": "kotlin",
+                  "code": "val config by lazy { loadConfig() }",
+                  "explanation": "A compact example of Delegated properties in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

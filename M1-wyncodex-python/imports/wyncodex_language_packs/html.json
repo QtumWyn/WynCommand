@@ -1,0 +1,479 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "HTML",
+      "description": "HTML reference focused on semantic structure, forms, accessibility, browser integration, and UI authoring.",
+      "categories": [
+        {
+          "name": "Document Structure",
+          "description": "Core document and metadata elements.",
+          "entries": [
+            {
+              "title": "<!doctype html>",
+              "summary": "Declare an HTML5 document and standards rendering mode.",
+              "signature": "<!doctype html>",
+              "definition": "Declare an HTML5 document and standards rendering mode.",
+              "mental_model": "A tiny switch that tells the browser to use modern standards mode.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<!doctype html>\n<html lang=\"en\">\n<head></head>\n<body></body>\n</html>",
+                  "explanation": "Creates the outer HTML document skeleton."
+                }
+              ]
+            },
+            {
+              "title": "<html>",
+              "summary": "Represent the root element of an HTML document.",
+              "signature": "<html lang=\"en\">...</html>",
+              "definition": "Represent the root element of an HTML document.",
+              "mental_model": "Everything rendered belongs under this root.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<html lang=\"en\">\n  <body>Hello</body>\n</html>",
+                  "explanation": "Defines the document root and language."
+                }
+              ]
+            },
+            {
+              "title": "<head>",
+              "summary": "Contain metadata, title, links, styles, and scripts not rendered as main page content.",
+              "signature": "<head>...</head>",
+              "definition": "Contain metadata, title, links, styles, and scripts not rendered as main page content.",
+              "mental_model": "Configuration and metadata for the document.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<head>\n  <meta charset=\"utf-8\">\n  <title>WynCodex</title>\n</head>",
+                  "explanation": "Defines basic metadata."
+                }
+              ]
+            },
+            {
+              "title": "<meta>",
+              "summary": "Provide document metadata such as charset and viewport settings.",
+              "signature": "<meta ...>",
+              "definition": "Provide document metadata such as charset and viewport settings.",
+              "mental_model": "Key-value metadata consumed by browsers and other agents.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+                  "explanation": "Sets responsive viewport behavior."
+                }
+              ]
+            },
+            {
+              "title": "<link>",
+              "summary": "Associate external resources such as stylesheets and icons.",
+              "signature": "<link rel=\"stylesheet\" href=\"...\">",
+              "definition": "Associate external resources such as stylesheets and icons.",
+              "mental_model": "Declare document-to-resource relationships.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<link rel=\"stylesheet\" href=\"app.css\">",
+                  "explanation": "Loads a stylesheet."
+                }
+              ]
+            },
+            {
+              "title": "<script>",
+              "summary": "Embed or load executable JavaScript.",
+              "signature": "<script src=\"...\"></script>",
+              "definition": "Embed or load executable JavaScript.",
+              "mental_model": "Connects HTML structure to executable behavior.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<script type=\"module\" src=\"app.js\"></script>",
+                  "explanation": "Loads an ES module script."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Semantic Content",
+          "description": "Elements that express page meaning and hierarchy.",
+          "entries": [
+            {
+              "title": "<header>",
+              "summary": "Represent introductory or navigational content for a page or section.",
+              "signature": "<header>...</header>",
+              "definition": "Represent introductory or navigational content for a page or section.",
+              "mental_model": "Use meaning-bearing containers instead of generic divs when possible.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<header><h1>WynCodex</h1></header>",
+                  "explanation": "Creates a semantic header."
+                }
+              ]
+            },
+            {
+              "title": "<nav>",
+              "summary": "Represent a major navigation region.",
+              "signature": "<nav>...</nav>",
+              "definition": "Represent a major navigation region.",
+              "mental_model": "Helps browsers and assistive technology identify navigation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<nav aria-label=\"Primary\"><a href=\"/docs\">Docs</a></nav>",
+                  "explanation": "Creates labeled navigation."
+                }
+              ]
+            },
+            {
+              "title": "<main>",
+              "summary": "Mark the document's primary unique content.",
+              "signature": "<main>...</main>",
+              "definition": "Mark the document's primary unique content.",
+              "mental_model": "One dominant main landmark per page is the usual pattern.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<main><article>...</article></main>",
+                  "explanation": "Defines the main content landmark."
+                }
+              ]
+            },
+            {
+              "title": "<section>",
+              "summary": "Group thematically related content, usually with a heading.",
+              "signature": "<section>...</section>",
+              "definition": "Group thematically related content, usually with a heading.",
+              "mental_model": "Semantic grouping, not merely visual grouping.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<section><h2>Languages</h2><p>...</p></section>",
+                  "explanation": "Creates a thematic section."
+                }
+              ]
+            },
+            {
+              "title": "<article>",
+              "summary": "Represent self-contained content that could stand independently.",
+              "signature": "<article>...</article>",
+              "definition": "Represent self-contained content that could stand independently.",
+              "mental_model": "Useful for posts, cards with independent meaning, docs entries, etc.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<article><h2>NASM</h2><p>...</p></article>",
+                  "explanation": "Creates a self-contained content unit."
+                }
+              ]
+            },
+            {
+              "title": "<button>",
+              "summary": "Represent an interactive button action.",
+              "signature": "<button type=\"button\">Label</button>",
+              "definition": "Represent an interactive button action.",
+              "mental_model": "Use buttons for actions, links for navigation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<button type=\"button\" id=\"import\">Import JSON</button>",
+                  "explanation": "Creates a semantic button."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Forms and Data Entry",
+          "description": "Accessible form controls and submission.",
+          "entries": [
+            {
+              "title": "<form>",
+              "summary": "Group controls that can submit user-provided data.",
+              "signature": "<form action=\"...\" method=\"post\">",
+              "definition": "Group controls that can submit user-provided data.",
+              "mental_model": "Defines a submission/control context.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<form><label>Name <input name=\"name\"></label></form>",
+                  "explanation": "Creates a simple form."
+                }
+              ]
+            },
+            {
+              "title": "<label>",
+              "summary": "Associate human-readable text with a form control.",
+              "signature": "<label for=\"id\">Text</label>",
+              "definition": "Associate human-readable text with a form control.",
+              "mental_model": "Labels are part of the control's accessible name.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<label for=\"language\">Language</label>\n<input id=\"language\" name=\"language\">",
+                  "explanation": "Labels an input accessibly."
+                }
+              ]
+            },
+            {
+              "title": "<input>",
+              "summary": "Create single-value controls such as text, checkbox, file, number, and more.",
+              "signature": "<input type=\"text\">",
+              "definition": "Create single-value controls such as text, checkbox, file, number, and more.",
+              "mental_model": "The type attribute selects specialized browser behavior.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<input type=\"file\" accept=\"application/json\">",
+                  "explanation": "Creates a JSON-oriented file chooser."
+                }
+              ]
+            },
+            {
+              "title": "<textarea>",
+              "summary": "Create a multi-line text input control.",
+              "signature": "<textarea>...</textarea>",
+              "definition": "Create a multi-line text input control.",
+              "mental_model": "Use for user-editable blocks of text.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<textarea name=\"notes\" rows=\"6\"></textarea>",
+                  "explanation": "Creates a multi-line field."
+                }
+              ]
+            },
+            {
+              "title": "<select>",
+              "summary": "Create a list/select control from option elements.",
+              "signature": "<select><option>...</option></select>",
+              "definition": "Create a list/select control from option elements.",
+              "mental_model": "A constrained set of submitted choices.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<select name=\"mode\"><option>Merge</option><option>Strict</option></select>",
+                  "explanation": "Creates an import-mode selector."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Tables, Media, and Accessibility",
+          "description": "Structured data and inclusive markup.",
+          "entries": [
+            {
+              "title": "<table>",
+              "summary": "Represent genuinely tabular relationships between rows and columns.",
+              "signature": "<table>...</table>",
+              "definition": "Represent genuinely tabular relationships between rows and columns.",
+              "mental_model": "Use tables for data, not page layout.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<table><thead><tr><th>Language</th></tr></thead><tbody><tr><td>Rust</td></tr></tbody></table>",
+                  "explanation": "Creates a one-column data table."
+                }
+              ]
+            },
+            {
+              "title": "<img>",
+              "summary": "Embed an image with meaningful alternative text when appropriate.",
+              "signature": "<img src=\"...\" alt=\"...\">",
+              "definition": "Embed an image with meaningful alternative text when appropriate.",
+              "mental_model": "alt describes meaning when the image cannot be perceived.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<img src=\"bat.svg\" alt=\"WynCodex bat logo\">",
+                  "explanation": "Embeds an accessible image."
+                }
+              ]
+            },
+            {
+              "title": "ARIA labels",
+              "summary": "Provide accessible naming/semantics when native HTML alone is insufficient.",
+              "signature": "aria-label=\"...\"",
+              "definition": "Provide accessible naming/semantics when native HTML alone is insufficient.",
+              "mental_model": "Prefer native semantics first, then ARIA to fill genuine gaps.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<nav aria-label=\"Language navigation\">...</nav>",
+                  "explanation": "Adds an accessible label to the nav landmark."
+                }
+              ]
+            },
+            {
+              "title": "data-* attributes",
+              "summary": "Attach application-specific string data to elements.",
+              "signature": "data-name=\"value\"",
+              "definition": "Attach application-specific string data to elements.",
+              "mental_model": "A standards-compliant bridge between markup and JavaScript behavior.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<button data-language=\"rust\">Rust</button>",
+                  "explanation": "Stores custom metadata on an element."
+                }
+              ]
+            },
+            {
+              "title": "<template>",
+              "summary": "Store inert HTML fragments for later cloning by JavaScript.",
+              "signature": "<template>...</template>",
+              "definition": "Store inert HTML fragments for later cloning by JavaScript.",
+              "mental_model": "HTML that exists in the document but is not rendered until instantiated.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "html",
+                  "code": "<template id=\"entry-card\"><article class=\"entry\"></article></template>",
+                  "explanation": "Defines reusable inert markup."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

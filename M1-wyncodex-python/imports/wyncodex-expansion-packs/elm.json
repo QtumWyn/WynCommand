@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Elm",
+      "description": "Pure functional language for reliable browser applications using The Elm Architecture.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Elm syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "The Elm Architecture",
+              "summary": "Structure applications around Model, Msg, update, and view.",
+              "signature": "Model / Msg / update / view",
+              "definition": "Structure applications around Model, Msg, update, and view.",
+              "mental_model": "Think of The Elm Architecture as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "The Elm Architecture example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "main = Browser.sandbox { init = 0, update = update, view = view }",
+                  "explanation": "A compact example of The Elm Architecture in use."
+                }
+              ]
+            },
+            {
+              "title": "Model",
+              "summary": "Represent the complete application state as immutable data.",
+              "signature": "type alias Model = ...",
+              "definition": "Represent the complete application state as immutable data.",
+              "mental_model": "Think of Model as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Model example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "type alias Model = { count : Int, name : String }",
+                  "explanation": "A compact example of Model in use."
+                }
+              ]
+            },
+            {
+              "title": "Msg",
+              "summary": "Represent every event that can change application state.",
+              "signature": "type Msg = ...",
+              "definition": "Represent every event that can change application state.",
+              "mental_model": "Think of Msg as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Msg example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "type Msg = Increment | Rename String",
+                  "explanation": "A compact example of Msg in use."
+                }
+              ]
+            },
+            {
+              "title": "update",
+              "summary": "Transform a Model in response to a Msg.",
+              "signature": "update : Msg -> Model -> Model",
+              "definition": "Transform a Model in response to a Msg.",
+              "mental_model": "Think of update as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "update example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "update msg model =\n    case msg of\n        Increment -> { model | count = model.count + 1 }\n        Rename name -> { model | name = name }",
+                  "explanation": "A compact example of update in use."
+                }
+              ]
+            },
+            {
+              "title": "view",
+              "summary": "Render the current Model into Html Msg.",
+              "signature": "view : Model -> Html Msg",
+              "definition": "Render the current Model into Html Msg.",
+              "mental_model": "Think of view as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "view example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "view model =\n    button [ onClick Increment ] [ text (String.fromInt model.count) ]",
+                  "explanation": "A compact example of view in use."
+                }
+              ]
+            },
+            {
+              "title": "Union types",
+              "summary": "Model a closed set of variants with optional associated data.",
+              "signature": "type Name = A | B Value",
+              "definition": "Model a closed set of variants with optional associated data.",
+              "mental_model": "Think of Union types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Union types example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "type RemoteData a = NotAsked | Loading | Success a | Failure String",
+                  "explanation": "A compact example of Union types in use."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Group named immutable fields.",
+              "signature": "{ field : Type }",
+              "definition": "Group named immutable fields.",
+              "mental_model": "Think of Records as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Records example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "user = { name = \"Wyn\", admin = True }",
+                  "explanation": "A compact example of Records in use."
+                }
+              ]
+            },
+            {
+              "title": "Record updates",
+              "summary": "Create a new record by copying and replacing fields.",
+              "signature": "{ record | field = value }",
+              "definition": "Create a new record by copying and replacing fields.",
+              "mental_model": "Think of Record updates as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Record updates example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "updated = { user | admin = False }",
+                  "explanation": "A compact example of Record updates in use."
+                }
+              ]
+            },
+            {
+              "title": "Maybe",
+              "summary": "Model optional data without null.",
+              "signature": "Maybe a",
+              "definition": "Model optional data without null.",
+              "mental_model": "Think of Maybe as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Maybe example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "display maybeName = Maybe.withDefault \"anonymous\" maybeName",
+                  "explanation": "A compact example of Maybe in use."
+                }
+              ]
+            },
+            {
+              "title": "Result",
+              "summary": "Model computations that can succeed or fail.",
+              "signature": "Result error value",
+              "definition": "Model computations that can succeed or fail.",
+              "mental_model": "Think of Result as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Result example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "port = String.toInt \"443\"",
+                  "explanation": "A compact example of Result in use."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Deconstruct union values with case expressions.",
+              "signature": "case value of ...",
+              "definition": "Deconstruct union values with case expressions.",
+              "mental_model": "Think of Pattern matching as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pattern matching example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "case result of\n    Ok value -> text value\n    Err msg -> text msg",
+                  "explanation": "A compact example of Pattern matching in use."
+                }
+              ]
+            },
+            {
+              "title": "Cmd",
+              "summary": "Describe side effects requested by update.",
+              "signature": "Cmd msg",
+              "definition": "Describe side effects requested by update.",
+              "mental_model": "Think of Cmd as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Cmd example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "update Load model = ( model, Http.get { url = \"/api\", expect = Http.expectString Loaded } )",
+                  "explanation": "A compact example of Cmd in use."
+                }
+              ]
+            },
+            {
+              "title": "Subscriptions",
+              "summary": "Describe external event streams that should produce Msg values.",
+              "signature": "subscriptions : Model -> Sub Msg",
+              "definition": "Describe external event streams that should produce Msg values.",
+              "mental_model": "Think of Subscriptions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Subscriptions example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "subscriptions model = Time.every 1000 Tick",
+                  "explanation": "A compact example of Subscriptions in use."
+                }
+              ]
+            },
+            {
+              "title": "JSON decoders",
+              "summary": "Validate and transform incoming JSON into Elm values.",
+              "signature": "Decoder a",
+              "definition": "Validate and transform incoming JSON into Elm values.",
+              "mental_model": "Think of JSON decoders as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "JSON decoders example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "userDecoder = Decode.map2 User\n    (Decode.field \"name\" Decode.string)\n    (Decode.field \"age\" Decode.int)",
+                  "explanation": "A compact example of JSON decoders in use."
+                }
+              ]
+            },
+            {
+              "title": "Ports",
+              "summary": "Communicate deliberately between Elm and surrounding JavaScript.",
+              "signature": "port name : value",
+              "definition": "Communicate deliberately between Elm and surrounding JavaScript.",
+              "mental_model": "Think of Ports as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Ports example",
+                  "type": "practical",
+                  "syntax": "elm",
+                  "code": "port saveSettings : String -> Cmd msg",
+                  "explanation": "A compact example of Ports in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

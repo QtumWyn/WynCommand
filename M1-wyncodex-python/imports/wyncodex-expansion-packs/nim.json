@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Nim",
+      "description": "Compiled systems language combining Python-like syntax with static typing, metaprogramming, and C-family performance.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Nim syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "let and var",
+              "summary": "Declare immutable and mutable bindings.",
+              "signature": "let x = ... / var x = ...",
+              "definition": "Declare immutable and mutable bindings.",
+              "mental_model": "Think of let and var as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "let and var example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "let app = \"WynCodex\"\nvar count = 0\ninc count",
+                  "explanation": "A compact example of let and var in use."
+                }
+              ]
+            },
+            {
+              "title": "Procedures",
+              "summary": "Define typed callable procedures with proc.",
+              "signature": "proc name(args): Return =",
+              "definition": "Define typed callable procedures with proc.",
+              "mental_model": "Think of Procedures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Procedures example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "proc square(x: int): int =\n  x * x",
+                  "explanation": "A compact example of Procedures in use."
+                }
+              ]
+            },
+            {
+              "title": "Objects",
+              "summary": "Define record-like structured data.",
+              "signature": "type Name = object ...",
+              "definition": "Define record-like structured data.",
+              "mental_model": "Think of Objects as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Objects example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "type Host = object\n  name: string\n  port: int",
+                  "explanation": "A compact example of Objects in use."
+                }
+              ]
+            },
+            {
+              "title": "Enums",
+              "summary": "Define closed sets of named values.",
+              "signature": "type Name = enum ...",
+              "definition": "Define closed sets of named values.",
+              "mental_model": "Think of Enums as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Enums example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "type Status = enum\n  idle, running, failed",
+                  "explanation": "A compact example of Enums in use."
+                }
+              ]
+            },
+            {
+              "title": "Sequences",
+              "summary": "Use dynamically sized homogeneous collections.",
+              "signature": "seq[T]",
+              "definition": "Use dynamically sized homogeneous collections.",
+              "mental_model": "Think of Sequences as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Sequences example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "var ports = @[22, 80, 443]\nports.add 8080",
+                  "explanation": "A compact example of Sequences in use."
+                }
+              ]
+            },
+            {
+              "title": "Tables",
+              "summary": "Store key-value mappings with the tables module.",
+              "signature": "Table[K, V]",
+              "definition": "Store key-value mappings with the tables module.",
+              "mental_model": "Think of Tables as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Tables example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "import tables\nvar ports = {\"http\": 80, \"https\": 443}.toTable",
+                  "explanation": "A compact example of Tables in use."
+                }
+              ]
+            },
+            {
+              "title": "Generics",
+              "summary": "Parameterize procedures and types.",
+              "signature": "proc name[T](x: T)",
+              "definition": "Parameterize procedures and types.",
+              "mental_model": "Think of Generics as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Generics example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "proc first[T](items: seq[T]): T = items[0]",
+                  "explanation": "A compact example of Generics in use."
+                }
+              ]
+            },
+            {
+              "title": "Templates",
+              "summary": "Perform lightweight compile-time AST substitution.",
+              "signature": "template name(args): untyped =",
+              "definition": "Perform lightweight compile-time AST substitution.",
+              "mental_model": "Think of Templates as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Templates example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "template twice(body: untyped) =\n  body\n  body",
+                  "explanation": "A compact example of Templates in use."
+                }
+              ]
+            },
+            {
+              "title": "Macros",
+              "summary": "Transform Nim syntax trees at compile time.",
+              "signature": "macro name(...): untyped =",
+              "definition": "Transform Nim syntax trees at compile time.",
+              "mental_model": "Think of Macros as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Macros example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "import macros\nmacro debug(x: untyped): untyped =\n  result = quote do: echo `x`",
+                  "explanation": "A compact example of Macros in use."
+                }
+              ]
+            },
+            {
+              "title": "defer",
+              "summary": "Schedule cleanup for the end of the current scope.",
+              "signature": "defer: ...",
+              "definition": "Schedule cleanup for the end of the current scope.",
+              "mental_model": "Think of defer as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "defer example",
+                  "type": "practical",
+                  "syntax": "nim",
+                  "code": "let f = open(\"data.txt\")\ndefer: f.close()",
+                  "explanation": "A compact example of defer in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

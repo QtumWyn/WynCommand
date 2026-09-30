@@ -1,0 +1,379 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "F#",
+      "description": "Functional-first .NET language reference focused on pipelines, algebraic modeling, async workflows, and interoperability.",
+      "categories": [
+        {
+          "name": "Core Functional Style",
+          "description": "Bindings, functions, composition, and pipelines.",
+          "entries": [
+            {
+              "title": "let bindings",
+              "summary": "Bind immutable names to values or functions.",
+              "signature": "let name = value",
+              "definition": "Bind immutable names to values or functions.",
+              "mental_model": "Names are immutable by default and often represent computed values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let language = \"F#\"\nlet count = 6",
+                  "explanation": "Creates immutable bindings."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define functions with curried parameter syntax.",
+              "signature": "let f x y = expression",
+              "definition": "Define functions with curried parameter syntax.",
+              "mental_model": "Functions naturally accept one argument at a time and can be partially applied.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let add a b = a + b\nprintfn \"%d\" (add 20 22)",
+                  "explanation": "Defines and calls a curried function."
+                }
+              ]
+            },
+            {
+              "title": "Pipeline operator",
+              "summary": "Pass a value into the next function using |> for left-to-right data flow.",
+              "signature": "value |> function",
+              "definition": "Pass a value into the next function using |> for left-to-right data flow.",
+              "mental_model": "Turn nested calls into readable data pipelines.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "[1;2;3]\n|> List.map (fun x -> x * 2)\n|> List.sum\n|> printfn \"%d\"",
+                  "explanation": "Transforms and sums a list."
+                }
+              ]
+            },
+            {
+              "title": "Function composition",
+              "summary": "Combine functions into a new function with >> or <<.",
+              "signature": "f >> g",
+              "definition": "Combine functions into a new function with >> or <<.",
+              "mental_model": "Build new behavior by wiring outputs into inputs.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let trimAndUpper = System.String.Trim >> fun s -> s.ToUpperInvariant()\nprintfn \"%s\" (trimAndUpper \" wyn \")",
+                  "explanation": "Composes two transformations."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Select and destructure cases using match ... with.",
+              "signature": "match value with | pattern -> result",
+              "definition": "Select and destructure cases using match ... with.",
+              "mental_model": "Pattern matching is central to data-driven control flow.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let label x =\n    match x with\n    | 0 -> \"zero\"\n    | _ -> \"other\"",
+                  "explanation": "Branches on patterns."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Data Modeling",
+          "description": "Records, discriminated unions, options, and results.",
+          "entries": [
+            {
+              "title": "Records",
+              "summary": "Define immutable named-field product types.",
+              "signature": "type Name = { Field: Type }",
+              "definition": "Define immutable named-field product types.",
+              "mental_model": "Concise immutable data structures with structural equality.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "type Macro = { Key: string; Language: string }\nlet m = { Key = \"M1\"; Language = \"Python\" }",
+                  "explanation": "Creates a record value."
+                }
+              ]
+            },
+            {
+              "title": "Discriminated unions",
+              "summary": "Define closed sets of named cases that may carry data.",
+              "signature": "type Name = | A | B of T",
+              "definition": "Define closed sets of named cases that may carry data.",
+              "mental_model": "Algebraic alternatives designed for exhaustive pattern matching.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "type ImportMode =\n    | Strict\n    | Merge\n    | Failed of string",
+                  "explanation": "Defines three cases."
+                }
+              ]
+            },
+            {
+              "title": "Option",
+              "summary": "Represent presence or absence as Some value or None.",
+              "signature": "option<T>",
+              "definition": "Represent presence or absence as Some value or None.",
+              "mental_model": "Absence is encoded in the type rather than null.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let found = Some \"Wren\"\nmatch found with | Some x -> printfn \"%s\" x | None -> ()",
+                  "explanation": "Handles optional data."
+                }
+              ]
+            },
+            {
+              "title": "Result",
+              "summary": "Represent success or failure as Ok value or Error error.",
+              "signature": "Result<T,E>",
+              "definition": "Represent success or failure as Ok value or Error error.",
+              "mental_model": "A typed two-track outcome ideal for pipelines.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let result : Result<int,string> = Ok 42",
+                  "explanation": "Stores a successful integer."
+                }
+              ]
+            },
+            {
+              "title": "Tuples",
+              "summary": "Group a fixed number of positional values.",
+              "signature": "a, b",
+              "definition": "Group a fixed number of positional values.",
+              "mental_model": "Lightweight positional product type.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let pair = \"M5\", \"Scala\"\nlet key, language = pair",
+                  "explanation": "Creates and destructures a tuple."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Collections and Async",
+          "description": "Lists, sequences, arrays, computation expressions, and tasks.",
+          "entries": [
+            {
+              "title": "Lists",
+              "summary": "Use immutable linked lists for recursive/functional processing.",
+              "signature": "[a; b; c]",
+              "definition": "Use immutable linked lists for recursive/functional processing.",
+              "mental_model": "Immutable linked sequence optimized for head/tail processing.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let names = [\"F#\"; \"Scala\"; \"Elixir\"] |> List.map String.length",
+                  "explanation": "Maps string lengths."
+                }
+              ]
+            },
+            {
+              "title": "Sequences",
+              "summary": "Represent lazy IEnumerable-based streams.",
+              "signature": "seq { ... }",
+              "definition": "Represent lazy IEnumerable-based streams.",
+              "mental_model": "Values are produced on demand.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let evens = seq { for n in 1..10 do if n % 2 = 0 then yield n }",
+                  "explanation": "Creates a lazy sequence."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Use mutable fixed-size indexed arrays.",
+              "signature": "[| a; b; c |]",
+              "definition": "Use mutable fixed-size indexed arrays.",
+              "mental_model": "Contiguous mutable collection integrated with .NET.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let values = [|1;2;3|]\nvalues[0] <- 42",
+                  "explanation": "Mutates an array element."
+                }
+              ]
+            },
+            {
+              "title": "async computation expression",
+              "summary": "Compose nonblocking asynchronous workflows with async { ... }.",
+              "signature": "async { let! x = ... }",
+              "definition": "Compose nonblocking asynchronous workflows with async { ... }.",
+              "mental_model": "A computation expression supplies specialized sequencing semantics.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let work = async { do! Async.Sleep 10; return 42 }\nprintfn \"%d\" (Async.RunSynchronously work)",
+                  "explanation": "Runs an async workflow."
+                }
+              ]
+            },
+            {
+              "title": "task computation expression",
+              "summary": "Compose .NET Task-based asynchronous code with task { ... }.",
+              "signature": "task { let! x = ... }",
+              "definition": "Compose .NET Task-based asynchronous code with task { ... }.",
+              "mental_model": "Idiomatic bridge to Task-oriented .NET APIs.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let work = task { do! System.Threading.Tasks.Task.Delay 10; return 42 }",
+                  "explanation": "Creates a Task<int>."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": ".NET Interop and Modules",
+          "description": "Organization and direct use of the .NET ecosystem.",
+          "entries": [
+            {
+              "title": "Modules",
+              "summary": "Group functions, values, and types into named namespaces.",
+              "signature": "module Name =",
+              "definition": "Group functions, values, and types into named namespaces.",
+              "mental_model": "Modules are lightweight organizational containers for functional code.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "module Labels =\n    let macro key = key.ToUpperInvariant()",
+                  "explanation": "Defines a small module."
+                }
+              ]
+            },
+            {
+              "title": ".NET interoperability",
+              "summary": "Instantiate and call .NET classes directly from F#.",
+              "signature": "System.Type(...)",
+              "definition": "Instantiate and call .NET classes directly from F#.",
+              "mental_model": "F# shares the CLR and base class library with C#.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "fsharp",
+                  "code": "let path = System.IO.Path.Combine(\"packs\", \"fsharp.json\")\nprintfn \"%s\" path",
+                  "explanation": "Uses a .NET BCL API."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

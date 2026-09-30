@@ -1,0 +1,345 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "JavaScript",
+      "description": "JavaScript language reference plus runtime and framework knowledge.",
+      "categories": [
+        {
+          "name": "Game Development",
+          "description": "Game loops, input, rendering, physics, scenes, assets, and game architecture.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "Phaser.js",
+              "summary": "Browser game framework",
+              "description": "Phaser concepts for Scenes, Game Objects, input, animation, cameras, and physics.",
+              "entries": [
+                {
+                  "title": "Game configuration",
+                  "summary": "Configure renderer, canvas dimensions, scenes, and optional systems.",
+                  "signature": "new Phaser.Game(config)",
+                  "definition": "Configure renderer, canvas dimensions, scenes, and optional systems.",
+                  "mental_model": "Think of Game configuration as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Game configuration example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const config={type:Phaser.AUTO,width:800,height:600,scene:[GameScene]};\nnew Phaser.Game(config);",
+                      "explanation": "A compact example of Game configuration in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Scene",
+                  "summary": "Divide a Phaser game into self-contained logical sections.",
+                  "signature": "class GameScene extends Phaser.Scene",
+                  "definition": "Divide a Phaser game into self-contained logical sections.",
+                  "mental_model": "Think of Scene as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Scene example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "class GameScene extends Phaser.Scene {\n  constructor(){ super(\"game\"); }\n  create(){ this.add.text(20,20,\"Ready\"); }\n}",
+                      "explanation": "A compact example of Scene in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "preload()",
+                  "summary": "Load assets before a Scene creates its game objects.",
+                  "signature": "preload() {}",
+                  "definition": "Load assets before a Scene creates its game objects.",
+                  "mental_model": "Think of preload() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "preload() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "preload(){ this.load.image(\"bat\",\"assets/bat.png\"); }",
+                      "explanation": "A compact example of preload() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "create()",
+                  "summary": "Construct Scene objects and initial state after loading.",
+                  "signature": "create() {}",
+                  "definition": "Construct Scene objects and initial state after loading.",
+                  "mental_model": "Think of create() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "create() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "create(){ this.player=this.add.sprite(400,300,\"bat\"); }",
+                      "explanation": "A compact example of create() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "update()",
+                  "summary": "Run per-frame Scene logic.",
+                  "signature": "update(time, delta) {}",
+                  "definition": "Run per-frame Scene logic.",
+                  "mental_model": "Think of update() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "update() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "update(time,delta){ this.player.x += 120*(delta/1000); }",
+                      "explanation": "A compact example of update() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Game Objects",
+                  "summary": "Represent visual or interactive objects owned by a Scene.",
+                  "signature": "this.add.image(...)",
+                  "definition": "Represent visual or interactive objects owned by a Scene.",
+                  "mental_model": "Think of Game Objects as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Game Objects example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const logo=this.add.image(400,300,\"logo\");",
+                      "explanation": "A compact example of Game Objects in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Sprite",
+                  "summary": "Display an image that can also participate in animations.",
+                  "signature": "this.add.sprite(x, y, key)",
+                  "definition": "Display an image that can also participate in animations.",
+                  "mental_model": "Think of Sprite as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Sprite example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const player=this.add.sprite(100,200,\"hero\");\nplayer.play(\"walk\");",
+                      "explanation": "A compact example of Sprite in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Interactive objects",
+                  "summary": "Enable a Game Object to receive pointer input.",
+                  "signature": "gameObject.setInteractive()",
+                  "definition": "Enable a Game Object to receive pointer input.",
+                  "mental_model": "Think of Interactive objects as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Interactive objects example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "button.setInteractive();\nbutton.on(\"pointerdown\",()=>this.scene.start(\"game\"));",
+                      "explanation": "A compact example of Interactive objects in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Keyboard input",
+                  "summary": "Read keyboard state through a Scene input plugin.",
+                  "signature": "this.input.keyboard.addKeys(...)",
+                  "definition": "Read keyboard state through a Scene input plugin.",
+                  "mental_model": "Think of Keyboard input as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Keyboard input example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "this.keys=this.input.keyboard.addKeys(\"W,A,S,D\");",
+                      "explanation": "A compact example of Keyboard input in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Arcade Physics",
+                  "summary": "Use Phaser's lightweight rectangle/circle-oriented physics system.",
+                  "signature": "this.physics.add.sprite(...)",
+                  "definition": "Use Phaser's lightweight rectangle/circle-oriented physics system.",
+                  "mental_model": "Think of Arcade Physics as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Arcade Physics example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const player=this.physics.add.sprite(100,100,\"hero\");\nplayer.setVelocityX(150);",
+                      "explanation": "A compact example of Arcade Physics in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Colliders",
+                  "summary": "Ask Arcade Physics to resolve collisions between objects or groups.",
+                  "signature": "this.physics.add.collider(a, b, callback)",
+                  "definition": "Ask Arcade Physics to resolve collisions between objects or groups.",
+                  "mental_model": "Think of Colliders as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Colliders example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "this.physics.add.collider(player,walls,()=>console.log(\"bonk\"));",
+                      "explanation": "A compact example of Colliders in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Overlap checks",
+                  "summary": "Detect intersections without physically separating objects.",
+                  "signature": "this.physics.add.overlap(a, b, callback)",
+                  "definition": "Detect intersections without physically separating objects.",
+                  "mental_model": "Think of Overlap checks as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Overlap checks example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "this.physics.add.overlap(player,coins,collectCoin,null,this);",
+                      "explanation": "A compact example of Overlap checks in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Groups",
+                  "summary": "Manage collections of related Game Objects together.",
+                  "signature": "this.add.group()",
+                  "definition": "Manage collections of related Game Objects together.",
+                  "mental_model": "Think of Groups as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Groups example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const enemies=this.physics.add.group();\nenemies.create(300,200,\"enemy\");",
+                      "explanation": "A compact example of Groups in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Animations",
+                  "summary": "Define frame sequences and play them on Sprites.",
+                  "signature": "this.anims.create(config)",
+                  "definition": "Define frame sequences and play them on Sprites.",
+                  "mental_model": "Think of Animations as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Animations example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "this.anims.create({key:\"walk\",frames:this.anims.generateFrameNumbers(\"hero\",{start:0,end:5}),frameRate:10,repeat:-1});",
+                      "explanation": "A compact example of Animations in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Tweens",
+                  "summary": "Animate object properties over time.",
+                  "signature": "this.tweens.add(config)",
+                  "definition": "Animate object properties over time.",
+                  "mental_model": "Think of Tweens as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Tweens example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "this.tweens.add({targets:logo,alpha:0,duration:500});",
+                      "explanation": "A compact example of Tweens in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Cameras",
+                  "summary": "Control what portion of the game world a Scene renders.",
+                  "signature": "this.cameras.main",
+                  "definition": "Control what portion of the game world a Scene renders.",
+                  "mental_model": "Think of Cameras as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Cameras example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "this.cameras.main.startFollow(player);\nthis.cameras.main.setZoom(1.5);",
+                      "explanation": "A compact example of Cameras in use."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

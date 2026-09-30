@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "PHP",
+      "description": "Server-oriented general-purpose language with a large web ecosystem and modern object-oriented features.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core PHP syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Variables",
+              "summary": "Store dynamically typed values in names prefixed with $.",
+              "signature": "$name = value;",
+              "definition": "Store dynamically typed values in names prefixed with $.",
+              "mental_model": "Think of Variables as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Variables example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$name = \"Wyn\";\n$count = 42;",
+                  "explanation": "A compact example of Variables in use."
+                }
+              ]
+            },
+            {
+              "title": "Indexed arrays",
+              "summary": "Store ordered values in PHP arrays.",
+              "signature": "[value, ...]",
+              "definition": "Store ordered values in PHP arrays.",
+              "mental_model": "Think of Indexed arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Indexed arrays example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$ports = [22, 80, 443];\necho $ports[1];",
+                  "explanation": "A compact example of Indexed arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Associative arrays",
+              "summary": "Use PHP arrays as ordered key-value maps.",
+              "signature": "['key' => value]",
+              "definition": "Use PHP arrays as ordered key-value maps.",
+              "mental_model": "Think of Associative arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Associative arrays example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$config = [\"host\" => \"localhost\", \"port\" => 5432];",
+                  "explanation": "A compact example of Associative arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define reusable callable blocks with optional parameter and return types.",
+              "signature": "function name(Type $arg): ReturnType {}",
+              "definition": "Define reusable callable blocks with optional parameter and return types.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "function greet(string $name): string {\n    return \"Hello $name\";\n}",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define object types with properties, constructors, and methods.",
+              "signature": "class Name { ... }",
+              "definition": "Define object types with properties, constructors, and methods.",
+              "mental_model": "Think of Classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Classes example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "class Host {\n    public function __construct(\n        public string $name,\n        public int $port\n    ) {}\n}",
+                  "explanation": "A compact example of Classes in use."
+                }
+              ]
+            },
+            {
+              "title": "Interfaces",
+              "summary": "Declare method contracts implemented by classes.",
+              "signature": "interface Name { ... }",
+              "definition": "Declare method contracts implemented by classes.",
+              "mental_model": "Think of Interfaces as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Interfaces example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "interface Renderable {\n    public function render(): string;\n}",
+                  "explanation": "A compact example of Interfaces in use."
+                }
+              ]
+            },
+            {
+              "title": "Traits",
+              "summary": "Reuse method implementations across unrelated classes.",
+              "signature": "trait Name { ... }",
+              "definition": "Reuse method implementations across unrelated classes.",
+              "mental_model": "Think of Traits as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Traits example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "trait Logs {\n    public function log(string $msg): void { echo $msg; }\n}",
+                  "explanation": "A compact example of Traits in use."
+                }
+              ]
+            },
+            {
+              "title": "Namespaces",
+              "summary": "Organize symbols and avoid global naming collisions.",
+              "signature": "namespace Vendor\\Package;",
+              "definition": "Organize symbols and avoid global naming collisions.",
+              "mental_model": "Think of Namespaces as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Namespaces example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "namespace Wyn\\Codex;\n\nclass Entry {}",
+                  "explanation": "A compact example of Namespaces in use."
+                }
+              ]
+            },
+            {
+              "title": "Exceptions",
+              "summary": "Signal and catch exceptional failures.",
+              "signature": "try { } catch (Throwable $e) { }",
+              "definition": "Signal and catch exceptional failures.",
+              "mental_model": "Think of Exceptions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Exceptions example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "try {\n    risky();\n} catch (Throwable $e) {\n    error_log($e->getMessage());\n}",
+                  "explanation": "A compact example of Exceptions in use."
+                }
+              ]
+            },
+            {
+              "title": "PDO",
+              "summary": "Use a common database abstraction for prepared SQL access.",
+              "signature": "new PDO(...)",
+              "definition": "Use a common database abstraction for prepared SQL access.",
+              "mental_model": "Think of PDO as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "PDO example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$pdo = new PDO($dsn, $user, $pass);\n$stmt = $pdo->prepare(\"SELECT * FROM users WHERE id = ?\");\n$stmt->execute([$id]);",
+                  "explanation": "A compact example of PDO in use."
+                }
+              ]
+            },
+            {
+              "title": "Composer",
+              "summary": "Manage PHP dependencies and autoloading.",
+              "signature": "composer require vendor/package",
+              "definition": "Manage PHP dependencies and autoloading.",
+              "mental_model": "Think of Composer as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Composer example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "require __DIR__ . \"/vendor/autoload.php\";",
+                  "explanation": "A compact example of Composer in use."
+                }
+              ]
+            },
+            {
+              "title": "Enums",
+              "summary": "Define closed sets of named cases, optionally backed by scalar values.",
+              "signature": "enum Name { case X; }",
+              "definition": "Define closed sets of named cases, optionally backed by scalar values.",
+              "mental_model": "Think of Enums as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Enums example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "enum Status: string {\n    case Ready = \"ready\";\n    case Failed = \"failed\";\n}",
+                  "explanation": "A compact example of Enums in use."
+                }
+              ]
+            },
+            {
+              "title": "match",
+              "summary": "Choose a value using strict, expression-oriented branching.",
+              "signature": "match ($value) { ... }",
+              "definition": "Choose a value using strict, expression-oriented branching.",
+              "mental_model": "Think of match as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "match example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$label = match ($status) {\n    200 => \"ok\",\n    404 => \"missing\",\n    default => \"other\",\n};",
+                  "explanation": "A compact example of match in use."
+                }
+              ]
+            },
+            {
+              "title": "Arrow functions",
+              "summary": "Write concise single-expression closures.",
+              "signature": "fn($x) => expression",
+              "definition": "Write concise single-expression closures.",
+              "mental_model": "Think of Arrow functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Arrow functions example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$squares = array_map(fn($x) => $x * $x, [1, 2, 3]);",
+                  "explanation": "A compact example of Arrow functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Nullsafe operator",
+              "summary": "Short-circuit chained member access when a receiver is null.",
+              "signature": "$value?->member",
+              "definition": "Short-circuit chained member access when a receiver is null.",
+              "mental_model": "Think of Nullsafe operator as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Nullsafe operator example",
+                  "type": "practical",
+                  "syntax": "php",
+                  "code": "$city = $user?->address?->city;",
+                  "explanation": "A compact example of Nullsafe operator in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

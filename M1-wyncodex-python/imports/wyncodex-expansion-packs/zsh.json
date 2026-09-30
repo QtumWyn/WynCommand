@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Zsh",
+      "description": "Interactive Unix shell and scripting language with powerful globbing, arrays, completion, and parameter expansion.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Zsh syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Variables",
+              "summary": "Assign shell parameters without spaces around =.",
+              "signature": "name=value",
+              "definition": "Assign shell parameters without spaces around =.",
+              "mental_model": "Think of Variables as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Variables example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "name=\"WynCodex\"\nprint -- \"$name\"",
+                  "explanation": "A compact example of Variables in use."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Use native 1-based shell arrays.",
+              "signature": "array=(a b c)",
+              "definition": "Use native 1-based shell arrays.",
+              "mental_model": "Think of Arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": "Zsh arrays are 1-based by default.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Arrays example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "ports=(22 80 443)\nprint -- $ports[2]",
+                  "explanation": "A compact example of Arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Associative arrays",
+              "summary": "Create key-value parameter maps.",
+              "signature": "typeset -A map",
+              "definition": "Create key-value parameter maps.",
+              "mental_model": "Think of Associative arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Associative arrays example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "typeset -A ports\nports=(http 80 https 443)\nprint -- $ports[https]",
+                  "explanation": "A compact example of Associative arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Parameter expansion",
+              "summary": "Transform and inspect parameter values inside ${...}.",
+              "signature": "${parameter}",
+              "definition": "Transform and inspect parameter values inside ${...}.",
+              "mental_model": "Think of Parameter expansion as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Parameter expansion example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "name=\"Wyn Codex\"\nprint -- ${name:l}",
+                  "explanation": "A compact example of Parameter expansion in use."
+                }
+              ]
+            },
+            {
+              "title": "Default values",
+              "summary": "Supply fallback values during parameter expansion.",
+              "signature": "${name:-fallback}",
+              "definition": "Supply fallback values during parameter expansion.",
+              "mental_model": "Think of Default values as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Default values example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "print -- ${EDITOR:-vim}",
+                  "explanation": "A compact example of Default values in use."
+                }
+              ]
+            },
+            {
+              "title": "Globbing",
+              "summary": "Match pathnames using Zsh's rich pattern language.",
+              "signature": "*.json",
+              "definition": "Match pathnames using Zsh's rich pattern language.",
+              "mental_model": "Think of Globbing as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Globbing example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "print -l -- **/*.json",
+                  "explanation": "A compact example of Globbing in use."
+                }
+              ]
+            },
+            {
+              "title": "Glob qualifiers",
+              "summary": "Filter pathname matches by metadata with trailing qualifiers.",
+              "signature": "pattern(qualifiers)",
+              "definition": "Filter pathname matches by metadata with trailing qualifiers.",
+              "mental_model": "Think of Glob qualifiers as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Glob qualifiers example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "print -l -- **/*(.N)",
+                  "explanation": "A compact example of Glob qualifiers in use."
+                }
+              ]
+            },
+            {
+              "title": "Extended globbing",
+              "summary": "Enable additional pattern operators with EXTENDED_GLOB.",
+              "signature": "setopt EXTENDED_GLOB",
+              "definition": "Enable additional pattern operators with EXTENDED_GLOB.",
+              "mental_model": "Think of Extended globbing as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Extended globbing example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "setopt EXTENDED_GLOB\nprint -l -- ^*.tmp",
+                  "explanation": "A compact example of Extended globbing in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define reusable shell functions.",
+              "signature": "name() { ... }",
+              "definition": "Define reusable shell functions.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "greet() {\n  print -- \"Hello $1\"\n}\ngreet Wyn",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Conditionals",
+              "summary": "Use [[ ... ]] for shell-aware conditional expressions.",
+              "signature": "[[ condition ]]",
+              "definition": "Use [[ ... ]] for shell-aware conditional expressions.",
+              "mental_model": "Think of Conditionals as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Conditionals example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "if [[ -f config.json ]]; then\n  print \"found\"\nfi",
+                  "explanation": "A compact example of Conditionals in use."
+                }
+              ]
+            },
+            {
+              "title": "Loops",
+              "summary": "Iterate over words or numeric ranges.",
+              "signature": "for x in ...; do ...; done",
+              "definition": "Iterate over words or numeric ranges.",
+              "mental_model": "Think of Loops as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Loops example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "for port in 22 80 443; do\n  print -- $port\ndone",
+                  "explanation": "A compact example of Loops in use."
+                }
+              ]
+            },
+            {
+              "title": "Shell options",
+              "summary": "Customize Zsh behavior with setopt and unsetopt.",
+              "signature": "setopt OPTION",
+              "definition": "Customize Zsh behavior with setopt and unsetopt.",
+              "mental_model": "Think of Shell options as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Shell options example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "setopt AUTO_CD\nsetopt HIST_IGNORE_DUPS",
+                  "explanation": "A compact example of Shell options in use."
+                }
+              ]
+            },
+            {
+              "title": "autoload",
+              "summary": "Load function definitions lazily from fpath.",
+              "signature": "autoload -Uz function",
+              "definition": "Load function definitions lazily from fpath.",
+              "mental_model": "Think of autoload as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "autoload example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "autoload -Uz compinit\ncompinit",
+                  "explanation": "A compact example of autoload in use."
+                }
+              ]
+            },
+            {
+              "title": "Completion system",
+              "summary": "Initialize and customize Zsh programmable completion.",
+              "signature": "compinit / compdef",
+              "definition": "Initialize and customize Zsh programmable completion.",
+              "mental_model": "Think of Completion system as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Completion system example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "autoload -Uz compinit\ncompinit\ncompdef _git mygit",
+                  "explanation": "A compact example of Completion system in use."
+                }
+              ]
+            },
+            {
+              "title": "Prompt expansion",
+              "summary": "Build dynamic prompts with percent escapes.",
+              "signature": "PROMPT='...'",
+              "definition": "Build dynamic prompts with percent escapes.",
+              "mental_model": "Think of Prompt expansion as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Prompt expansion example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "PROMPT='%F{cyan}%n%f:%F{blue}%~%f %# '",
+                  "explanation": "A compact example of Prompt expansion in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

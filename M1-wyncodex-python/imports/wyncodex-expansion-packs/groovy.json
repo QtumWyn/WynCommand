@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Groovy",
+      "description": "Dynamic JVM language used for scripting, DSLs, Gradle, testing, and Java ecosystem automation.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Groovy syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "def",
+              "summary": "Declare dynamically typed local variables.",
+              "signature": "def name = value",
+              "definition": "Declare dynamically typed local variables.",
+              "mental_model": "Think of def as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "def example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def name = \"Wyn\"\ndef count = 42",
+                  "explanation": "A compact example of def in use."
+                }
+              ]
+            },
+            {
+              "title": "Closures",
+              "summary": "Use first-class executable blocks with implicit or explicit parameters.",
+              "signature": "{ args -> body }",
+              "definition": "Use first-class executable blocks with implicit or explicit parameters.",
+              "mental_model": "Think of Closures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Closures example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def square = { n -> n * n }\nprintln square(4)",
+                  "explanation": "A compact example of Closures in use."
+                }
+              ]
+            },
+            {
+              "title": "Collections",
+              "summary": "Use concise list and map literals.",
+              "signature": "[a, b] / [key: value]",
+              "definition": "Use concise list and map literals.",
+              "mental_model": "Think of Collections as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Collections example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def ports = [22, 80, 443]\ndef config = [host: \"localhost\", port: 443]",
+                  "explanation": "A compact example of Collections in use."
+                }
+              ]
+            },
+            {
+              "title": "GStrings",
+              "summary": "Interpolate expressions into double-quoted strings.",
+              "signature": "\"Hello $name\"",
+              "definition": "Interpolate expressions into double-quoted strings.",
+              "mental_model": "Think of GStrings as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "GStrings example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def name = \"Wyn\"\nprintln \"Hello $name\"",
+                  "explanation": "A compact example of GStrings in use."
+                }
+              ]
+            },
+            {
+              "title": "Safe navigation",
+              "summary": "Return null instead of dereferencing a null receiver.",
+              "signature": "value?.member",
+              "definition": "Return null instead of dereferencing a null receiver.",
+              "mental_model": "Think of Safe navigation as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Safe navigation example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def city = user?.address?.city",
+                  "explanation": "A compact example of Safe navigation in use."
+                }
+              ]
+            },
+            {
+              "title": "Elvis operator",
+              "summary": "Use a fallback for falsey or null values.",
+              "signature": "value ?: fallback",
+              "definition": "Use a fallback for falsey or null values.",
+              "mental_model": "Think of Elvis operator as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Elvis operator example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def display = nickname ?: \"anonymous\"",
+                  "explanation": "A compact example of Elvis operator in use."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define JVM classes with concise property syntax.",
+              "signature": "class Name { ... }",
+              "definition": "Define JVM classes with concise property syntax.",
+              "mental_model": "Think of Classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Classes example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "class Host {\n    String name\n    int port\n}",
+                  "explanation": "A compact example of Classes in use."
+                }
+              ]
+            },
+            {
+              "title": "Traits",
+              "summary": "Compose reusable behavior into classes.",
+              "signature": "trait Name { ... }",
+              "definition": "Compose reusable behavior into classes.",
+              "mental_model": "Think of Traits as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Traits example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "trait Loggable {\n    void log(String msg) { println msg }\n}",
+                  "explanation": "A compact example of Traits in use."
+                }
+              ]
+            },
+            {
+              "title": "each / collect / findAll",
+              "summary": "Use Groovy's collection-oriented iteration helpers.",
+              "signature": "collection.collect { ... }",
+              "definition": "Use Groovy's collection-oriented iteration helpers.",
+              "mental_model": "Think of each / collect / findAll as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "each / collect / findAll example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def squares = [1,2,3].collect { it * it }",
+                  "explanation": "A compact example of each / collect / findAll in use."
+                }
+              ]
+            },
+            {
+              "title": "with",
+              "summary": "Execute configuration-style closures against an object.",
+              "signature": "object.with { ... }",
+              "definition": "Execute configuration-style closures against an object.",
+              "mental_model": "Think of with as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "with example",
+                  "type": "practical",
+                  "syntax": "groovy",
+                  "code": "def sb = new StringBuilder().with {\n    append \"Wyn\"\n    append \"Codex\"\n    it\n}",
+                  "explanation": "A compact example of with in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Rust",
+      "description": "Rust systems programming reference focused on ownership, safe concurrency, CLI/backend tooling, and WynOS/WynObserve helper development.",
+      "categories": [
+        {
+          "name": "Ownership and Borrowing",
+          "description": "Rust memory model fundamentals.",
+          "entries": [
+            {
+              "title": "Ownership",
+              "summary": "Each non-Copy value has an owner responsible for its lifetime.",
+              "signature": "let value = String::from(\"Wyn\");",
+              "definition": "Each non-Copy value has an owner responsible for its lifetime.",
+              "mental_model": "One owner controls when a resource is dropped.",
+              "return_value": null,
+              "gotchas": "Using a after the move is a compile-time error.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let a = String::from(\"Wyn\");\nlet b = a;\nprintln!(\"{b}\");",
+                  "explanation": "Moves ownership from a to b."
+                }
+              ]
+            },
+            {
+              "title": "Immutable borrowing",
+              "summary": "Borrow a value through &T without taking ownership.",
+              "signature": "&T",
+              "definition": "Borrow a value through &T without taking ownership.",
+              "mental_model": "A temporary read-only view into someone else's value.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "fn len(s: &String) -> usize { s.len() }\nlet s = String::from(\"Wyn\");\nprintln!(\"{}\", len(&s));",
+                  "explanation": "Reads without moving the String."
+                }
+              ]
+            },
+            {
+              "title": "Mutable borrowing",
+              "summary": "Borrow exclusively through &mut T to mutate without taking ownership.",
+              "signature": "&mut T",
+              "definition": "Borrow exclusively through &mut T to mutate without taking ownership.",
+              "mental_model": "Mutation requires exclusive access for the borrow duration.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "fn add_bat(s: &mut String) { s.push_str(\" bat\"); }\nlet mut s = String::from(\"Wyn\");\nadd_bat(&mut s);",
+                  "explanation": "Mutates through an exclusive borrow."
+                }
+              ]
+            },
+            {
+              "title": "Lifetimes",
+              "summary": "Describe relationships between reference validity periods when inference is insufficient.",
+              "signature": "fn f<'a>(x: &'a T) -> &'a T",
+              "definition": "Describe relationships between reference validity periods when inference is insufficient.",
+              "mental_model": "Lifetimes are compile-time proofs that references cannot outlive data.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "fn first<'a>(x: &'a str) -> &'a str { x }",
+                  "explanation": "Connects the output reference lifetime to the input."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Types and Error Handling",
+          "description": "Enums, traits, generics, Result, and Option.",
+          "entries": [
+            {
+              "title": "Structs",
+              "summary": "Define named product types.",
+              "signature": "struct Name { field: Type }",
+              "definition": "Define named product types.",
+              "mental_model": "Bundle related values under one nominal type.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "struct Macro { key: String, language: String }",
+                  "explanation": "Defines a two-field model."
+                }
+              ]
+            },
+            {
+              "title": "Enums",
+              "summary": "Define tagged alternatives that can carry data.",
+              "signature": "enum Name { A, B(T) }",
+              "definition": "Define tagged alternatives that can carry data.",
+              "mental_model": "A value is exactly one variant, and match can exhaustively inspect it.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "enum Mode { Strict, Merge, Error(String) }",
+                  "explanation": "Defines three variants."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Destructure values exhaustively with match.",
+              "signature": "match value { pattern => expr }",
+              "definition": "Destructure values exhaustively with match.",
+              "mental_model": "The compiler checks that relevant cases are handled.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let text = match mode {\n    Mode::Strict => \"strict\",\n    Mode::Merge => \"merge\",\n    Mode::Error(_) => \"error\",\n};",
+                  "explanation": "Maps enum variants to text."
+                }
+              ]
+            },
+            {
+              "title": "Option",
+              "summary": "Represent presence or absence as Some(T) or None.",
+              "signature": "Option<T>",
+              "definition": "Represent presence or absence as Some(T) or None.",
+              "mental_model": "Nullability made explicit and pattern-matchable.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let value = Some(42);\nif let Some(n) = value { println!(\"{n}\"); }",
+                  "explanation": "Safely unwraps a present value."
+                }
+              ]
+            },
+            {
+              "title": "Result",
+              "summary": "Represent recoverable success or failure as Ok(T) or Err(E).",
+              "signature": "Result<T, E>",
+              "definition": "Represent recoverable success or failure as Ok(T) or Err(E).",
+              "mental_model": "Errors travel in the type system instead of via exceptions.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "fn answer() -> Result<i32, String> { Ok(42) }",
+                  "explanation": "Returns a typed success or error."
+                }
+              ]
+            },
+            {
+              "title": "Question-mark operator",
+              "summary": "Propagate Result/Option failure from the current function.",
+              "signature": "expression?",
+              "definition": "Propagate Result/Option failure from the current function.",
+              "mental_model": "Unwrap success, otherwise bubble the failure outward.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let text = std::fs::read_to_string(\"README.md\")?;",
+                  "explanation": "Returns early if file reading fails."
+                }
+              ]
+            },
+            {
+              "title": "Traits",
+              "summary": "Define shared behavior contracts that types can implement.",
+              "signature": "trait Name { fn method(&self); }",
+              "definition": "Define shared behavior contracts that types can implement.",
+              "mental_model": "Traits express capabilities and enable static/dynamic polymorphism.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "trait Run { fn run(&self) -> i32; }",
+                  "explanation": "Declares a behavior interface."
+                }
+              ]
+            },
+            {
+              "title": "Generics",
+              "summary": "Parameterize functions and types over other types and constraints.",
+              "signature": "fn f<T: Trait>(x: T)",
+              "definition": "Parameterize functions and types over other types and constraints.",
+              "mental_model": "Compile one abstraction for many concrete types.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "fn debug<T: std::fmt::Debug>(x: T) { println!(\"{x:?}\"); }",
+                  "explanation": "Accepts any Debug value."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Collections and Iteration",
+          "description": "Common owned containers and iterator pipelines.",
+          "entries": [
+            {
+              "title": "Vec<T>",
+              "summary": "Store a growable contiguous sequence.",
+              "signature": "Vec<T>",
+              "definition": "Store a growable contiguous sequence.",
+              "mental_model": "Heap-backed dynamic array.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let mut keys = vec![\"M1\", \"M2\"];\nkeys.push(\"M3\");",
+                  "explanation": "Appends an item."
+                }
+              ]
+            },
+            {
+              "title": "String and &str",
+              "summary": "Use String for owned UTF-8 text and &str for borrowed string slices.",
+              "signature": "String / &str",
+              "definition": "Use String for owned UTF-8 text and &str for borrowed string slices.",
+              "mental_model": "Ownership and borrowing apply to text too.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let owned = String::from(\"Wyn\");\nlet view: &str = &owned;",
+                  "explanation": "Creates owned and borrowed text forms."
+                }
+              ]
+            },
+            {
+              "title": "HashMap",
+              "summary": "Store key-value associations.",
+              "signature": "HashMap<K,V>",
+              "definition": "Store key-value associations.",
+              "mental_model": "Hash-based indexed storage with ownership-aware keys/values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "use std::collections::HashMap;\nlet mut m = HashMap::new();\nm.insert(\"M4\", \"Zig\");",
+                  "explanation": "Inserts a key-value pair."
+                }
+              ]
+            },
+            {
+              "title": "Iterators",
+              "summary": "Build lazy element-processing pipelines.",
+              "signature": ".iter().map(...).filter(...)",
+              "definition": "Build lazy element-processing pipelines.",
+              "mental_model": "Composable lazy transformations consumed by a terminal operation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let sum: i32 = [1,2,3].iter().map(|n| n * 2).sum();",
+                  "explanation": "Maps and sums values."
+                }
+              ]
+            },
+            {
+              "title": "Closures",
+              "summary": "Create anonymous functions that can capture surrounding variables.",
+              "signature": "|args| expr",
+              "definition": "Create anonymous functions that can capture surrounding variables.",
+              "mental_model": "Functions plus an environment of captured state.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let factor = 2;\nlet scale = |x| x * factor;\nprintln!(\"{}\", scale(21));",
+                  "explanation": "Captures factor."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Concurrency and Tooling",
+          "description": "Threads, channels, Cargo, and process/file utilities.",
+          "entries": [
+            {
+              "title": "std::thread",
+              "summary": "Spawn operating-system threads safely.",
+              "signature": "thread::spawn(|| ...)",
+              "definition": "Spawn operating-system threads safely.",
+              "mental_model": "Move Send-safe data into concurrent execution.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let h = std::thread::spawn(|| 21 * 2);\nprintln!(\"{}\", h.join().unwrap());",
+                  "explanation": "Runs computation on another thread."
+                }
+              ]
+            },
+            {
+              "title": "mpsc channels",
+              "summary": "Send owned messages between threads.",
+              "signature": "std::sync::mpsc::channel()",
+              "definition": "Send owned messages between threads.",
+              "mental_model": "Ownership transfer through a synchronized message queue.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let (tx, rx) = std::sync::mpsc::channel();\nstd::thread::spawn(move || tx.send(42).unwrap());\nprintln!(\"{}\", rx.recv().unwrap());",
+                  "explanation": "Receives a value from another thread."
+                }
+              ]
+            },
+            {
+              "title": "Command",
+              "summary": "Launch external processes with std::process::Command.",
+              "signature": "Command::new(program).args(...)",
+              "definition": "Launch external processes with std::process::Command.",
+              "mental_model": "Builder-style child process configuration.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "rust",
+                  "code": "let status = std::process::Command::new(\"git\").arg(\"status\").status()?;",
+                  "explanation": "Runs git status."
+                }
+              ]
+            },
+            {
+              "title": "Cargo.toml",
+              "summary": "Describe a Rust package, dependencies, features, and build metadata.",
+              "signature": "[package] / [dependencies]",
+              "definition": "Describe a Rust package, dependencies, features, and build metadata.",
+              "mental_model": "Cargo.toml is the package manifest and dependency contract.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "toml",
+                  "code": "[package]\nname = \"wyn-helper\"\nversion = \"0.1.0\"\nedition = \"2024\"",
+                  "explanation": "Declares a minimal package."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

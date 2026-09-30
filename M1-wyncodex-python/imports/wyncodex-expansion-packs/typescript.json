@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "TypeScript",
+      "description": "JavaScript with static type checking and rich type-system features.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core TypeScript syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Type annotations",
+              "summary": "Declare expected types for variables, parameters, and returns.",
+              "signature": "name: Type",
+              "definition": "Declare expected types for variables, parameters, and returns.",
+              "mental_model": "Think of Type annotations as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Type annotations example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "function greet(name: string): string {\n  return `Hello ${name}`;\n}",
+                  "explanation": "A compact example of Type annotations in use."
+                }
+              ]
+            },
+            {
+              "title": "Union types",
+              "summary": "Allow a value to be one of several types.",
+              "signature": "A | B",
+              "definition": "Allow a value to be one of several types.",
+              "mental_model": "Think of Union types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Union types example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "let id: string | number = 42;\nid = \"abc\";",
+                  "explanation": "A compact example of Union types in use."
+                }
+              ]
+            },
+            {
+              "title": "Interfaces",
+              "summary": "Describe object shapes and contracts.",
+              "signature": "interface Name { ... }",
+              "definition": "Describe object shapes and contracts.",
+              "mental_model": "Think of Interfaces as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Interfaces example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "interface Host {\n  name: string;\n  port: number;\n}",
+                  "explanation": "A compact example of Interfaces in use."
+                }
+              ]
+            },
+            {
+              "title": "Type aliases",
+              "summary": "Give a reusable name to any type expression.",
+              "signature": "type Name = ...",
+              "definition": "Give a reusable name to any type expression.",
+              "mental_model": "Think of Type aliases as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Type aliases example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "type Status = \"idle\" | \"running\" | \"failed\";",
+                  "explanation": "A compact example of Type aliases in use."
+                }
+              ]
+            },
+            {
+              "title": "Generics",
+              "summary": "Write reusable code that preserves relationships between types.",
+              "signature": "function f<T>(value: T): T",
+              "definition": "Write reusable code that preserves relationships between types.",
+              "mental_model": "Think of Generics as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Generics example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "function identity<T>(value: T): T {\n  return value;\n}",
+                  "explanation": "A compact example of Generics in use."
+                }
+              ]
+            },
+            {
+              "title": "Narrowing",
+              "summary": "Refine a union type using runtime checks.",
+              "signature": "typeof / in / instanceof",
+              "definition": "Refine a union type using runtime checks.",
+              "mental_model": "Think of Narrowing as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Narrowing example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "function print(value: string | number) {\n  if (typeof value === \"string\") console.log(value.toUpperCase());\n}",
+                  "explanation": "A compact example of Narrowing in use."
+                }
+              ]
+            },
+            {
+              "title": "Discriminated unions",
+              "summary": "Model variants with a shared literal discriminator.",
+              "signature": "type Result = ...",
+              "definition": "Model variants with a shared literal discriminator.",
+              "mental_model": "Think of Discriminated unions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Discriminated unions example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "type Result =\n  | { kind: \"ok\"; value: number }\n  | { kind: \"error\"; message: string };",
+                  "explanation": "A compact example of Discriminated unions in use."
+                }
+              ]
+            },
+            {
+              "title": "keyof",
+              "summary": "Produce a union of property keys from an object type.",
+              "signature": "keyof T",
+              "definition": "Produce a union of property keys from an object type.",
+              "mental_model": "Think of keyof as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "keyof example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "type Host = { name: string; port: number };\ntype HostKey = keyof Host;",
+                  "explanation": "A compact example of keyof in use."
+                }
+              ]
+            },
+            {
+              "title": "typeof in types",
+              "summary": "Derive a type from an existing JavaScript value.",
+              "signature": "typeof value",
+              "definition": "Derive a type from an existing JavaScript value.",
+              "mental_model": "Think of typeof in types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "typeof in types example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "const config = { port: 3000, debug: true };\ntype Config = typeof config;",
+                  "explanation": "A compact example of typeof in types in use."
+                }
+              ]
+            },
+            {
+              "title": "Indexed access types",
+              "summary": "Look up a property type from another type.",
+              "signature": "T[K]",
+              "definition": "Look up a property type from another type.",
+              "mental_model": "Think of Indexed access types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Indexed access types example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "type Host = { name: string; port: number };\ntype Port = Host[\"port\"];",
+                  "explanation": "A compact example of Indexed access types in use."
+                }
+              ]
+            },
+            {
+              "title": "Utility types",
+              "summary": "Transform existing types with Partial, Pick, Record, and others.",
+              "signature": "Partial<T>",
+              "definition": "Transform existing types with Partial, Pick, Record, and others.",
+              "mental_model": "Think of Utility types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Utility types example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "type Settings = { theme: string; compact: boolean };\ntype SettingsPatch = Partial<Settings>;",
+                  "explanation": "A compact example of Utility types in use."
+                }
+              ]
+            },
+            {
+              "title": "unknown",
+              "summary": "Represent an unknown value that must be narrowed before use.",
+              "signature": "unknown",
+              "definition": "Represent an unknown value that must be narrowed before use.",
+              "mental_model": "Think of unknown as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "unknown example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "function parse(value: unknown) {\n  if (typeof value === \"string\") return value.trim();\n}",
+                  "explanation": "A compact example of unknown in use."
+                }
+              ]
+            },
+            {
+              "title": "never",
+              "summary": "Represent values or code paths that cannot occur.",
+              "signature": "never",
+              "definition": "Represent values or code paths that cannot occur.",
+              "mental_model": "Think of never as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "never example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "function fail(message: string): never {\n  throw new Error(message);\n}",
+                  "explanation": "A compact example of never in use."
+                }
+              ]
+            },
+            {
+              "title": "Optional properties",
+              "summary": "Mark object properties as potentially absent.",
+              "signature": "name?: Type",
+              "definition": "Mark object properties as potentially absent.",
+              "mental_model": "Think of Optional properties as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Optional properties example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "interface User {\n  name: string;\n  nickname?: string;\n}",
+                  "explanation": "A compact example of Optional properties in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Share typed values across files with import and export.",
+              "signature": "export / import",
+              "definition": "Share typed values across files with import and export.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "typescript",
+                  "code": "export interface Host { name: string }\nexport const localhost: Host = { name: \"localhost\" };",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,352 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "JavaScript",
+      "description": "Modern JavaScript reference focused on browser/UI behavior, async workflows, data transformation, modules, and tooling.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Bindings, values, functions, and object syntax.",
+          "entries": [
+            {
+              "title": "let and const",
+              "summary": "Declare block-scoped bindings; prefer const when rebinding is unnecessary.",
+              "signature": "const x = ... / let x = ...",
+              "definition": "Declare block-scoped bindings; prefer const when rebinding is unnecessary.",
+              "mental_model": "const locks the binding, not necessarily the object internals.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const app = \"WynCodex\";\nlet count = 0;\ncount += 1;",
+                  "explanation": "Declares immutable-binding and mutable-binding names."
+                }
+              ]
+            },
+            {
+              "title": "Objects",
+              "summary": "Store keyed properties on object values.",
+              "signature": "{ key: value }",
+              "definition": "Store keyed properties on object values.",
+              "mental_model": "Flexible record-like collections of properties.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const macro = { key: \"M1\", language: \"Python\" };\nconsole.log(macro.language);",
+                  "explanation": "Reads an object property."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Store ordered dynamic collections.",
+              "signature": "[a, b, c]",
+              "definition": "Store ordered dynamic collections.",
+              "mental_model": "Growable indexed sequences with rich higher-order methods.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const langs = [\"JavaScript\", \"Rust\"];\nlangs.push(\"Lua\");",
+                  "explanation": "Appends another item."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define reusable callable behavior.",
+              "signature": "function f(args) { ... }",
+              "definition": "Define reusable callable behavior.",
+              "mental_model": "Functions are objects and first-class values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "function double(x) { return x * 2; }\nconsole.log(double(21));",
+                  "explanation": "Calls a normal function."
+                }
+              ]
+            },
+            {
+              "title": "Arrow functions",
+              "summary": "Create concise lexical-this function expressions.",
+              "signature": "(args) => expression",
+              "definition": "Create concise lexical-this function expressions.",
+              "mental_model": "Compact function values that do not define their own this.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const double = x => x * 2;\nconsole.log(double(21));",
+                  "explanation": "Creates an arrow function."
+                }
+              ]
+            },
+            {
+              "title": "Destructuring",
+              "summary": "Extract object properties or array positions into bindings.",
+              "signature": "const {a} = obj / const [x] = arr",
+              "definition": "Extract object properties or array positions into bindings.",
+              "mental_model": "Pattern-like binding syntax for structured values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const { language, key } = { language: \"Wren\", key: \"M2\" };",
+                  "explanation": "Extracts two properties."
+                }
+              ]
+            },
+            {
+              "title": "Spread syntax",
+              "summary": "Expand iterable elements or object properties into a new structure.",
+              "signature": "...value",
+              "definition": "Expand iterable elements or object properties into a new structure.",
+              "mental_model": "Shallow structural copying/composition syntax.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const old = [1,2];\nconst next = [...old, 3];",
+                  "explanation": "Creates a new array with an appended value."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Async and Modules",
+          "description": "Promises, async/await, imports, and errors.",
+          "entries": [
+            {
+              "title": "Promises",
+              "summary": "Represent a future asynchronous completion or failure.",
+              "signature": "Promise<T>",
+              "definition": "Represent a future asynchronous completion or failure.",
+              "mental_model": "A state machine for pending, fulfilled, or rejected work.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const p = Promise.resolve(42);\np.then(console.log);",
+                  "explanation": "Handles a resolved Promise."
+                }
+              ]
+            },
+            {
+              "title": "async / await",
+              "summary": "Write Promise-based workflows with sequential-looking syntax.",
+              "signature": "async function f() { await promise; }",
+              "definition": "Write Promise-based workflows with sequential-looking syntax.",
+              "mental_model": "await pauses the async function, not the whole thread/event loop.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "async function run() {\n  const value = await Promise.resolve(42);\n  console.log(value);\n}\nrun();",
+                  "explanation": "Awaits an asynchronous value."
+                }
+              ]
+            },
+            {
+              "title": "ES modules",
+              "summary": "Split code using export and import declarations.",
+              "signature": "export ... / import ... from ...",
+              "definition": "Split code using export and import declarations.",
+              "mental_model": "Files become explicit dependency units.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "export function label(x) { return x.toUpperCase(); }",
+                  "explanation": "Exports a function from a module."
+                }
+              ]
+            },
+            {
+              "title": "try / catch",
+              "summary": "Handle thrown exceptions.",
+              "signature": "try { ... } catch (err) { ... }",
+              "definition": "Handle thrown exceptions.",
+              "mental_model": "Synchronous exceptions unwind until caught.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "try {\n  JSON.parse(\"not json\");\n} catch (err) {\n  console.error(err.message);\n}",
+                  "explanation": "Handles invalid JSON."
+                }
+              ]
+            },
+            {
+              "title": "JSON.parse / stringify",
+              "summary": "Convert between JSON text and JavaScript values.",
+              "signature": "JSON.parse(text) / JSON.stringify(value)",
+              "definition": "Convert between JSON text and JavaScript values.",
+              "mental_model": "Bridge in-memory values and portable JSON text.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const text = JSON.stringify({ mode: \"merge\" }, null, 2);\nconsole.log(JSON.parse(text).mode);",
+                  "explanation": "Round-trips a simple object."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Browser APIs",
+          "description": "DOM manipulation, events, and network access.",
+          "entries": [
+            {
+              "title": "querySelector",
+              "summary": "Select the first DOM element matching a CSS selector.",
+              "signature": "document.querySelector(selector)",
+              "definition": "Select the first DOM element matching a CSS selector.",
+              "mental_model": "CSS selector syntax becomes a DOM lookup language.",
+              "return_value": "Element | null",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const button = document.querySelector(\"#save\");",
+                  "explanation": "Finds an element by id selector."
+                }
+              ]
+            },
+            {
+              "title": "addEventListener",
+              "summary": "Subscribe to DOM and other EventTarget events.",
+              "signature": "target.addEventListener(type, handler)",
+              "definition": "Subscribe to DOM and other EventTarget events.",
+              "mental_model": "Event-driven callback registration.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "button.addEventListener(\"click\", () => console.log(\"saved\"));",
+                  "explanation": "Registers a click handler."
+                }
+              ]
+            },
+            {
+              "title": "fetch",
+              "summary": "Perform HTTP requests and receive Promise-based Response objects.",
+              "signature": "fetch(url, options)",
+              "definition": "Perform HTTP requests and receive Promise-based Response objects.",
+              "mental_model": "Network I/O integrates with promises.",
+              "return_value": "Promise<Response>",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "const response = await fetch(\"/api/health\");\nconst data = await response.json();",
+                  "explanation": "Fetches JSON from an endpoint."
+                }
+              ]
+            },
+            {
+              "title": "class syntax",
+              "summary": "Define prototype-backed classes with constructor and methods.",
+              "signature": "class Name { constructor(...) {} }",
+              "definition": "Define prototype-backed classes with constructor and methods.",
+              "mental_model": "Class syntax is a structured layer over JavaScript prototypes.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "javascript",
+                  "code": "class Macro {\n  constructor(key) { this.key = key; }\n  label() { return this.key.toUpperCase(); }\n}",
+                  "explanation": "Defines a small class."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

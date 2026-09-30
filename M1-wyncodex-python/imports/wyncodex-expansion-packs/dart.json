@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Dart",
+      "description": "Language for client applications, tooling, servers, and Flutter UI development.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Dart syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "final and var",
+              "summary": "Declare inferred variables with optional immutability.",
+              "signature": "final x = ... / var x = ...",
+              "definition": "Declare inferred variables with optional immutability.",
+              "mental_model": "Think of final and var as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "final and var example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "final app = \"WynCodex\";\nvar count = 0;\ncount++;",
+                  "explanation": "A compact example of final and var in use."
+                }
+              ]
+            },
+            {
+              "title": "Null safety",
+              "summary": "Mark nullable types explicitly with ?.",
+              "signature": "Type?",
+              "definition": "Mark nullable types explicitly with ?.",
+              "mental_model": "Think of Null safety as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Null safety example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "String? nickname;\nnickname = \"Wyn\";",
+                  "explanation": "A compact example of Null safety in use."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define object types with fields, constructors, and methods.",
+              "signature": "class Name { ... }",
+              "definition": "Define object types with fields, constructors, and methods.",
+              "mental_model": "Think of Classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Classes example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "class Host {\n  Host(this.name, this.port);\n  final String name;\n  final int port;\n}",
+                  "explanation": "A compact example of Classes in use."
+                }
+              ]
+            },
+            {
+              "title": "Named parameters",
+              "summary": "Use readable named function parameters inside braces.",
+              "signature": "f({required Type name})",
+              "definition": "Use readable named function parameters inside braces.",
+              "mental_model": "Think of Named parameters as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Named parameters example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "void connect({required String host, int port = 443}) {}",
+                  "explanation": "A compact example of Named parameters in use."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Group multiple typed values without defining a class.",
+              "signature": "(Type, Type)",
+              "definition": "Group multiple typed values without defining a class.",
+              "mental_model": "Think of Records as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Records example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "final point = (10, 20);\nprint(point.$1);",
+                  "explanation": "A compact example of Records in use."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Destructure values and test shapes with patterns.",
+              "signature": "if (value case pattern)",
+              "definition": "Destructure values and test shapes with patterns.",
+              "mental_model": "Think of Pattern matching as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pattern matching example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "if (json case {\"name\": String name}) {\n  print(name);\n}",
+                  "explanation": "A compact example of Pattern matching in use."
+                }
+              ]
+            },
+            {
+              "title": "Futures",
+              "summary": "Represent asynchronous computations that complete later.",
+              "signature": "Future<T>",
+              "definition": "Represent asynchronous computations that complete later.",
+              "mental_model": "Think of Futures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Futures example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "Future<String> load() async => \"ready\";",
+                  "explanation": "A compact example of Futures in use."
+                }
+              ]
+            },
+            {
+              "title": "async/await",
+              "summary": "Write asynchronous code in sequential style.",
+              "signature": "async / await",
+              "definition": "Write asynchronous code in sequential style.",
+              "mental_model": "Think of async/await as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "async/await example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "final result = await load();\nprint(result);",
+                  "explanation": "A compact example of async/await in use."
+                }
+              ]
+            },
+            {
+              "title": "Streams",
+              "summary": "Represent asynchronous sequences of values.",
+              "signature": "Stream<T>",
+              "definition": "Represent asynchronous sequences of values.",
+              "mental_model": "Think of Streams as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Streams example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "Stream<int> ticks() async* {\n  yield 1;\n  yield 2;\n}",
+                  "explanation": "A compact example of Streams in use."
+                }
+              ]
+            },
+            {
+              "title": "Extensions",
+              "summary": "Add methods to existing types without inheritance.",
+              "signature": "extension Name on Type { ... }",
+              "definition": "Add methods to existing types without inheritance.",
+              "mental_model": "Think of Extensions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Extensions example",
+                  "type": "practical",
+                  "syntax": "dart",
+                  "code": "extension Slug on String {\n  String slug() => toLowerCase().replaceAll(\" \", \"-\");\n}",
+                  "explanation": "A compact example of Extensions in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

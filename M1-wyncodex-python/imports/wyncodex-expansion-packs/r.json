@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "R",
+      "description": "Language and environment for statistics, data analysis, and visualization.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core R syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Vectors",
+              "summary": "Store homogeneous sequences and perform vectorized operations.",
+              "signature": "c(...)",
+              "definition": "Store homogeneous sequences and perform vectorized operations.",
+              "mental_model": "Think of Vectors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Vectors example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "x <- c(1, 2, 3, 4)\nx * 2",
+                  "explanation": "A compact example of Vectors in use."
+                }
+              ]
+            },
+            {
+              "title": "Data frames",
+              "summary": "Store tabular columns of equal length.",
+              "signature": "data.frame(...)",
+              "definition": "Store tabular columns of equal length.",
+              "mental_model": "Think of Data frames as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Data frames example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "people <- data.frame(name=c(\"Wyn\",\"Eevee\"), score=c(10,12))",
+                  "explanation": "A compact example of Data frames in use."
+                }
+              ]
+            },
+            {
+              "title": "Lists",
+              "summary": "Store heterogeneous collections.",
+              "signature": "list(...)",
+              "definition": "Store heterogeneous collections.",
+              "mental_model": "Think of Lists as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Lists example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "config <- list(host=\"localhost\", ports=c(80,443))",
+                  "explanation": "A compact example of Lists in use."
+                }
+              ]
+            },
+            {
+              "title": "Indexing",
+              "summary": "Select elements by numeric, logical, or name indices.",
+              "signature": "x[index]",
+              "definition": "Select elements by numeric, logical, or name indices.",
+              "mental_model": "Think of Indexing as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Indexing example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "x <- c(a=10,b=20,c=30)\nx[c(\"a\",\"c\")]",
+                  "explanation": "A compact example of Indexing in use."
+                }
+              ]
+            },
+            {
+              "title": "Vector recycling",
+              "summary": "Repeat shorter vectors during compatible vectorized operations.",
+              "signature": "long + short",
+              "definition": "Repeat shorter vectors during compatible vectorized operations.",
+              "mental_model": "Think of Vector recycling as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": "Non-multiple lengths produce warnings and are easy to misuse.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Vector recycling example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "c(1,2,3,4) + c(10,20)",
+                  "explanation": "A compact example of Vector recycling in use."
+                }
+              ]
+            },
+            {
+              "title": "NA",
+              "summary": "Represent missing values and detect them explicitly.",
+              "signature": "is.na(x)",
+              "definition": "Represent missing values and detect them explicitly.",
+              "mental_model": "Think of NA as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "NA example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "x <- c(1, NA, 3)\nx[!is.na(x)]",
+                  "explanation": "A compact example of NA in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Create first-class functions with lexical scoping.",
+              "signature": "function(args) expression",
+              "definition": "Create first-class functions with lexical scoping.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "mean2 <- function(a,b) {\n  (a+b)/2\n}",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "apply()",
+              "summary": "Apply a function over margins of an array or matrix.",
+              "signature": "apply(X, MARGIN, FUN)",
+              "definition": "Apply a function over margins of an array or matrix.",
+              "mental_model": "Think of apply() as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "apply() example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "m <- matrix(1:9,nrow=3)\napply(m,2,mean)",
+                  "explanation": "A compact example of apply() in use."
+                }
+              ]
+            },
+            {
+              "title": "lapply()",
+              "summary": "Apply a function to each list element and return a list.",
+              "signature": "lapply(X, FUN)",
+              "definition": "Apply a function to each list element and return a list.",
+              "mental_model": "Think of lapply() as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "lapply() example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "lapply(list(1:3,4:6), mean)",
+                  "explanation": "A compact example of lapply() in use."
+                }
+              ]
+            },
+            {
+              "title": "Factors",
+              "summary": "Represent categorical data with fixed levels.",
+              "signature": "factor(x)",
+              "definition": "Represent categorical data with fixed levels.",
+              "mental_model": "Think of Factors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Factors example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "status <- factor(c(\"ok\",\"failed\",\"ok\"))\nlevels(status)",
+                  "explanation": "A compact example of Factors in use."
+                }
+              ]
+            },
+            {
+              "title": "Formula syntax",
+              "summary": "Express model relationships using ~ formulas.",
+              "signature": "response ~ predictors",
+              "definition": "Express model relationships using ~ formulas.",
+              "mental_model": "Think of Formula syntax as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Formula syntax example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "fit <- lm(mpg ~ wt + hp, data=mtcars)",
+                  "explanation": "A compact example of Formula syntax in use."
+                }
+              ]
+            },
+            {
+              "title": "Linear models",
+              "summary": "Fit linear regression models with lm().",
+              "signature": "lm(formula, data)",
+              "definition": "Fit linear regression models with lm().",
+              "mental_model": "Think of Linear models as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Linear models example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "fit <- lm(mpg ~ wt, data=mtcars)\nsummary(fit)",
+                  "explanation": "A compact example of Linear models in use."
+                }
+              ]
+            },
+            {
+              "title": "Pipes",
+              "summary": "Pass a value into a following call with the native |> operator.",
+              "signature": "value |> function()",
+              "definition": "Pass a value into a following call with the native |> operator.",
+              "mental_model": "Think of Pipes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pipes example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "mtcars |>\n  subset(cyl == 4) |>\n  head()",
+                  "explanation": "A compact example of Pipes in use."
+                }
+              ]
+            },
+            {
+              "title": "Packages",
+              "summary": "Load installed libraries into a session.",
+              "signature": "library(package)",
+              "definition": "Load installed libraries into a session.",
+              "mental_model": "Think of Packages as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Packages example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "library(stats)\nhelp(lm)",
+                  "explanation": "A compact example of Packages in use."
+                }
+              ]
+            },
+            {
+              "title": "Environments",
+              "summary": "Use mutable name-value mappings that underpin R scoping.",
+              "signature": "new.env()",
+              "definition": "Use mutable name-value mappings that underpin R scoping.",
+              "mental_model": "Think of Environments as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Environments example",
+                  "type": "practical",
+                  "syntax": "r",
+                  "code": "cache <- new.env()\ncache$result <- 42",
+                  "explanation": "A compact example of Environments in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

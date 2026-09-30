@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Ruby",
+      "description": "Dynamic object-oriented language known for expressive syntax, scripting, and web development.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Ruby syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Everything is an object",
+              "summary": "Treat ordinary values as objects with methods.",
+              "signature": "value.method",
+              "definition": "Treat ordinary values as objects with methods.",
+              "mental_model": "Think of Everything is an object as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Everything is an object example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "\"wyn\".upcase\n42.even?",
+                  "explanation": "A compact example of Everything is an object in use."
+                }
+              ]
+            },
+            {
+              "title": "Symbols",
+              "summary": "Use immutable identifier-like values commonly used as keys.",
+              "signature": ":name",
+              "definition": "Use immutable identifier-like values commonly used as keys.",
+              "mental_model": "Think of Symbols as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Symbols example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "config = { host: \"localhost\", port: 3000 }",
+                  "explanation": "A compact example of Symbols in use."
+                }
+              ]
+            },
+            {
+              "title": "Blocks",
+              "summary": "Pass implicit callable blocks to methods.",
+              "signature": "method { |x| ... }",
+              "definition": "Pass implicit callable blocks to methods.",
+              "mental_model": "Think of Blocks as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Blocks example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "[1, 2, 3].each { |n| puts n }",
+                  "explanation": "A compact example of Blocks in use."
+                }
+              ]
+            },
+            {
+              "title": "Enumerable",
+              "summary": "Transform collections with map, select, reduce, and related methods.",
+              "signature": "collection.map { ... }",
+              "definition": "Transform collections with map, select, reduce, and related methods.",
+              "mental_model": "Think of Enumerable as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Enumerable example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "squares = [1, 2, 3].map { |n| n * n }",
+                  "explanation": "A compact example of Enumerable in use."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define object behavior with class.",
+              "signature": "class Name ... end",
+              "definition": "Define object behavior with class.",
+              "mental_model": "Think of Classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Classes example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "class Host\n  attr_reader :name\n  def initialize(name) = @name = name\nend",
+                  "explanation": "A compact example of Classes in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Create namespaces and reusable mixins.",
+              "signature": "module Name ... end",
+              "definition": "Create namespaces and reusable mixins.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "module Loggable\n  def log(msg) = puts(msg)\nend",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Exceptions",
+              "summary": "Handle failures with begin/rescue/ensure.",
+              "signature": "begin ... rescue ... ensure ... end",
+              "definition": "Handle failures with begin/rescue/ensure.",
+              "mental_model": "Think of Exceptions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Exceptions example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "begin\n  risky\nrescue StandardError => e\n  warn e.message\nend",
+                  "explanation": "A compact example of Exceptions in use."
+                }
+              ]
+            },
+            {
+              "title": "Keyword arguments",
+              "summary": "Pass named arguments to methods.",
+              "signature": "def f(name:, port: 80)",
+              "definition": "Pass named arguments to methods.",
+              "mental_model": "Think of Keyword arguments as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Keyword arguments example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "def connect(host:, port: 443)\n  \"#{host}:#{port}\"\nend",
+                  "explanation": "A compact example of Keyword arguments in use."
+                }
+              ]
+            },
+            {
+              "title": "Ranges",
+              "summary": "Represent inclusive or exclusive sequences.",
+              "signature": "a..b / a...b",
+              "definition": "Represent inclusive or exclusive sequences.",
+              "mental_model": "Think of Ranges as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Ranges example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "(1..5).each { |n| puts n }",
+                  "explanation": "A compact example of Ranges in use."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Deconstruct arrays, hashes, and objects with case/in.",
+              "signature": "case value; in pattern; ... end",
+              "definition": "Deconstruct arrays, hashes, and objects with case/in.",
+              "mental_model": "Think of Pattern matching as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pattern matching example",
+                  "type": "practical",
+                  "syntax": "ruby",
+                  "code": "case response\nin { status: 200, body: }\n  puts body\nend",
+                  "explanation": "A compact example of Pattern matching in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

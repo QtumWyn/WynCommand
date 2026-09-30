@@ -1,0 +1,439 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "C++",
+      "description": "Modern C++ reference focused on RAII, generic programming, STL, concurrency, and systems/application tooling.",
+      "categories": [
+        {
+          "name": "Core Modern C++",
+          "description": "References, classes, value semantics, and RAII.",
+          "entries": [
+            {
+              "title": "References",
+              "summary": "Create aliases to existing objects with T& or const T&.",
+              "signature": "T& / const T&",
+              "definition": "Create aliases to existing objects with T& or const T&.",
+              "mental_model": "A non-null alias with language-level binding semantics.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "int value = 42;\nint& ref = value;\nref = 7;",
+                  "explanation": "Mutates value through a reference."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define types with encapsulated state and behavior.",
+              "signature": "class Name { ... };",
+              "definition": "Define types with encapsulated state and behavior.",
+              "mental_model": "State + invariants + behavior under one nominal type.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "class Macro {\npublic:\n    explicit Macro(std::string key) : key_(std::move(key)) {}\nprivate:\n    std::string key_;\n};",
+                  "explanation": "Defines a class with private state."
+                }
+              ]
+            },
+            {
+              "title": "RAII",
+              "summary": "Tie resource lifetime to object lifetime so destructors release resources automatically.",
+              "signature": "constructor acquires / destructor releases",
+              "definition": "Tie resource lifetime to object lifetime so destructors release resources automatically.",
+              "mental_model": "Scope exit becomes the universal cleanup trigger.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::ifstream file(\"README.md\");\n// closes automatically when file leaves scope",
+                  "explanation": "Uses automatic resource cleanup."
+                }
+              ]
+            },
+            {
+              "title": "Move semantics",
+              "summary": "Transfer resources from expiring objects instead of copying them.",
+              "signature": "T(T&&) / std::move(x)",
+              "definition": "Transfer resources from expiring objects instead of copying them.",
+              "mental_model": "Reuse ownership of expensive buffers rather than duplicate them.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::string a = \"Wyn\";\nstd::string b = std::move(a);",
+                  "explanation": "Moves string resources into b."
+                }
+              ]
+            },
+            {
+              "title": "const correctness",
+              "summary": "Express whether functions/references may modify objects.",
+              "signature": "const T& / method() const",
+              "definition": "Express whether functions/references may modify objects.",
+              "mental_model": "Mutability is part of the interface contract.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::size_t length(const std::string& s) { return s.size(); }",
+                  "explanation": "Accepts a read-only reference."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "STL and Generic Programming",
+          "description": "Containers, algorithms, iterators, lambdas, and templates.",
+          "entries": [
+            {
+              "title": "std::vector",
+              "summary": "Store a growable contiguous sequence.",
+              "signature": "std::vector<T>",
+              "definition": "Store a growable contiguous sequence.",
+              "mental_model": "The default dynamic array of modern C++.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::vector<std::string> keys{\"M1\", \"M2\"};\nkeys.push_back(\"M3\");",
+                  "explanation": "Appends an item."
+                }
+              ]
+            },
+            {
+              "title": "std::unordered_map",
+              "summary": "Store hash-based key-value mappings.",
+              "signature": "std::unordered_map<K,V>",
+              "definition": "Store hash-based key-value mappings.",
+              "mental_model": "Average constant-time lookup with key hashing.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::unordered_map<std::string,std::string> m{{\"M4\",\"Zig\"}};",
+                  "explanation": "Creates a hash map."
+                }
+              ]
+            },
+            {
+              "title": "Templates",
+              "summary": "Parameterize code over types or compile-time values.",
+              "signature": "template <typename T>",
+              "definition": "Parameterize code over types or compile-time values.",
+              "mental_model": "Generate type-specialized code from one abstraction.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "template <typename T>\nT twice(T x) { return x + x; }",
+                  "explanation": "Defines a generic function."
+                }
+              ]
+            },
+            {
+              "title": "Lambdas",
+              "summary": "Create anonymous function objects with explicit capture syntax.",
+              "signature": "[captures](args) { body }",
+              "definition": "Create anonymous function objects with explicit capture syntax.",
+              "mental_model": "Compiler-generated callable object with controlled captures.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "int factor = 2;\nauto scale = [factor](int x) { return x * factor; };",
+                  "explanation": "Captures factor by value."
+                }
+              ]
+            },
+            {
+              "title": "Algorithms",
+              "summary": "Apply generic operations such as sort, find, transform, and accumulate over iterator ranges.",
+              "signature": "std::sort(begin, end)",
+              "definition": "Apply generic operations such as sort, find, transform, and accumulate over iterator ranges.",
+              "mental_model": "Algorithms operate on ranges instead of owning containers.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::vector<int> v{3,1,2};\nstd::sort(v.begin(), v.end());",
+                  "explanation": "Sorts the vector."
+                }
+              ]
+            },
+            {
+              "title": "Ranges",
+              "summary": "Compose modern range views and algorithms with less iterator ceremony.",
+              "signature": "std::views::*",
+              "definition": "Compose modern range views and algorithms with less iterator ceremony.",
+              "mental_model": "Lazy range adaptors build transformation pipelines.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "auto even = values | std::views::filter([](int n){ return n % 2 == 0; });",
+                  "explanation": "Creates a filtered view."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Ownership, Errors, and Files",
+          "description": "Smart pointers, exceptions, filesystem, and optional values.",
+          "entries": [
+            {
+              "title": "std::unique_ptr",
+              "summary": "Own a heap object exclusively with automatic deletion.",
+              "signature": "std::unique_ptr<T>",
+              "definition": "Own a heap object exclusively with automatic deletion.",
+              "mental_model": "Single-owner RAII for dynamic objects.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "auto p = std::make_unique<int>(42);",
+                  "explanation": "Allocates an integer with exclusive ownership."
+                }
+              ]
+            },
+            {
+              "title": "std::shared_ptr",
+              "summary": "Share ownership through reference counting.",
+              "signature": "std::shared_ptr<T>",
+              "definition": "Share ownership through reference counting.",
+              "mental_model": "Object lifetime ends when the final shared owner disappears.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "auto p = std::make_shared<int>(42);\nauto q = p;",
+                  "explanation": "Shares ownership between two smart pointers."
+                }
+              ]
+            },
+            {
+              "title": "Exceptions",
+              "summary": "Signal failures by throwing objects and handle them with catch.",
+              "signature": "throw / try / catch",
+              "definition": "Signal failures by throwing objects and handle them with catch.",
+              "mental_model": "Stack unwinding runs destructors while searching for a handler.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "try { throw std::runtime_error(\"bad\"); } catch (const std::exception& e) { std::cerr << e.what(); }",
+                  "explanation": "Throws and catches an error."
+                }
+              ]
+            },
+            {
+              "title": "std::optional",
+              "summary": "Represent a value that may be absent.",
+              "signature": "std::optional<T>",
+              "definition": "Represent a value that may be absent.",
+              "mental_model": "Explicit optional presence without sentinel values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::optional<int> value = 42;\nif (value) std::cout << *value;",
+                  "explanation": "Reads a present optional."
+                }
+              ]
+            },
+            {
+              "title": "std::filesystem",
+              "summary": "Manipulate paths and filesystem entries portably.",
+              "signature": "std::filesystem::path",
+              "definition": "Manipulate paths and filesystem entries portably.",
+              "mental_model": "Filesystem paths become typed values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "namespace fs = std::filesystem;\nfs::path p = fs::path(\"packs\") / \"cpp.json\";",
+                  "explanation": "Builds a filesystem path."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Concurrency and Compile Time",
+          "description": "Threads, synchronization, concepts, and constexpr.",
+          "entries": [
+            {
+              "title": "std::thread",
+              "summary": "Launch operating-system threads.",
+              "signature": "std::thread(fn)",
+              "definition": "Launch operating-system threads.",
+              "mental_model": "A movable RAII-ish handle to native thread execution.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::thread t([] { std::cout << \"worker\"; });\nt.join();",
+                  "explanation": "Runs and joins a thread."
+                }
+              ]
+            },
+            {
+              "title": "std::mutex",
+              "summary": "Serialize access to shared mutable state.",
+              "signature": "std::mutex / std::lock_guard",
+              "definition": "Serialize access to shared mutable state.",
+              "mental_model": "Mutual exclusion plus RAII locking.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "std::mutex m;\n{ std::lock_guard lock(m); /* protected */ }",
+                  "explanation": "Locks for the scope."
+                }
+              ]
+            },
+            {
+              "title": "Concepts",
+              "summary": "Constrain templates with named compile-time requirements.",
+              "signature": "template <Concept T>",
+              "definition": "Constrain templates with named compile-time requirements.",
+              "mental_model": "Readable predicates over types used by templates.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "template <typename T> concept Number = std::is_arithmetic_v<T>;\ntemplate <Number T> T twice(T x) { return x + x; }",
+                  "explanation": "Constrains a generic function."
+                }
+              ]
+            },
+            {
+              "title": "constexpr",
+              "summary": "Allow values/functions to be evaluated during compilation when inputs permit.",
+              "signature": "constexpr",
+              "definition": "Allow values/functions to be evaluated during compilation when inputs permit.",
+              "mental_model": "One function can participate in compile-time or runtime evaluation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "constexpr int square(int x) { return x * x; }\nconstexpr int n = square(6);",
+                  "explanation": "Computes n at compile time."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

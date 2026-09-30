@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Fortran",
+      "description": "Compiled language for numerical, scientific, and high-performance computing.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Fortran syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "program",
+              "summary": "Define a main program unit.",
+              "signature": "program name ... end program",
+              "definition": "Define a main program unit.",
+              "mental_model": "Think of program as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "program example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "program hello\n  implicit none\n  print *, \"Hello, WynCodex\"\nend program hello",
+                  "explanation": "A compact example of program in use."
+                }
+              ]
+            },
+            {
+              "title": "implicit none",
+              "summary": "Require variables to be explicitly declared.",
+              "signature": "implicit none",
+              "definition": "Require variables to be explicitly declared.",
+              "mental_model": "Think of implicit none as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "implicit none example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "program demo\n  implicit none\n  integer :: count\n  count = 6\nend program demo",
+                  "explanation": "A compact example of implicit none in use."
+                }
+              ]
+            },
+            {
+              "title": "Variable declarations",
+              "summary": "Declare intrinsic types and attributes with ::.",
+              "signature": "integer :: x",
+              "definition": "Declare intrinsic types and attributes with ::.",
+              "mental_model": "Think of Variable declarations as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Variable declarations example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "integer :: count\nreal :: temperature\nlogical :: ready",
+                  "explanation": "A compact example of Variable declarations in use."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Declare fixed-shape multidimensional numerical arrays.",
+              "signature": "real :: a(n)",
+              "definition": "Declare fixed-shape multidimensional numerical arrays.",
+              "mental_model": "Think of Arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Arrays example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "real :: values(3)\nvalues = [1.0, 2.0, 3.0]\nprint *, values",
+                  "explanation": "A compact example of Arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Array operations",
+              "summary": "Apply arithmetic directly across whole arrays.",
+              "signature": "array expression",
+              "definition": "Apply arithmetic directly across whole arrays.",
+              "mental_model": "Think of Array operations as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Array operations example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "real :: a(3) = [1, 2, 3]\nreal :: b(3)\nb = a * 2",
+                  "explanation": "A compact example of Array operations in use."
+                }
+              ]
+            },
+            {
+              "title": "do loops",
+              "summary": "Repeat code with counted iteration.",
+              "signature": "do i = start, stop",
+              "definition": "Repeat code with counted iteration.",
+              "mental_model": "Think of do loops as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "do loops example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "integer :: i\ndo i = 1, 5\n  print *, i\nend do",
+                  "explanation": "A compact example of do loops in use."
+                }
+              ]
+            },
+            {
+              "title": "do concurrent",
+              "summary": "Express iterations intended to be independent.",
+              "signature": "do concurrent (i = ...)",
+              "definition": "Express iterations intended to be independent.",
+              "mental_model": "Think of do concurrent as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "do concurrent example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "integer :: i\nreal :: a(100)\ndo concurrent (i = 1:100)\n  a(i) = real(i) ** 2\nend do",
+                  "explanation": "A compact example of do concurrent in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Return a value from a procedure.",
+              "signature": "function name(args) result(r)",
+              "definition": "Return a value from a procedure.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "function square(x) result(y)\n  real, intent(in) :: x\n  real :: y\n  y = x * x\nend function square",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Subroutines",
+              "summary": "Define procedures primarily communicating through arguments.",
+              "signature": "subroutine name(args)",
+              "definition": "Define procedures primarily communicating through arguments.",
+              "mental_model": "Think of Subroutines as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Subroutines example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "subroutine increment(x)\n  integer, intent(inout) :: x\n  x = x + 1\nend subroutine increment",
+                  "explanation": "A compact example of Subroutines in use."
+                }
+              ]
+            },
+            {
+              "title": "intent",
+              "summary": "Document and constrain procedure argument direction.",
+              "signature": "intent(in|out|inout)",
+              "definition": "Document and constrain procedure argument direction.",
+              "mental_model": "Think of intent as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "intent example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "subroutine copy_value(src,dst)\n  integer, intent(in) :: src\n  integer, intent(out) :: dst\n  dst = src\nend subroutine copy_value",
+                  "explanation": "A compact example of intent in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Group reusable procedures, types, and variables.",
+              "signature": "module name ... end module",
+              "definition": "Group reusable procedures, types, and variables.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "module math_tools\ncontains\n  real function square(x)\n    real, intent(in) :: x\n    square = x*x\n  end function\nend module",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Derived types",
+              "summary": "Define structured user data types.",
+              "signature": "type :: Name ... end type",
+              "definition": "Define structured user data types.",
+              "mental_model": "Think of Derived types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Derived types example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "type :: host\n  character(len=64) :: name\n  integer :: port\nend type host",
+                  "explanation": "A compact example of Derived types in use."
+                }
+              ]
+            },
+            {
+              "title": "Allocatable arrays",
+              "summary": "Allocate array storage dynamically at runtime.",
+              "signature": "allocatable / allocate",
+              "definition": "Allocate array storage dynamically at runtime.",
+              "mental_model": "Think of Allocatable arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Allocatable arrays example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "real, allocatable :: values(:)\nallocate(values(100))\nvalues = 0.0\ndeallocate(values)",
+                  "explanation": "A compact example of Allocatable arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Pure procedures",
+              "summary": "Declare procedures without observable side effects.",
+              "signature": "pure function ...",
+              "definition": "Declare procedures without observable side effects.",
+              "mental_model": "Think of Pure procedures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pure procedures example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "pure real function square(x)\n  real, intent(in) :: x\n  square = x*x\nend function square",
+                  "explanation": "A compact example of Pure procedures in use."
+                }
+              ]
+            },
+            {
+              "title": "iso_fortran_env",
+              "summary": "Use standardized kind and environment constants.",
+              "signature": "use iso_fortran_env",
+              "definition": "Use standardized kind and environment constants.",
+              "mental_model": "Think of iso_fortran_env as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "iso_fortran_env example",
+                  "type": "practical",
+                  "syntax": "fortran",
+                  "code": "use iso_fortran_env, only: int64, real64\ninteger(int64) :: count\nreal(real64) :: value",
+                  "explanation": "A compact example of iso_fortran_env in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

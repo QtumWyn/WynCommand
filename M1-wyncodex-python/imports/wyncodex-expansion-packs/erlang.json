@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Erlang",
+      "description": "BEAM language built for concurrency, fault tolerance, distribution, and long-running systems.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Erlang syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Modules",
+              "summary": "Organize functions in compiled modules.",
+              "signature": "-module(name).",
+              "definition": "Organize functions in compiled modules.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "-module(greeter).\n-export([hello/1]).\nhello(Name) -> io:format(\"Hello ~s~n\", [Name]).",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Bind and assert value structure with = and function clauses.",
+              "signature": "Pattern = Value",
+              "definition": "Bind and assert value structure with = and function clauses.",
+              "mental_model": "Think of Pattern matching as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pattern matching example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "{ok, Value} = {ok, 42}.",
+                  "explanation": "A compact example of Pattern matching in use."
+                }
+              ]
+            },
+            {
+              "title": "Atoms",
+              "summary": "Use symbolic constant values heavily in protocols and tagged tuples.",
+              "signature": "atom",
+              "definition": "Use symbolic constant values heavily in protocols and tagged tuples.",
+              "mental_model": "Think of Atoms as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Atoms example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "Status = ready.",
+                  "explanation": "A compact example of Atoms in use."
+                }
+              ]
+            },
+            {
+              "title": "Tuples",
+              "summary": "Group fixed-size heterogeneous values, often tagged by an atom.",
+              "signature": "{a, b}",
+              "definition": "Group fixed-size heterogeneous values, often tagged by an atom.",
+              "mental_model": "Think of Tuples as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Tuples example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "Result = {ok, 42}.",
+                  "explanation": "A compact example of Tuples in use."
+                }
+              ]
+            },
+            {
+              "title": "Lists",
+              "summary": "Use linked lists and head-tail pattern syntax.",
+              "signature": "[Head | Tail]",
+              "definition": "Use linked lists and head-tail pattern syntax.",
+              "mental_model": "Think of Lists as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Lists example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "[Head | Tail] = [1,2,3].",
+                  "explanation": "A compact example of Lists in use."
+                }
+              ]
+            },
+            {
+              "title": "Function clauses",
+              "summary": "Define behavior through ordered pattern-matching clauses.",
+              "signature": "name(pattern) -> ...;",
+              "definition": "Define behavior through ordered pattern-matching clauses.",
+              "mental_model": "Think of Function clauses as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Function clauses example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "describe(0) -> zero;\ndescribe(N) when N > 0 -> positive;\ndescribe(_) -> negative.",
+                  "explanation": "A compact example of Function clauses in use."
+                }
+              ]
+            },
+            {
+              "title": "spawn",
+              "summary": "Create lightweight BEAM processes.",
+              "signature": "spawn(Fun)",
+              "definition": "Create lightweight BEAM processes.",
+              "mental_model": "Think of spawn as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "spawn example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "Pid = spawn(fun() -> receive stop -> ok end end).",
+                  "explanation": "A compact example of spawn in use."
+                }
+              ]
+            },
+            {
+              "title": "Message sending",
+              "summary": "Send immutable messages to process mailboxes with !.",
+              "signature": "Pid ! Message",
+              "definition": "Send immutable messages to process mailboxes with !.",
+              "mental_model": "Think of Message sending as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Message sending example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "Pid ! {ping, self()}.",
+                  "explanation": "A compact example of Message sending in use."
+                }
+              ]
+            },
+            {
+              "title": "receive",
+              "summary": "Pattern-match messages from the current process mailbox.",
+              "signature": "receive ... end",
+              "definition": "Pattern-match messages from the current process mailbox.",
+              "mental_model": "Think of receive as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "receive example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "receive\n  {ping, From} -> From ! pong\nend.",
+                  "explanation": "A compact example of receive in use."
+                }
+              ]
+            },
+            {
+              "title": "Links and monitors",
+              "summary": "Observe or couple process lifecycles for fault-tolerant designs.",
+              "signature": "link(Pid) / monitor(process, Pid)",
+              "definition": "Observe or couple process lifecycles for fault-tolerant designs.",
+              "mental_model": "Think of Links and monitors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Links and monitors example",
+                  "type": "practical",
+                  "syntax": "erlang",
+                  "code": "Ref = monitor(process, Pid).",
+                  "explanation": "A compact example of Links and monitors in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

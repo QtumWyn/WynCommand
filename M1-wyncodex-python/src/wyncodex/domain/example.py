@@ -10,6 +10,7 @@ class ExampleDraft:
     explanation: str | None = None
     example_type: str = "practical"
     syntax_hint: str | None = None
+    output: str | None = None
 
 
 @dataclass(frozen=True)
@@ -21,6 +22,7 @@ class Example:
 
     title: str
     code: str
+    output: str | None
 
     explanation: str | None = None
     example_type: str = "practical"
@@ -38,6 +40,7 @@ class Example:
             entry_id: int,
             title: str,
             code: str,
+            output: str | None = None,
             explanation: str | None = None,
             example_type: str = "practical",
             syntax_hint: str | None = None,
@@ -49,6 +52,7 @@ class Example:
             entry_id=entry_id,
             title=title,
             code=code,
+            output=output,
             explanation=explanation,
             example_type=example_type,
             syntax_hint=syntax_hint,

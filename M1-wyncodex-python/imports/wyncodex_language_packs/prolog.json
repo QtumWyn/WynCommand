@@ -1,0 +1,399 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Prolog",
+      "description": "Logic programming reference focused on rules, queries, inference, dependency reasoning, and helper logic for WynCommand.",
+      "categories": [
+        {
+          "name": "Facts, Rules, and Queries",
+          "description": "The core declarative model of Prolog.",
+          "entries": [
+            {
+              "title": "Facts",
+              "summary": "Declare statements that are unconditionally true in the knowledge base.",
+              "signature": "predicate(argument).",
+              "definition": "Declare statements that are unconditionally true in the knowledge base.",
+              "mental_model": "Facts are rows in a tiny logical database.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "language(wren).\nmacro(m1, python).",
+                  "explanation": "Defines two facts."
+                }
+              ]
+            },
+            {
+              "title": "Rules",
+              "summary": "Define conclusions that hold when other goals succeed.",
+              "signature": "head :- body.",
+              "definition": "Define conclusions that hold when other goals succeed.",
+              "mental_model": "A rule is an implication Prolog can use backward from a goal.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "scriptable(L) :- language(L), lightweight(L).",
+                  "explanation": "Defines scriptable/1 in terms of two other predicates."
+                }
+              ]
+            },
+            {
+              "title": "Queries",
+              "summary": "Ask Prolog to prove a goal and bind variables that satisfy it.",
+              "signature": "?- goal.",
+              "definition": "Ask Prolog to prove a goal and bind variables that satisfy it.",
+              "mental_model": "A query asks the engine to search for proofs.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "?- macro(Key, Language).",
+                  "explanation": "Requests bindings for Key and Language."
+                }
+              ]
+            },
+            {
+              "title": "Variables",
+              "summary": "Represent unknown values using identifiers that begin with uppercase letters or underscores.",
+              "signature": "Variable",
+              "definition": "Represent unknown values using identifiers that begin with uppercase letters or underscores.",
+              "mental_model": "Variables begin unbound and become constrained through unification.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "uses(Key, Language) :- macro(Key, Language).",
+                  "explanation": "Key and Language are variables."
+                }
+              ]
+            },
+            {
+              "title": "Atoms and compound terms",
+              "summary": "Represent symbolic constants and structured values.",
+              "signature": "atom / functor(arg1, arg2)",
+              "definition": "Represent symbolic constants and structured values.",
+              "mental_model": "Compound terms are lightweight structured trees.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "tool(rustrover, ide).\nproject(wyncodex, python).",
+                  "explanation": "Creates atoms and compound terms."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Unification and Search",
+          "description": "Matching, backtracking, and proof search.",
+          "entries": [
+            {
+              "title": "Unification",
+              "summary": "Make two terms identical by binding variables where possible.",
+              "signature": "Term1 = Term2",
+              "definition": "Make two terms identical by binding variables where possible.",
+              "mental_model": "Unification is pattern matching that can bind both sides.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "pair(X, 2) = pair(1, Y).",
+                  "explanation": "Binds X = 1 and Y = 2."
+                }
+              ]
+            },
+            {
+              "title": "Backtracking",
+              "summary": "Explore alternative clauses or choices when later goals fail.",
+              "signature": "automatic search behavior",
+              "definition": "Explore alternative clauses or choices when later goals fail.",
+              "mental_model": "The engine keeps choice points and rewinds to try another path.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "color(red).\ncolor(blue).\n?- color(X).",
+                  "explanation": "Prolog can yield red and then blue on backtracking."
+                }
+              ]
+            },
+            {
+              "title": "Cut (!)",
+              "summary": "Commit to choices made before the cut in the current predicate.",
+              "signature": "!",
+              "definition": "Commit to choices made before the cut in the current predicate.",
+              "mental_model": "Cut prunes the search tree.",
+              "return_value": null,
+              "gotchas": "Overusing cut can make logic harder to reason about.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "classify(X, positive) :- X > 0, !.\nclassify(_, other).",
+                  "explanation": "Prevents later classify clauses after the positive branch succeeds."
+                }
+              ]
+            },
+            {
+              "title": "Negation as failure",
+              "summary": "Succeed when a goal cannot be proven.",
+              "signature": "\\+ Goal",
+              "definition": "Succeed when a goal cannot be proven.",
+              "mental_model": "This is failure-to-prove, not classical logical negation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "safe(X) :- \\+ blocked(X).",
+                  "explanation": "safe/1 succeeds when blocked/1 cannot be proven."
+                }
+              ]
+            },
+            {
+              "title": "once/1",
+              "summary": "Run a goal but keep only its first solution.",
+              "signature": "once(Goal)",
+              "definition": "Run a goal but keep only its first solution.",
+              "mental_model": "Keep the first proof and discard later alternatives.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "first_language(L) :- once(language(L)).",
+                  "explanation": "Prevents later backtracking into language/1."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Lists and Recursion",
+          "description": "Recursive data processing and collection predicates.",
+          "entries": [
+            {
+              "title": "Lists",
+              "summary": "Represent ordered collections with [Head|Tail] structure.",
+              "signature": "[a, b, c] / [H|T]",
+              "definition": "Represent ordered collections with [Head|Tail] structure.",
+              "mental_model": "A list is either [] or one head element plus another list.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "first([H|_], H).",
+                  "explanation": "Extracts the first list element."
+                }
+              ]
+            },
+            {
+              "title": "Recursive predicates",
+              "summary": "Define behavior in terms of smaller versions of the same problem.",
+              "signature": "predicate(Base). / predicate(Recursive).",
+              "definition": "Define behavior in terms of smaller versions of the same problem.",
+              "mental_model": "State the base case, then reduce the problem.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "contains(X, [X|_]).\ncontains(X, [_|T]) :- contains(X, T).",
+                  "explanation": "Searches a list recursively."
+                }
+              ]
+            },
+            {
+              "title": "member/2",
+              "summary": "Relate an item to a list containing it.",
+              "signature": "member(Item, List)",
+              "definition": "Relate an item to a list containing it.",
+              "mental_model": "Works as both a test and a generator.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "?- member(X, [python, java, zig]).",
+                  "explanation": "Generates each member on backtracking."
+                }
+              ]
+            },
+            {
+              "title": "append/3",
+              "summary": "Relate two lists to their concatenation.",
+              "signature": "append(A, B, Combined)",
+              "definition": "Relate two lists to their concatenation.",
+              "mental_model": "Relational predicates can often run in multiple directions.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "append([a,b], [c], X).",
+                  "explanation": "Binds X to [a,b,c]."
+                }
+              ]
+            },
+            {
+              "title": "maplist/2",
+              "summary": "Apply a predicate to each element of a list.",
+              "signature": "maplist(Predicate, List)",
+              "definition": "Apply a predicate to each element of a list.",
+              "mental_model": "Think higher-order iteration expressed as a relation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "positive(X) :- X > 0.\n?- maplist(positive, [1,2,3]).",
+                  "explanation": "Succeeds because every item satisfies positive/1."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "WynCommand Reasoning Patterns",
+          "description": "Practical logic patterns for project helpers.",
+          "entries": [
+            {
+              "title": "Dependency rules",
+              "summary": "Model dependencies as facts and derive transitive relationships recursively.",
+              "signature": "depends(A, B).",
+              "definition": "Model dependencies as facts and derive transitive relationships recursively.",
+              "mental_model": "Represent the graph as facts and let recursion walk it.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "depends(app, parser).\ndepends(parser, lexer).\nneeds(A, B) :- depends(A, B).\nneeds(A, B) :- depends(A, X), needs(X, B).",
+                  "explanation": "Derives indirect dependencies."
+                }
+              ]
+            },
+            {
+              "title": "Capability selection",
+              "summary": "Select tools or actions by declaring required and provided capabilities.",
+              "signature": "provides(Tool, Capability).",
+              "definition": "Select tools or actions by declaring required and provided capabilities.",
+              "mental_model": "Describe constraints, then query for satisfying choices.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "provides(zig, native_build).\nneeds(build, native_build).\nusable(Task, Tool) :- needs(Task, C), provides(Tool, C).",
+                  "explanation": "Derives compatible tools."
+                }
+              ]
+            },
+            {
+              "title": "Constraint-style validation",
+              "summary": "Represent configuration rules as predicates that succeed only when a state is valid.",
+              "signature": "valid(Config) :- ...",
+              "definition": "Represent configuration rules as predicates that succeed only when a state is valid.",
+              "mental_model": "Validation becomes provability.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "prolog",
+                  "code": "valid_key(Key) :- member(Key, [m1,m2,m3,m4,m5,m6]).",
+                  "explanation": "Restricts values to known macro keys."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

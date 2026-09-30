@@ -1,0 +1,439 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Bash",
+      "description": "Bash shell scripting reference focused on system control, process inspection, file operations, glue logic, and WynCommand system macros.",
+      "categories": [
+        {
+          "name": "Variables and Expansion",
+          "description": "Shell values, quoting, arrays, and substitutions.",
+          "entries": [
+            {
+              "title": "Variables",
+              "summary": "Assign and expand shell variables.",
+              "signature": "name=value / \"$name\"",
+              "definition": "Assign and expand shell variables.",
+              "mental_model": "Shell variables are strings unless arithmetic/context gives them another interpretation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "project=\"WynCommand\"\nprintf \"%s\\n\" \"$project\"",
+                  "explanation": "Assigns and prints a variable."
+                }
+              ]
+            },
+            {
+              "title": "Quoting",
+              "summary": "Control shell expansion with single quotes, double quotes, and escaping.",
+              "signature": "'literal' / \"expand $var\"",
+              "definition": "Control shell expansion with single quotes, double quotes, and escaping.",
+              "mental_model": "Quoting determines which characters the shell interprets before launching commands.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "name=\"Wyn\"\necho \"Hello $name\"\necho 'Hello $name'",
+                  "explanation": "Shows expanding vs literal quotes."
+                }
+              ]
+            },
+            {
+              "title": "Command substitution",
+              "summary": "Capture command output into another command or variable.",
+              "signature": "$(command)",
+              "definition": "Capture command output into another command or variable.",
+              "mental_model": "Run a subcommand and splice its stdout into the surrounding command.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "branch=$(git branch --show-current)\necho \"$branch\"",
+                  "explanation": "Stores command output in a variable."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Store indexed shell values.",
+              "signature": "arr=(a b c)",
+              "definition": "Store indexed shell values.",
+              "mental_model": "Bash arrays preserve element boundaries better than space-separated strings.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "langs=(Python Zig Elixir)\nprintf \"%s\\n\" \"${langs[@]}\"",
+                  "explanation": "Prints each array item."
+                }
+              ]
+            },
+            {
+              "title": "Parameter expansion",
+              "summary": "Transform or provide defaults for variables during expansion.",
+              "signature": "${var:-default}",
+              "definition": "Transform or provide defaults for variables during expansion.",
+              "mental_model": "Small string/default operators built into expansion syntax.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "mode=${MODE:-safe}\necho \"$mode\"",
+                  "explanation": "Uses safe if MODE is unset or empty."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Control Flow and Functions",
+          "description": "Branching, loops, exit status, and reusable shell functions.",
+          "entries": [
+            {
+              "title": "if",
+              "summary": "Branch based on command success or test expressions.",
+              "signature": "if command; then ... fi",
+              "definition": "Branch based on command success or test expressions.",
+              "mental_model": "In shell, conditions are commands whose exit status matters.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "if git diff --quiet; then\n  echo clean\nelse\n  echo dirty\nfi",
+                  "explanation": "Uses git exit status as a condition."
+                }
+              ]
+            },
+            {
+              "title": "case",
+              "summary": "Match a value against shell patterns.",
+              "signature": "case \"$x\" in pattern) ... ;; esac",
+              "definition": "Match a value against shell patterns.",
+              "mental_model": "Pattern-oriented multi-way branch.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "case \"$1\" in\n  start) echo starting ;;\n  stop) echo stopping ;;\n  *) echo unknown ;;\nesac",
+                  "explanation": "Dispatches by first argument."
+                }
+              ]
+            },
+            {
+              "title": "for",
+              "summary": "Iterate over a list of words/items.",
+              "signature": "for item in ...; do ...; done",
+              "definition": "Iterate over a list of words/items.",
+              "mental_model": "Each iteration assigns the next item to the loop variable.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "for key in M1 M2 M3; do\n  echo \"$key\"\ndone",
+                  "explanation": "Prints three keys."
+                }
+              ]
+            },
+            {
+              "title": "while",
+              "summary": "Repeat while a command succeeds.",
+              "signature": "while condition; do ...; done",
+              "definition": "Repeat while a command succeeds.",
+              "mental_model": "The guard is reevaluated as a command/expression each iteration.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "n=0\nwhile (( n < 3 )); do\n  echo \"$n\"\n  ((n++))\ndone",
+                  "explanation": "Loops three times."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Group shell commands under a reusable function name.",
+              "signature": "name() { ...; }",
+              "definition": "Group shell commands under a reusable function name.",
+              "mental_model": "A shell function executes in the current shell context unless explicitly isolated.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "log() { printf \"[%s] %s\\n\" \"$(date +%H:%M:%S)\" \"$*\"; }\nlog \"build started\"",
+                  "explanation": "Defines a small logger."
+                }
+              ]
+            },
+            {
+              "title": "Exit status",
+              "summary": "Use 0 for success and nonzero values for failure/conditions.",
+              "signature": "$? / return N / exit N",
+              "definition": "Use 0 for success and nonzero values for failure/conditions.",
+              "mental_model": "Exit codes are Bash's primary success/failure data channel.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "git status >/dev/null\ncode=$?\necho \"$code\"",
+                  "explanation": "Captures the prior command exit status."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Pipes, Redirection, and Processes",
+          "description": "Compose commands and control data flow.",
+          "entries": [
+            {
+              "title": "Pipelines",
+              "summary": "Connect stdout of one command to stdin of the next.",
+              "signature": "cmd1 | cmd2",
+              "definition": "Connect stdout of one command to stdin of the next.",
+              "mental_model": "Commands become stages in a byte stream pipeline.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "ps aux | grep -i python",
+                  "explanation": "Filters process output."
+                }
+              ]
+            },
+            {
+              "title": "Redirection",
+              "summary": "Send stdin/stdout/stderr to files or other descriptors.",
+              "signature": "> >> < 2>",
+              "definition": "Send stdin/stdout/stderr to files or other descriptors.",
+              "mental_model": "File descriptors are rewired before the command starts.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "command >out.log 2>error.log",
+                  "explanation": "Separates stdout and stderr."
+                }
+              ]
+            },
+            {
+              "title": "Background jobs",
+              "summary": "Run commands asynchronously in the shell with & and manage them with jobs/wait.",
+              "signature": "command &",
+              "definition": "Run commands asynchronously in the shell with & and manage them with jobs/wait.",
+              "mental_model": "The shell launches the child without blocking immediately.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "sleep 1 &\npid=$!\nwait \"$pid\"",
+                  "explanation": "Starts a background job and waits for it."
+                }
+              ]
+            },
+            {
+              "title": "trap",
+              "summary": "Run cleanup or signal handlers when the script exits or receives signals.",
+              "signature": "trap handler EXIT INT TERM",
+              "definition": "Run cleanup or signal handlers when the script exits or receives signals.",
+              "mental_model": "Register callbacks for shell lifecycle events.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "tmp=$(mktemp)\ntrap 'rm -f \"$tmp\"' EXIT",
+                  "explanation": "Ensures cleanup on exit."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "System Automation",
+          "description": "High-value shell tools for system macros.",
+          "entries": [
+            {
+              "title": "test / [[ ]]",
+              "summary": "Evaluate file, string, and numeric conditions.",
+              "signature": "[[ expression ]]",
+              "definition": "Evaluate file, string, and numeric conditions.",
+              "mental_model": "[[ ]] is Bash's safer expressive conditional syntax.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "if [[ -f \"$HOME/.bashrc\" ]]; then echo found; fi",
+                  "explanation": "Checks file existence."
+                }
+              ]
+            },
+            {
+              "title": "find",
+              "summary": "Walk directory trees and filter filesystem entries.",
+              "signature": "find path tests actions",
+              "definition": "Walk directory trees and filter filesystem entries.",
+              "mental_model": "Declarative filesystem query engine.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "find src -type f -name \"*.py\"",
+                  "explanation": "Finds Python source files."
+                }
+              ]
+            },
+            {
+              "title": "grep",
+              "summary": "Search text using fixed strings or regular expressions.",
+              "signature": "grep [options] pattern files",
+              "definition": "Search text using fixed strings or regular expressions.",
+              "mental_model": "Stream/file filter that emits matching lines.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "grep -Rni \"TODO\" src/",
+                  "explanation": "Recursively finds TODO markers."
+                }
+              ]
+            },
+            {
+              "title": "xargs",
+              "summary": "Build command invocations from stdin items.",
+              "signature": "producer | xargs command",
+              "definition": "Build command invocations from stdin items.",
+              "mental_model": "Turns streamed data into command arguments.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "printf \"%s\\n\" a b c | xargs -n1 echo",
+                  "explanation": "Runs echo once per item."
+                }
+              ]
+            },
+            {
+              "title": "getopts",
+              "summary": "Parse short command-line options in shell scripts.",
+              "signature": "while getopts \"ab:\" opt; do ...",
+              "definition": "Parse short command-line options in shell scripts.",
+              "mental_model": "Standard built-in parser for compact shell CLI flags.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "while getopts \"n:\" opt; do\n  case \"$opt\" in n) name=$OPTARG ;; esac\ndone",
+                  "explanation": "Parses -n value."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "PowerShell",
+      "description": "Object-oriented shell and automation language built on .NET.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core PowerShell syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Cmdlets",
+              "summary": "Use verb-noun commands that emit structured objects.",
+              "signature": "Get-Process",
+              "definition": "Use verb-noun commands that emit structured objects.",
+              "mental_model": "Think of Cmdlets as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Cmdlets example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Get-Process | Select-Object -First 5",
+                  "explanation": "A compact example of Cmdlets in use."
+                }
+              ]
+            },
+            {
+              "title": "Pipeline",
+              "summary": "Pass objects from one command to the next instead of only text.",
+              "signature": "Command | Command",
+              "definition": "Pass objects from one command to the next instead of only text.",
+              "mental_model": "Think of Pipeline as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pipeline example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Get-Process |\n    Where-Object CPU -gt 10 |\n    Sort-Object CPU -Descending",
+                  "explanation": "A compact example of Pipeline in use."
+                }
+              ]
+            },
+            {
+              "title": "Variables",
+              "summary": "Store .NET objects in names prefixed with $.",
+              "signature": "$name = value",
+              "definition": "Store .NET objects in names prefixed with $.",
+              "mental_model": "Think of Variables as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Variables example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "$name = \"WynCodex\"\n$count = 42",
+                  "explanation": "A compact example of Variables in use."
+                }
+              ]
+            },
+            {
+              "title": "Get-Member",
+              "summary": "Inspect the type, properties, and methods of pipeline objects.",
+              "signature": "object | Get-Member",
+              "definition": "Inspect the type, properties, and methods of pipeline objects.",
+              "mental_model": "Think of Get-Member as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Get-Member example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Get-Process | Select-Object -First 1 | Get-Member",
+                  "explanation": "A compact example of Get-Member in use."
+                }
+              ]
+            },
+            {
+              "title": "Where-Object",
+              "summary": "Filter pipeline objects using conditions.",
+              "signature": "Where-Object { ... }",
+              "definition": "Filter pipeline objects using conditions.",
+              "mental_model": "Think of Where-Object as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Where-Object example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Get-Service | Where-Object { $_.Status -eq \"Running\" }",
+                  "explanation": "A compact example of Where-Object in use."
+                }
+              ]
+            },
+            {
+              "title": "ForEach-Object",
+              "summary": "Run script logic once for each pipeline object.",
+              "signature": "ForEach-Object { ... }",
+              "definition": "Run script logic once for each pipeline object.",
+              "mental_model": "Think of ForEach-Object as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "ForEach-Object example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "1..3 | ForEach-Object { \"Item $_\" }",
+                  "explanation": "A compact example of ForEach-Object in use."
+                }
+              ]
+            },
+            {
+              "title": "Select-Object",
+              "summary": "Project selected properties or calculated fields.",
+              "signature": "Select-Object Property",
+              "definition": "Project selected properties or calculated fields.",
+              "mental_model": "Think of Select-Object as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Select-Object example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Get-Process | Select-Object Name, Id, CPU",
+                  "explanation": "A compact example of Select-Object in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define reusable commands in PowerShell.",
+              "signature": "function Name { param(...) ... }",
+              "definition": "Define reusable commands in PowerShell.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "function Get-Greeting {\n    param([string]$Name)\n    \"Hello $Name\"\n}",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Advanced parameters",
+              "summary": "Declare typed, validated, and pipeline-aware parameters.",
+              "signature": "[CmdletBinding()] param(...)",
+              "definition": "Declare typed, validated, and pipeline-aware parameters.",
+              "mental_model": "Think of Advanced parameters as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Advanced parameters example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "function Test-Port {\n    [CmdletBinding()]\n    param([Parameter(Mandatory)][string]$HostName)\n}",
+                  "explanation": "A compact example of Advanced parameters in use."
+                }
+              ]
+            },
+            {
+              "title": "Splatting",
+              "summary": "Pass a hashtable of named parameters into a command.",
+              "signature": "@params",
+              "definition": "Pass a hashtable of named parameters into a command.",
+              "mental_model": "Think of Splatting as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Splatting example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "$params = @{ Path = \".\"; File = $true }\nGet-ChildItem @params",
+                  "explanation": "A compact example of Splatting in use."
+                }
+              ]
+            },
+            {
+              "title": "Try/Catch/Finally",
+              "summary": "Handle terminating errors with structured exception blocks.",
+              "signature": "try { } catch { } finally { }",
+              "definition": "Handle terminating errors with structured exception blocks.",
+              "mental_model": "Think of Try/Catch/Finally as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Try/Catch/Finally example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "try {\n    Get-Content \"missing.txt\" -ErrorAction Stop\n} catch {\n    Write-Warning $_.Exception.Message\n}",
+                  "explanation": "A compact example of Try/Catch/Finally in use."
+                }
+              ]
+            },
+            {
+              "title": "Hashtables",
+              "summary": "Store mutable key-value mappings.",
+              "signature": "@{ key = value }",
+              "definition": "Store mutable key-value mappings.",
+              "mental_model": "Think of Hashtables as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Hashtables example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "$config = @{ Host = \"localhost\"; Port = 5432 }\n$config.Port",
+                  "explanation": "A compact example of Hashtables in use."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Store ordered collections and use range syntax.",
+              "signature": "@(...) / 1..10",
+              "definition": "Store ordered collections and use range syntax.",
+              "mental_model": "Think of Arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Arrays example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "$ports = @(22, 80, 443)\n$ports | ForEach-Object { $_ }",
+                  "explanation": "A compact example of Arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Package reusable functions, cmdlets, and variables.",
+              "signature": "Import-Module Name",
+              "definition": "Package reusable functions, cmdlets, and variables.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Import-Module Microsoft.PowerShell.Management\nGet-Module",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Remoting",
+              "summary": "Run commands on remote PowerShell endpoints.",
+              "signature": "Invoke-Command -ComputerName ...",
+              "definition": "Run commands on remote PowerShell endpoints.",
+              "mental_model": "Think of Remoting as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Remoting example",
+                  "type": "practical",
+                  "syntax": "powershell",
+                  "code": "Invoke-Command -ComputerName Server01 -ScriptBlock { Get-Service }",
+                  "explanation": "A compact example of Remoting in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

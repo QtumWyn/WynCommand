@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Clojure",
+      "description": "Functional Lisp for the JVM emphasizing immutable data, sequence abstractions, and interactive development.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Clojure syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Lists and calls",
+              "summary": "Use list syntax for both data and function application.",
+              "signature": "(function arg ...)",
+              "definition": "Use list syntax for both data and function application.",
+              "mental_model": "Think of Lists and calls as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Lists and calls example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(println \"WynCodex\")",
+                  "explanation": "A compact example of Lists and calls in use."
+                }
+              ]
+            },
+            {
+              "title": "Vectors",
+              "summary": "Use indexed immutable collections.",
+              "signature": "[a b c]",
+              "definition": "Use indexed immutable collections.",
+              "mental_model": "Think of Vectors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Vectors example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(def ports [22 80 443])",
+                  "explanation": "A compact example of Vectors in use."
+                }
+              ]
+            },
+            {
+              "title": "Maps",
+              "summary": "Use immutable key-value maps, commonly with keyword keys.",
+              "signature": "{:key value}",
+              "definition": "Use immutable key-value maps, commonly with keyword keys.",
+              "mental_model": "Think of Maps as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Maps example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(def host {:name \"localhost\" :port 443})",
+                  "explanation": "A compact example of Maps in use."
+                }
+              ]
+            },
+            {
+              "title": "Keywords",
+              "summary": "Use self-evaluating identifiers that also work as map lookup functions.",
+              "signature": ":name",
+              "definition": "Use self-evaluating identifiers that also work as map lookup functions.",
+              "mental_model": "Think of Keywords as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Keywords example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(:name {:name \"Wyn\"})",
+                  "explanation": "A compact example of Keywords in use."
+                }
+              ]
+            },
+            {
+              "title": "defn",
+              "summary": "Define named functions.",
+              "signature": "(defn name [args] body)",
+              "definition": "Define named functions.",
+              "mental_model": "Think of defn as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "defn example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(defn square [x]\n  (* x x))",
+                  "explanation": "A compact example of defn in use."
+                }
+              ]
+            },
+            {
+              "title": "let",
+              "summary": "Create lexical local bindings.",
+              "signature": "(let [name value] body)",
+              "definition": "Create lexical local bindings.",
+              "mental_model": "Think of let as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "let example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(let [x 4\n      y 5]\n  (+ x y))",
+                  "explanation": "A compact example of let in use."
+                }
+              ]
+            },
+            {
+              "title": "Sequence functions",
+              "summary": "Transform collections with map, filter, reduce, and friends.",
+              "signature": "(map f xs)",
+              "definition": "Transform collections with map, filter, reduce, and friends.",
+              "mental_model": "Think of Sequence functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Sequence functions example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(map #(* % %) [1 2 3])",
+                  "explanation": "A compact example of Sequence functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Threading macros",
+              "summary": "Thread values through forms for readable data transformations.",
+              "signature": "-> / ->>",
+              "definition": "Thread values through forms for readable data transformations.",
+              "mental_model": "Think of Threading macros as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Threading macros example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(->> [1 2 3 4]\n     (filter even?)\n     (map #(* % 10)))",
+                  "explanation": "A compact example of Threading macros in use."
+                }
+              ]
+            },
+            {
+              "title": "Atoms",
+              "summary": "Manage synchronous independent mutable state.",
+              "signature": "(atom value)",
+              "definition": "Manage synchronous independent mutable state.",
+              "mental_model": "Think of Atoms as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Atoms example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(def counter (atom 0))\n(swap! counter inc)",
+                  "explanation": "A compact example of Atoms in use."
+                }
+              ]
+            },
+            {
+              "title": "Protocols",
+              "summary": "Define polymorphic function sets implemented by types.",
+              "signature": "(defprotocol Name ...)",
+              "definition": "Define polymorphic function sets implemented by types.",
+              "mental_model": "Think of Protocols as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Protocols example",
+                  "type": "practical",
+                  "syntax": "clojure",
+                  "code": "(defprotocol Render\n  (render [this]))",
+                  "explanation": "A compact example of Protocols in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

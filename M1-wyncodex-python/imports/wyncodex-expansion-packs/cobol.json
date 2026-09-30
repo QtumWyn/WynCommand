@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "COBOL",
+      "description": "Business-oriented language centered on records, files, decimal arithmetic, and long-lived enterprise systems.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core COBOL syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Program divisions",
+              "summary": "Organize source into identification, environment, data, and procedure divisions.",
+              "signature": "IDENTIFICATION DIVISION.",
+              "definition": "Organize source into identification, environment, data, and procedure divisions.",
+              "mental_model": "Think of Program divisions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Program divisions example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "IDENTIFICATION DIVISION.\nPROGRAM-ID. HELLO.\nPROCEDURE DIVISION.\n    DISPLAY \"HELLO WYNCODEX\".\n    STOP RUN.",
+                  "explanation": "A compact example of Program divisions in use."
+                }
+              ]
+            },
+            {
+              "title": "PIC clauses",
+              "summary": "Describe data layout and formatting with picture strings.",
+              "signature": "PIC 9(5) / PIC X(20)",
+              "definition": "Describe data layout and formatting with picture strings.",
+              "mental_model": "Think of PIC clauses as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "PIC clauses example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "01 WS-COUNT PIC 9(5) VALUE 0.\n01 WS-NAME PIC X(20).",
+                  "explanation": "A compact example of PIC clauses in use."
+                }
+              ]
+            },
+            {
+              "title": "Group items",
+              "summary": "Build hierarchical record layouts from numbered data levels.",
+              "signature": "01 / 05 / 10 ...",
+              "definition": "Build hierarchical record layouts from numbered data levels.",
+              "mental_model": "Think of Group items as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Group items example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "01 WS-HOST.\n   05 WS-HOST-NAME PIC X(30).\n   05 WS-HOST-PORT PIC 9(5).",
+                  "explanation": "A compact example of Group items in use."
+                }
+              ]
+            },
+            {
+              "title": "MOVE",
+              "summary": "Copy or convert data between fields.",
+              "signature": "MOVE source TO target",
+              "definition": "Copy or convert data between fields.",
+              "mental_model": "Think of MOVE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "MOVE example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "MOVE \"WYN\" TO WS-NAME.",
+                  "explanation": "A compact example of MOVE in use."
+                }
+              ]
+            },
+            {
+              "title": "COMPUTE",
+              "summary": "Evaluate arithmetic expressions into target fields.",
+              "signature": "COMPUTE target = expression",
+              "definition": "Evaluate arithmetic expressions into target fields.",
+              "mental_model": "Think of COMPUTE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "COMPUTE example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "COMPUTE WS-TOTAL = WS-PRICE * WS-QUANTITY.",
+                  "explanation": "A compact example of COMPUTE in use."
+                }
+              ]
+            },
+            {
+              "title": "PERFORM",
+              "summary": "Execute paragraphs or inline blocks, including loops.",
+              "signature": "PERFORM ...",
+              "definition": "Execute paragraphs or inline blocks, including loops.",
+              "mental_model": "Think of PERFORM as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "PERFORM example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 5\n    DISPLAY WS-I\nEND-PERFORM.",
+                  "explanation": "A compact example of PERFORM in use."
+                }
+              ]
+            },
+            {
+              "title": "EVALUATE",
+              "summary": "Perform multi-branch selection similar to switch or pattern matching.",
+              "signature": "EVALUATE value WHEN ...",
+              "definition": "Perform multi-branch selection similar to switch or pattern matching.",
+              "mental_model": "Think of EVALUATE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "EVALUATE example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "EVALUATE WS-STATUS\n    WHEN \"OK\" DISPLAY \"READY\"\n    WHEN OTHER DISPLAY \"UNKNOWN\"\nEND-EVALUATE.",
+                  "explanation": "A compact example of EVALUATE in use."
+                }
+              ]
+            },
+            {
+              "title": "File records",
+              "summary": "Describe external file organization and records in the data divisions.",
+              "signature": "SELECT / FD",
+              "definition": "Describe external file organization and records in the data divisions.",
+              "mental_model": "Think of File records as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "File records example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "FD HOST-FILE.\n01 HOST-RECORD.\n   05 HOST-NAME PIC X(30).",
+                  "explanation": "A compact example of File records in use."
+                }
+              ]
+            },
+            {
+              "title": "Decimal arithmetic",
+              "summary": "Use fixed decimal data declarations suited to financial calculations.",
+              "signature": "PIC S9(...)V99 COMP-3",
+              "definition": "Use fixed decimal data declarations suited to financial calculations.",
+              "mental_model": "Think of Decimal arithmetic as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Decimal arithmetic example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "01 ACCOUNT-BALANCE PIC S9(9)V99 COMP-3.",
+                  "explanation": "A compact example of Decimal arithmetic in use."
+                }
+              ]
+            },
+            {
+              "title": "Paragraphs",
+              "summary": "Group procedure statements into named executable sections.",
+              "signature": "NAME.",
+              "definition": "Group procedure statements into named executable sections.",
+              "mental_model": "Think of Paragraphs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Paragraphs example",
+                  "type": "practical",
+                  "syntax": "cobol",
+                  "code": "PRINT-STATUS.\n    DISPLAY WS-STATUS.\n    EXIT.",
+                  "explanation": "A compact example of Paragraphs in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

@@ -124,7 +124,7 @@ def build_stylesheet() -> str:
             color: {palette.PASTEL_BLUE};
         
             font-family: "JetBrains Mono";
-            font-size: 9pt;
+            font-size: 12px;
             font-weight: bold;
         
             letter-spacing: 1.5px;
@@ -134,14 +134,14 @@ def build_stylesheet() -> str:
             color: {palette.BONE};
         
             font-family: "JetBrains Mono";
-            font-size: 10pt;
+            font-size: 14px;
         }}
         
         QLabel#pageSummary {{
             color: {palette.PASTEL_PINK};
         
             font-family: "JetBrains Mono";
-            font-size: 10pt;
+            font-size: 14px;
             font-weight: bold;
         }}
         
@@ -156,7 +156,7 @@ def build_stylesheet() -> str:
             color: {palette.PASTEL_PINK};
         
             font-family: "JetBrains Mono";
-            font-size: 8pt;
+            font-size: 12px;
             font-weight: bold;
         
             letter-spacing: 1.5px;
@@ -173,7 +173,7 @@ def build_stylesheet() -> str:
             padding: 8px;
         
             font-family: "JetBrains Mono";
-            font-size: 10pt;
+            font-size: 13px;
         }}
         
         QFrame#editorCard {{
@@ -204,7 +204,7 @@ def build_stylesheet() -> str:
             color: {palette.PASTEL_PINK};
         
             font-family: "JetBrains Mono";
-            font-size: 11pt;
+            font-size: 15px;
             font-weight: bold;
         }}
         
@@ -212,14 +212,14 @@ def build_stylesheet() -> str:
             color: {palette.PASTEL_BLUE};
         
             font-family: "JetBrains Mono";
-            font-size: 9pt;
+            font-size: 12px;
         }}
         
         QLabel#exampleType {{
             color: {palette.VIOLET};
         
             font-family: "JetBrains Mono";
-            font-size: 8pt;
+            font-size: 12px;
             font-weight: bold;
         
             letter-spacing: 1px;
@@ -236,6 +236,7 @@ def build_stylesheet() -> str:
             outline: none;
 
             padding: 4px;
+            font-size: 13px;
         }}
 
         QTreeView::item {{

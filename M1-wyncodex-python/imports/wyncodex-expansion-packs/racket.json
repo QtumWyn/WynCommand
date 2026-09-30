@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Racket",
+      "description": "Lisp/Scheme-family language designed for language-oriented programming, education, scripting, and research.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Racket syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "define",
+              "summary": "Bind top-level values or functions.",
+              "signature": "(define name value)",
+              "definition": "Bind top-level values or functions.",
+              "mental_model": "Think of define as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "define example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(define app \"WynCodex\")\n(define (square x) (* x x))",
+                  "explanation": "A compact example of define in use."
+                }
+              ]
+            },
+            {
+              "title": "Lists",
+              "summary": "Build linked lists and process them recursively or with sequence tools.",
+              "signature": "(list ...)",
+              "definition": "Build linked lists and process them recursively or with sequence tools.",
+              "mental_model": "Think of Lists as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Lists example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(define ports (list 22 80 443))",
+                  "explanation": "A compact example of Lists in use."
+                }
+              ]
+            },
+            {
+              "title": "Vectors",
+              "summary": "Use fixed-index sequence structures.",
+              "signature": "(vector ...)",
+              "definition": "Use fixed-index sequence structures.",
+              "mental_model": "Think of Vectors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Vectors example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(define point (vector 10 20))\n(vector-ref point 0)",
+                  "explanation": "A compact example of Vectors in use."
+                }
+              ]
+            },
+            {
+              "title": "Structs",
+              "summary": "Define new record-like data types.",
+              "signature": "(struct name (...) #:transparent)",
+              "definition": "Define new record-like data types.",
+              "mental_model": "Think of Structs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Structs example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(struct host (name port) #:transparent)\n(host \"localhost\" 443)",
+                  "explanation": "A compact example of Structs in use."
+                }
+              ]
+            },
+            {
+              "title": "cond",
+              "summary": "Choose among multiple predicate/result branches.",
+              "signature": "(cond [test expr] ...)",
+              "definition": "Choose among multiple predicate/result branches.",
+              "mental_model": "Think of cond as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "cond example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(define (sign n)\n  (cond [(negative? n) -1]\n        [(zero? n) 0]\n        [else 1]))",
+                  "explanation": "A compact example of cond in use."
+                }
+              ]
+            },
+            {
+              "title": "match",
+              "summary": "Pattern-match structured values.",
+              "signature": "(match value [pattern expr] ...)",
+              "definition": "Pattern-match structured values.",
+              "mental_model": "Think of match as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "match example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(match (list 1 2)\n  [(list a b) (+ a b)])",
+                  "explanation": "A compact example of match in use."
+                }
+              ]
+            },
+            {
+              "title": "Higher-order functions",
+              "summary": "Transform sequences with map, filter, foldl, and related tools.",
+              "signature": "(map f xs)",
+              "definition": "Transform sequences with map, filter, foldl, and related tools.",
+              "mental_model": "Think of Higher-order functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Higher-order functions example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(map sqr (list 1 2 3))",
+                  "explanation": "A compact example of Higher-order functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Macros",
+              "summary": "Extend the language with syntax transformers.",
+              "signature": "define-syntax-rule",
+              "definition": "Extend the language with syntax transformers.",
+              "mental_model": "Think of Macros as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Macros example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(define-syntax-rule (twice e)\n  (begin e e))",
+                  "explanation": "A compact example of Macros in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Control imports and exports with require and provide.",
+              "signature": "(require ...) / (provide ...)",
+              "definition": "Control imports and exports with require and provide.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(provide greet)\n(define (greet name) (string-append \"Hello \" name))",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Sequences",
+              "summary": "Iterate over generalized sequence producers with for forms.",
+              "signature": "(for ([x sequence]) ...)",
+              "definition": "Iterate over generalized sequence producers with for forms.",
+              "mental_model": "Think of Sequences as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Sequences example",
+                  "type": "practical",
+                  "syntax": "racket",
+                  "code": "(for ([x (in-range 3)])\n  (displayln x))",
+                  "explanation": "A compact example of Sequences in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

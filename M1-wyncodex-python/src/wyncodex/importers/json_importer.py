@@ -549,6 +549,7 @@ class JsonImportService:
                 "type",
                 "syntax",
                 "code",
+                "output",
                 "explanation",
             },
             path,
@@ -572,6 +573,11 @@ class JsonImportService:
         self._optional_text(
             example.get("syntax"),
             f"{path}.syntax",
+        )
+
+        self._optional_text(
+            example.get("output"),
+            f"{path}.output",
         )
 
         self._optional_text(
@@ -978,6 +984,9 @@ class JsonImportService:
             ExampleDraft(
                 title=example["title"],
                 code=example["code"],
+                output=example.get(
+                    "output"
+                ),
                 explanation=example.get(
                     "explanation"
                 ),

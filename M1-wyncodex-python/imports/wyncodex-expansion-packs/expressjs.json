@@ -1,0 +1,305 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "JavaScript",
+      "description": "JavaScript language reference plus runtime and framework knowledge.",
+      "categories": [
+        {
+          "name": "Web Frameworks",
+          "description": "Server and web application frameworks.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "Express.js",
+              "summary": "Minimal Node.js web framework",
+              "description": "Routing, middleware, request/response handling, and error handling with Express.",
+              "entries": [
+                {
+                  "title": "Express application",
+                  "summary": "Create the central Express application object.",
+                  "signature": "const app = express()",
+                  "definition": "Create the central Express application object.",
+                  "mental_model": "Think of Express application as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Express application example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "import express from \"express\";\nconst app = express();\napp.listen(3000);",
+                      "explanation": "A compact example of Express application in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Route handlers",
+                  "summary": "Run a handler when an HTTP method and path match.",
+                  "signature": "app.get(\"/path\", handler)",
+                  "definition": "Run a handler when an HTTP method and path match.",
+                  "mental_model": "Think of Route handlers as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Route handlers example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.get(\"/health\",(req,res)=>res.json({ok:true}));",
+                      "explanation": "A compact example of Route handlers in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Route parameters",
+                  "summary": "Capture dynamic path segments through req.params.",
+                  "signature": "app.get(\"/users/:id\", handler)",
+                  "definition": "Capture dynamic path segments through req.params.",
+                  "mental_model": "Think of Route parameters as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Route parameters example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.get(\"/users/:id\",(req,res)=>res.json({id:req.params.id}));",
+                      "explanation": "A compact example of Route parameters in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Query parameters",
+                  "summary": "Read URL query-string values through req.query.",
+                  "signature": "req.query.name",
+                  "definition": "Read URL query-string values through req.query.",
+                  "mental_model": "Think of Query parameters as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Query parameters example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.get(\"/search\",(req,res)=>res.json({q:req.query.q ?? \"\"}));",
+                      "explanation": "A compact example of Query parameters in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Middleware",
+                  "summary": "Run reusable logic in the request-response pipeline.",
+                  "signature": "app.use(middleware)",
+                  "definition": "Run reusable logic in the request-response pipeline.",
+                  "mental_model": "Think of Middleware as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Middleware example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.use((req,res,next)=>{ console.log(req.method); next(); });",
+                      "explanation": "A compact example of Middleware in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "next()",
+                  "summary": "Pass control from middleware to the next matching layer.",
+                  "signature": "next()",
+                  "definition": "Pass control from middleware to the next matching layer.",
+                  "mental_model": "Think of next() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "next() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "function auth(req,res,next){ if(!req.get(\"x-demo\")) return res.sendStatus(400); next(); }",
+                      "explanation": "A compact example of next() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "express.json()",
+                  "summary": "Parse JSON request bodies.",
+                  "signature": "app.use(express.json())",
+                  "definition": "Parse JSON request bodies.",
+                  "mental_model": "Think of express.json() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "express.json() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.use(express.json());\napp.post(\"/items\",(req,res)=>res.json(req.body));",
+                      "explanation": "A compact example of express.json() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Router",
+                  "summary": "Group related routes into a modular router.",
+                  "signature": "const router = express.Router()",
+                  "definition": "Group related routes into a modular router.",
+                  "mental_model": "Think of Router as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Router example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "const router = express.Router();\nrouter.get(\"/\",(req,res)=>res.send(\"users\"));\napp.use(\"/users\",router);",
+                      "explanation": "A compact example of Router in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "res.status()",
+                  "summary": "Set the outgoing HTTP status code.",
+                  "signature": "res.status(code)",
+                  "definition": "Set the outgoing HTTP status code.",
+                  "mental_model": "Think of res.status() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "res.status() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "res.status(201).json({created:true});",
+                      "explanation": "A compact example of res.status() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "res.json()",
+                  "summary": "Serialize a JavaScript value as a JSON response.",
+                  "signature": "res.json(value)",
+                  "definition": "Serialize a JavaScript value as a JSON response.",
+                  "mental_model": "Think of res.json() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "res.json() example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "res.json({service:\"WynCodex\"});",
+                      "explanation": "A compact example of res.json() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Static files",
+                  "summary": "Serve files from a directory with built-in static middleware.",
+                  "signature": "express.static(\"public\")",
+                  "definition": "Serve files from a directory with built-in static middleware.",
+                  "mental_model": "Think of Static files as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Static files example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.use(\"/assets\",express.static(\"public\"));",
+                      "explanation": "A compact example of Static files in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Error-handling middleware",
+                  "summary": "Handle propagated Express errors using the four-argument middleware signature.",
+                  "signature": "(err, req, res, next) => {}",
+                  "definition": "Handle propagated Express errors using the four-argument middleware signature.",
+                  "mental_model": "Think of Error-handling middleware as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": "Error middleware must keep the four-argument signature.",
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Error-handling middleware example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.use((err,req,res,next)=>{\n  console.error(err);\n  res.status(500).json({error:\"internal error\"});\n});",
+                      "explanation": "A compact example of Error-handling middleware in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Async route handlers",
+                  "summary": "Use async handlers whose rejected promises flow into Express error handling.",
+                  "signature": "app.get(\"/\", async (req,res) => {})",
+                  "definition": "Use async handlers whose rejected promises flow into Express error handling.",
+                  "mental_model": "Think of Async route handlers as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Async route handlers example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.get(\"/user/:id\",async(req,res)=>res.json(await loadUser(req.params.id)));",
+                      "explanation": "A compact example of Async route handlers in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Middleware order",
+                  "summary": "Control behavior by registering middleware and routes in deliberate order.",
+                  "signature": "app.use(...)",
+                  "definition": "Control behavior by registering middleware and routes in deliberate order.",
+                  "mental_model": "Think of Middleware order as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Middleware order example",
+                      "type": "practical",
+                      "syntax": "javascript",
+                      "code": "app.use(requestLogger);\napp.use(express.json());\napp.use(\"/api\",apiRouter);\napp.use(errorHandler);",
+                      "explanation": "A compact example of Middleware order in use."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

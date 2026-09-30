@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Solidity",
+      "description": "Statically typed smart-contract language targeting the Ethereum Virtual Machine.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Solidity syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Contracts",
+              "summary": "Define deployable state and behavior with contract.",
+              "signature": "contract Name { ... }",
+              "definition": "Define deployable state and behavior with contract.",
+              "mental_model": "Think of Contracts as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Contracts example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "pragma solidity ^0.8.0;\ncontract Counter {\n    uint256 public count;\n}",
+                  "explanation": "A compact example of Contracts in use."
+                }
+              ]
+            },
+            {
+              "title": "State variables",
+              "summary": "Persist values in contract storage.",
+              "signature": "Type public name;",
+              "definition": "Persist values in contract storage.",
+              "mental_model": "Think of State variables as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "State variables example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "uint256 public count;\naddress public owner;",
+                  "explanation": "A compact example of State variables in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define contract-callable behavior with visibility and mutability.",
+              "signature": "function name(...) public returns (...)",
+              "definition": "Define contract-callable behavior with visibility and mutability.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "function increment() public {\n    count += 1;\n}",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Visibility",
+              "summary": "Control who can call functions or access state.",
+              "signature": "public / external / internal / private",
+              "definition": "Control who can call functions or access state.",
+              "mental_model": "Think of Visibility as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Visibility example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "function helper() internal pure returns (uint256) {\n    return 42;\n}",
+                  "explanation": "A compact example of Visibility in use."
+                }
+              ]
+            },
+            {
+              "title": "view and pure",
+              "summary": "Declare functions that do not modify state, or neither read nor modify state.",
+              "signature": "view / pure",
+              "definition": "Declare functions that do not modify state, or neither read nor modify state.",
+              "mental_model": "Think of view and pure as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "view and pure example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "function doubled() public view returns (uint256) {\n    return count * 2;\n}",
+                  "explanation": "A compact example of view and pure in use."
+                }
+              ]
+            },
+            {
+              "title": "Mappings",
+              "summary": "Store key-value state in EVM storage.",
+              "signature": "mapping(K => V)",
+              "definition": "Store key-value state in EVM storage.",
+              "mental_model": "Think of Mappings as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Mappings example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "mapping(address => uint256) public balances;",
+                  "explanation": "A compact example of Mappings in use."
+                }
+              ]
+            },
+            {
+              "title": "Structs",
+              "summary": "Group related values into a custom data structure.",
+              "signature": "struct Name { ... }",
+              "definition": "Group related values into a custom data structure.",
+              "mental_model": "Think of Structs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Structs example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "struct Entry {\n    address owner;\n    uint256 value;\n}",
+                  "explanation": "A compact example of Structs in use."
+                }
+              ]
+            },
+            {
+              "title": "Events",
+              "summary": "Emit log records that off-chain clients can observe.",
+              "signature": "event Name(...)",
+              "definition": "Emit log records that off-chain clients can observe.",
+              "mental_model": "Think of Events as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Events example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "event Updated(address indexed user, uint256 value);\n\nemit Updated(msg.sender, count);",
+                  "explanation": "A compact example of Events in use."
+                }
+              ]
+            },
+            {
+              "title": "Modifiers",
+              "summary": "Wrap reusable pre/post conditions around function bodies.",
+              "signature": "modifier name() { ... _; }",
+              "definition": "Wrap reusable pre/post conditions around function bodies.",
+              "mental_model": "Think of Modifiers as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modifiers example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "modifier onlyOwner() {\n    require(msg.sender == owner, \"not owner\");\n    _;\n}",
+                  "explanation": "A compact example of Modifiers in use."
+                }
+              ]
+            },
+            {
+              "title": "require",
+              "summary": "Reject execution when a condition is false.",
+              "signature": "require(condition, message)",
+              "definition": "Reject execution when a condition is false.",
+              "mental_model": "Think of require as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "require example",
+                  "type": "practical",
+                  "syntax": "solidity",
+                  "code": "require(amount <= balances[msg.sender], \"insufficient balance\");",
+                  "explanation": "A compact example of require in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

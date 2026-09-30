@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Julia",
+      "description": "High-level technical computing language built around multiple dispatch and fast numerical code.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Julia syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Functions",
+              "summary": "Define functions with concise or block syntax.",
+              "signature": "function name(args) ... end",
+              "definition": "Define functions with concise or block syntax.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "function square(x)\n    x * x\nend",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Multiple dispatch",
+              "summary": "Choose a method based on the types of all arguments.",
+              "signature": "f(x::A, y::B)",
+              "definition": "Choose a method based on the types of all arguments.",
+              "mental_model": "Think of Multiple dispatch as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Multiple dispatch example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "area(r::Float64) = π * r^2\narea(w::Int, h::Int) = w * h",
+                  "explanation": "A compact example of Multiple dispatch in use."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Work with 1-based multidimensional array structures.",
+              "signature": "Array / Vector / Matrix",
+              "definition": "Work with 1-based multidimensional array structures.",
+              "mental_model": "Think of Arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": "Julia arrays are 1-based.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Arrays example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "values = [10, 20, 30]\nprintln(values[1])",
+                  "explanation": "A compact example of Arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Broadcasting",
+              "summary": "Apply operations element-wise with dotted syntax.",
+              "signature": "f.(xs) / .+",
+              "definition": "Apply operations element-wise with dotted syntax.",
+              "mental_model": "Think of Broadcasting as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Broadcasting example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "values = [1, 2, 3]\nprintln(values .^ 2)",
+                  "explanation": "A compact example of Broadcasting in use."
+                }
+              ]
+            },
+            {
+              "title": "Comprehensions",
+              "summary": "Construct collections from compact iteration expressions.",
+              "signature": "[expr for x in xs]",
+              "definition": "Construct collections from compact iteration expressions.",
+              "mental_model": "Think of Comprehensions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Comprehensions example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "squares = [x^2 for x in 1:5]",
+                  "explanation": "A compact example of Comprehensions in use."
+                }
+              ]
+            },
+            {
+              "title": "Ranges",
+              "summary": "Represent compact arithmetic sequences.",
+              "signature": "start:step:stop",
+              "definition": "Represent compact arithmetic sequences.",
+              "mental_model": "Think of Ranges as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Ranges example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "for x in 1:2:9\n    println(x)\nend",
+                  "explanation": "A compact example of Ranges in use."
+                }
+              ]
+            },
+            {
+              "title": "Tuples and named tuples",
+              "summary": "Group fixed heterogeneous values, optionally with names.",
+              "signature": "(a, b) / (name=value,)",
+              "definition": "Group fixed heterogeneous values, optionally with names.",
+              "mental_model": "Think of Tuples and named tuples as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Tuples and named tuples example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "point = (x=10, y=20)\nprintln(point.x)",
+                  "explanation": "A compact example of Tuples and named tuples in use."
+                }
+              ]
+            },
+            {
+              "title": "Structs",
+              "summary": "Define composite immutable data types.",
+              "signature": "struct Name ... end",
+              "definition": "Define composite immutable data types.",
+              "mental_model": "Think of Structs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Structs example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "struct Host\n    name::String\n    port::Int\nend",
+                  "explanation": "A compact example of Structs in use."
+                }
+              ]
+            },
+            {
+              "title": "Mutable structs",
+              "summary": "Define composite values whose fields can change.",
+              "signature": "mutable struct Name ... end",
+              "definition": "Define composite values whose fields can change.",
+              "mental_model": "Think of Mutable structs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Mutable structs example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "mutable struct Counter\n    value::Int\nend\nc = Counter(0)\nc.value += 1",
+                  "explanation": "A compact example of Mutable structs in use."
+                }
+              ]
+            },
+            {
+              "title": "Abstract types",
+              "summary": "Build type hierarchies used heavily by dispatch.",
+              "signature": "abstract type Name end",
+              "definition": "Build type hierarchies used heavily by dispatch.",
+              "mental_model": "Think of Abstract types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Abstract types example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "abstract type Shape end\nstruct Circle <: Shape\n    radius::Float64\nend",
+                  "explanation": "A compact example of Abstract types in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Create namespaces containing definitions and exports.",
+              "signature": "module Name ... end",
+              "definition": "Create namespaces containing definitions and exports.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "module NetTools\nexport ping\nping(host) = println(host)\nend",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Macros",
+              "summary": "Transform Julia syntax before normal evaluation.",
+              "signature": "@macro",
+              "definition": "Transform Julia syntax before normal evaluation.",
+              "mental_model": "Think of Macros as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Macros example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "macro twice(expr)\n    quote\n        $(esc(expr)); $(esc(expr))\n    end\nend",
+                  "explanation": "A compact example of Macros in use."
+                }
+              ]
+            },
+            {
+              "title": "missing",
+              "summary": "Represent statistical or data values that are absent.",
+              "signature": "missing",
+              "definition": "Represent statistical or data values that are absent.",
+              "mental_model": "Think of missing as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "missing example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "values = [1, missing, 3]\nclean = skipmissing(values)",
+                  "explanation": "A compact example of missing in use."
+                }
+              ]
+            },
+            {
+              "title": "Tasks",
+              "summary": "Run cooperative concurrent computations.",
+              "signature": "@async / Task",
+              "definition": "Run cooperative concurrent computations.",
+              "mental_model": "Think of Tasks as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Tasks example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "task = @async begin\n    sleep(0.1)\n    42\nend\nprintln(fetch(task))",
+                  "explanation": "A compact example of Tasks in use."
+                }
+              ]
+            },
+            {
+              "title": "Package environments",
+              "summary": "Manage reproducible dependency environments with Pkg.",
+              "signature": "Pkg.activate / Pkg.add",
+              "definition": "Manage reproducible dependency environments with Pkg.",
+              "mental_model": "Think of Package environments as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Package environments example",
+                  "type": "practical",
+                  "syntax": "julia",
+                  "code": "using Pkg\nPkg.activate(\".\")\nPkg.add(\"JSON3\")",
+                  "explanation": "A compact example of Package environments in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

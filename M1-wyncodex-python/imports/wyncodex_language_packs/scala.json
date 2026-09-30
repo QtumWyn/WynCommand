@@ -1,0 +1,379 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Scala",
+      "description": "Scala 3 reference focused on functional/JVM desktop helpers, expressive modeling, collections, concurrency, and Java interoperability.",
+      "categories": [
+        {
+          "name": "Core Scala 3",
+          "description": "Expressions, values, functions, and control flow.",
+          "entries": [
+            {
+              "title": "val and var",
+              "summary": "Declare immutable values with val and mutable variables with var.",
+              "signature": "val name = value / var name = value",
+              "definition": "Declare immutable values with val and mutable variables with var.",
+              "mental_model": "Prefer val; reach for var only when mutation is truly useful.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val language = \"Scala\"\nvar count = 0\ncount += 1",
+                  "explanation": "Uses immutable and mutable bindings."
+                }
+              ]
+            },
+            {
+              "title": "Expression-oriented blocks",
+              "summary": "Blocks evaluate to their final expression and can directly produce values.",
+              "signature": "{ statements; result }",
+              "definition": "Blocks evaluate to their final expression and can directly produce values.",
+              "mental_model": "Many Scala constructs produce values instead of only causing effects.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val answer = {\n  val x = 20\n  x + 22\n}",
+                  "explanation": "The block evaluates to 42."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define methods with def and anonymous functions with => syntax.",
+              "signature": "def f(x: T): R = ...",
+              "definition": "Define methods with def and anonymous functions with => syntax.",
+              "mental_model": "Functions are first-class while methods belong to objects/classes.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "def double(x: Int): Int = x * 2\nval triple: Int => Int = x => x * 3",
+                  "explanation": "Defines named and anonymous functions."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Deconstruct values and choose branches with match/case.",
+              "signature": "value match { case pattern => result }",
+              "definition": "Deconstruct values and choose branches with match/case.",
+              "mental_model": "Pattern matching combines branching with destructuring.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val label = 2 match\n  case 1 => \"one\"\n  case 2 => \"two\"\n  case _ => \"other\"",
+                  "explanation": "Produces \"two\"."
+                }
+              ]
+            },
+            {
+              "title": "for comprehensions",
+              "summary": "Compose map/flatMap/filter-style operations with readable syntax.",
+              "signature": "for x <- xs yield expr",
+              "definition": "Compose map/flatMap/filter-style operations with readable syntax.",
+              "mental_model": "Syntactic sugar for functional collection/monadic composition.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val doubled = for n <- List(1,2,3) yield n * 2",
+                  "explanation": "Produces List(2,4,6)."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Modeling and Type System",
+          "description": "Algebraic data types and reusable abstractions.",
+          "entries": [
+            {
+              "title": "Case classes",
+              "summary": "Define concise immutable data models with structural equality and pattern matching support.",
+              "signature": "case class Name(fields)",
+              "definition": "Define concise immutable data models with structural equality and pattern matching support.",
+              "mental_model": "Product types with generated ergonomic machinery.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "case class Macro(key: String, language: String)\nval m = Macro(\"M5\", \"Scala\")",
+                  "explanation": "Creates an immutable model."
+                }
+              ]
+            },
+            {
+              "title": "Enums",
+              "summary": "Define closed families of values and algebraic data types.",
+              "signature": "enum Name: case A, B",
+              "definition": "Define closed families of values and algebraic data types.",
+              "mental_model": "A finite set of alternatives that pattern matching can exhaust.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "enum ImportMode:\n  case Strict, Merge",
+                  "explanation": "Defines two modes."
+                }
+              ]
+            },
+            {
+              "title": "Traits",
+              "summary": "Define reusable interfaces and behavior that classes/objects can extend.",
+              "signature": "trait Name:",
+              "definition": "Define reusable interfaces and behavior that classes/objects can extend.",
+              "mental_model": "Traits are composable capabilities with optional implementation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "trait Command:\n  def run(): Int",
+                  "explanation": "Declares a behavioral contract."
+                }
+              ]
+            },
+            {
+              "title": "Option",
+              "summary": "Represent a value that may be present or absent without null.",
+              "signature": "Option[T] = Some(value) | None",
+              "definition": "Represent a value that may be present or absent without null.",
+              "mental_model": "Absence is an explicit branch in the type.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val found: Option[String] = Some(\"Wren\")\nprintln(found.getOrElse(\"unknown\"))",
+                  "explanation": "Safely handles optional data."
+                }
+              ]
+            },
+            {
+              "title": "Either",
+              "summary": "Represent a computation that yields one of two typed outcomes, commonly error or success.",
+              "signature": "Either[L,R]",
+              "definition": "Represent a computation that yields one of two typed outcomes, commonly error or success.",
+              "mental_model": "Two-track computation with explicit alternatives.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val result: Either[String, Int] = Right(42)",
+                  "explanation": "Stores a successful integer or a String error."
+                }
+              ]
+            },
+            {
+              "title": "given / using",
+              "summary": "Provide and consume contextual values in Scala 3.",
+              "signature": "given Type = value / using Type",
+              "definition": "Provide and consume contextual values in Scala 3.",
+              "mental_model": "The compiler can thread ambient capabilities explicitly through types.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "given Ordering[String] = Ordering.String\nval xs = List(\"b\",\"a\").sorted",
+                  "explanation": "Supplies an Ordering context."
+                }
+              ]
+            },
+            {
+              "title": "Extension methods",
+              "summary": "Add callable syntax to existing types without modifying them.",
+              "signature": "extension (x: T) def method = ...",
+              "definition": "Add callable syntax to existing types without modifying them.",
+              "mental_model": "Static helper behavior with instance-like call syntax.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "extension (s: String)\n  def shout: String = s.toUpperCase + \"!\"\nprintln(\"wyn\".shout)",
+                  "explanation": "Adds shout to String syntax."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Collections and Concurrency",
+          "description": "Functional collections and asynchronous work.",
+          "entries": [
+            {
+              "title": "List",
+              "summary": "Immutable linked sequence with functional transformation APIs.",
+              "signature": "List[A]",
+              "definition": "Immutable linked sequence with functional transformation APIs.",
+              "mental_model": "Immutable sequence nodes shared safely across transformations.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val names = List(\"Zig\", \"Scala\", \"Wren\").map(_.toLowerCase)",
+                  "explanation": "Maps each value."
+                }
+              ]
+            },
+            {
+              "title": "Map collection",
+              "summary": "Immutable key-value mapping by default.",
+              "signature": "Map[K,V]",
+              "definition": "Immutable key-value mapping by default.",
+              "mental_model": "Lookup naturally integrates with Option.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val macros = Map(\"M1\" -> \"Python\", \"M5\" -> \"Scala\")\nprintln(macros.get(\"M5\"))",
+                  "explanation": "Looks up a key as Option."
+                }
+              ]
+            },
+            {
+              "title": "Future",
+              "summary": "Represent an asynchronously computed value.",
+              "signature": "Future { ... }",
+              "definition": "Represent an asynchronously computed value.",
+              "mental_model": "A placeholder completed later by concurrent execution.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "import scala.concurrent.Future\nimport scala.concurrent.ExecutionContext.Implicits.global\nval f = Future { 21 * 2 }",
+                  "explanation": "Starts asynchronous work."
+                }
+              ]
+            },
+            {
+              "title": "Java interoperability",
+              "summary": "Call Java classes directly and expose Scala code to JVM ecosystems.",
+              "signature": "new java.io.File(...)",
+              "definition": "Call Java classes directly and expose Scala code to JVM ecosystems.",
+              "mental_model": "Scala and Java share the JVM type/runtime world.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "scala",
+                  "code": "val path = java.nio.file.Path.of(\"README.md\")\nprintln(java.nio.file.Files.exists(path))",
+                  "explanation": "Uses Java NIO from Scala."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Build Tooling",
+          "description": "Common Scala project tooling.",
+          "entries": [
+            {
+              "title": "sbt basics",
+              "summary": "Use sbt to compile, test, run, and manage dependencies.",
+              "signature": "sbt compile / run / test",
+              "definition": "Use sbt to compile, test, run, and manage dependencies.",
+              "mental_model": "sbt maintains an incremental build graph for Scala/JVM projects.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "sbt run",
+                  "explanation": "Runs the configured Scala application."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

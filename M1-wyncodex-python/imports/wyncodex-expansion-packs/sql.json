@@ -1,0 +1,418 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "SQL",
+      "description": "Declarative language for defining, querying, and modifying relational data.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core SQL syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "SELECT",
+              "summary": "Choose columns and expressions from query sources.",
+              "signature": "SELECT columns FROM table",
+              "definition": "Choose columns and expressions from query sources.",
+              "mental_model": "Think of SELECT as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "SELECT example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT id, name\nFROM users;",
+                  "explanation": "A compact example of SELECT in use."
+                }
+              ]
+            },
+            {
+              "title": "WHERE",
+              "summary": "Filter rows using a boolean predicate.",
+              "signature": "WHERE condition",
+              "definition": "Filter rows using a boolean predicate.",
+              "mental_model": "Think of WHERE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "WHERE example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT *\nFROM users\nWHERE active = TRUE;",
+                  "explanation": "A compact example of WHERE in use."
+                }
+              ]
+            },
+            {
+              "title": "ORDER BY",
+              "summary": "Sort query results by one or more expressions.",
+              "signature": "ORDER BY expression [ASC|DESC]",
+              "definition": "Sort query results by one or more expressions.",
+              "mental_model": "Think of ORDER BY as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "ORDER BY example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT name, score\nFROM players\nORDER BY score DESC;",
+                  "explanation": "A compact example of ORDER BY in use."
+                }
+              ]
+            },
+            {
+              "title": "INNER JOIN",
+              "summary": "Combine matching rows from two relations.",
+              "signature": "JOIN table ON condition",
+              "definition": "Combine matching rows from two relations.",
+              "mental_model": "Think of INNER JOIN as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "INNER JOIN example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT u.name, o.total\nFROM users AS u\nJOIN orders AS o ON o.user_id = u.id;",
+                  "explanation": "A compact example of INNER JOIN in use."
+                }
+              ]
+            },
+            {
+              "title": "LEFT JOIN",
+              "summary": "Keep all rows from the left relation even when no right-side match exists.",
+              "signature": "LEFT JOIN table ON condition",
+              "definition": "Keep all rows from the left relation even when no right-side match exists.",
+              "mental_model": "Think of LEFT JOIN as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "LEFT JOIN example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT u.name, o.id\nFROM users AS u\nLEFT JOIN orders AS o ON o.user_id = u.id;",
+                  "explanation": "A compact example of LEFT JOIN in use."
+                }
+              ]
+            },
+            {
+              "title": "GROUP BY",
+              "summary": "Collect rows into groups for aggregate calculations.",
+              "signature": "GROUP BY columns",
+              "definition": "Collect rows into groups for aggregate calculations.",
+              "mental_model": "Think of GROUP BY as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "GROUP BY example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT department, COUNT(*)\nFROM employees\nGROUP BY department;",
+                  "explanation": "A compact example of GROUP BY in use."
+                }
+              ]
+            },
+            {
+              "title": "HAVING",
+              "summary": "Filter grouped results after aggregation.",
+              "signature": "HAVING aggregate_condition",
+              "definition": "Filter grouped results after aggregation.",
+              "mental_model": "Think of HAVING as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "HAVING example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT department, COUNT(*) AS n\nFROM employees\nGROUP BY department\nHAVING COUNT(*) >= 5;",
+                  "explanation": "A compact example of HAVING in use."
+                }
+              ]
+            },
+            {
+              "title": "Aggregate functions",
+              "summary": "Summarize rows with COUNT, SUM, AVG, MIN, and MAX.",
+              "signature": "COUNT(*) / SUM(x) / AVG(x)",
+              "definition": "Summarize rows with COUNT, SUM, AVG, MIN, and MAX.",
+              "mental_model": "Think of Aggregate functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Aggregate functions example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT COUNT(*) AS n, AVG(price) AS mean_price\nFROM products;",
+                  "explanation": "A compact example of Aggregate functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Subqueries",
+              "summary": "Nest a query inside another statement.",
+              "signature": "(SELECT ...)",
+              "definition": "Nest a query inside another statement.",
+              "mental_model": "Think of Subqueries as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Subqueries example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT name\nFROM users\nWHERE id IN (SELECT user_id FROM admins);",
+                  "explanation": "A compact example of Subqueries in use."
+                }
+              ]
+            },
+            {
+              "title": "Common table expressions",
+              "summary": "Name intermediate query results with WITH.",
+              "signature": "WITH name AS (...) SELECT ...",
+              "definition": "Name intermediate query results with WITH.",
+              "mental_model": "Think of Common table expressions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Common table expressions example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "WITH totals AS (\n    SELECT user_id, SUM(total) AS spent\n    FROM orders\n    GROUP BY user_id\n)\nSELECT * FROM totals WHERE spent > 1000;",
+                  "explanation": "A compact example of Common table expressions in use."
+                }
+              ]
+            },
+            {
+              "title": "Window functions",
+              "summary": "Compute values across related rows without collapsing groups.",
+              "signature": "function() OVER (...)",
+              "definition": "Compute values across related rows without collapsing groups.",
+              "mental_model": "Think of Window functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Window functions example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT name, department,\n       RANK() OVER (PARTITION BY department ORDER BY score DESC) AS rank\nFROM employees;",
+                  "explanation": "A compact example of Window functions in use."
+                }
+              ]
+            },
+            {
+              "title": "CASE",
+              "summary": "Choose values conditionally inside an expression.",
+              "signature": "CASE WHEN ... THEN ... ELSE ... END",
+              "definition": "Choose values conditionally inside an expression.",
+              "mental_model": "Think of CASE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "CASE example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT name,\n       CASE WHEN score >= 90 THEN 'A' ELSE 'B' END AS grade\nFROM students;",
+                  "explanation": "A compact example of CASE in use."
+                }
+              ]
+            },
+            {
+              "title": "INSERT",
+              "summary": "Add new rows to a table.",
+              "signature": "INSERT INTO table (...) VALUES (...)",
+              "definition": "Add new rows to a table.",
+              "mental_model": "Think of INSERT as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "INSERT example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "INSERT INTO users (name, active)\nVALUES ('Wyn', TRUE);",
+                  "explanation": "A compact example of INSERT in use."
+                }
+              ]
+            },
+            {
+              "title": "UPDATE",
+              "summary": "Modify columns in existing rows.",
+              "signature": "UPDATE table SET ... WHERE ...",
+              "definition": "Modify columns in existing rows.",
+              "mental_model": "Think of UPDATE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "UPDATE example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "UPDATE users\nSET active = FALSE\nWHERE id = 42;",
+                  "explanation": "A compact example of UPDATE in use."
+                }
+              ]
+            },
+            {
+              "title": "DELETE",
+              "summary": "Remove rows matching a predicate.",
+              "signature": "DELETE FROM table WHERE ...",
+              "definition": "Remove rows matching a predicate.",
+              "mental_model": "Think of DELETE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "DELETE example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "DELETE FROM sessions\nWHERE expires_at < CURRENT_TIMESTAMP;",
+                  "explanation": "A compact example of DELETE in use."
+                }
+              ]
+            },
+            {
+              "title": "CREATE TABLE",
+              "summary": "Define a relational table and its columns.",
+              "signature": "CREATE TABLE name (...)",
+              "definition": "Define a relational table and its columns.",
+              "mental_model": "Think of CREATE TABLE as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "CREATE TABLE example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "CREATE TABLE hosts (\n    id INTEGER PRIMARY KEY,\n    name VARCHAR(100) NOT NULL,\n    port INTEGER NOT NULL\n);",
+                  "explanation": "A compact example of CREATE TABLE in use."
+                }
+              ]
+            },
+            {
+              "title": "Constraints",
+              "summary": "Enforce data rules with keys, uniqueness, checks, and nullability.",
+              "signature": "column ... constraint",
+              "definition": "Enforce data rules with keys, uniqueness, checks, and nullability.",
+              "mental_model": "Think of Constraints as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Constraints example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "CREATE TABLE ports (\n    port INTEGER CHECK (port BETWEEN 1 AND 65535),\n    name VARCHAR(50) UNIQUE NOT NULL\n);",
+                  "explanation": "A compact example of Constraints in use."
+                }
+              ]
+            },
+            {
+              "title": "Indexes",
+              "summary": "Create auxiliary structures that speed selected lookup patterns.",
+              "signature": "CREATE INDEX ... ON table(columns)",
+              "definition": "Create auxiliary structures that speed selected lookup patterns.",
+              "mental_model": "Think of Indexes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Indexes example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "CREATE INDEX idx_users_email\nON users(email);",
+                  "explanation": "A compact example of Indexes in use."
+                }
+              ]
+            },
+            {
+              "title": "Transactions",
+              "summary": "Group statements into an atomic unit of work.",
+              "signature": "BEGIN / COMMIT / ROLLBACK",
+              "definition": "Group statements into an atomic unit of work.",
+              "mental_model": "Think of Transactions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Transactions example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "BEGIN;\nUPDATE accounts SET balance = balance - 10 WHERE id = 1;\nUPDATE accounts SET balance = balance + 10 WHERE id = 2;\nCOMMIT;",
+                  "explanation": "A compact example of Transactions in use."
+                }
+              ]
+            },
+            {
+              "title": "NULL",
+              "summary": "Represent unknown or absent relational values.",
+              "signature": "IS NULL / IS NOT NULL",
+              "definition": "Represent unknown or absent relational values.",
+              "mental_model": "Think of NULL as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": "NULL uses three-valued logic; = NULL is not an ordinary equality check.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "NULL example",
+                  "type": "practical",
+                  "syntax": "sql",
+                  "code": "SELECT *\nFROM users\nWHERE deleted_at IS NULL;",
+                  "explanation": "A compact example of NULL in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

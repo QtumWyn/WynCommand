@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Swift",
+      "description": "Modern Apple-platform and systems language emphasizing safety, value types, protocols, and concurrency.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Swift syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "let and var",
+              "summary": "Declare immutable bindings with let and mutable bindings with var.",
+              "signature": "let name = value / var name = value",
+              "definition": "Declare immutable bindings with let and mutable bindings with var.",
+              "mental_model": "Think of let and var as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "let and var example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "let app = \"WynCodex\"\nvar count = 0\ncount += 1",
+                  "explanation": "A compact example of let and var in use."
+                }
+              ]
+            },
+            {
+              "title": "Optionals",
+              "summary": "Represent values that may be absent without null dereferences.",
+              "signature": "Type?",
+              "definition": "Represent values that may be absent without null dereferences.",
+              "mental_model": "Think of Optionals as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Optionals example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "var nickname: String? = nil\nnickname = \"Wyn\"",
+                  "explanation": "A compact example of Optionals in use."
+                }
+              ]
+            },
+            {
+              "title": "Optional binding",
+              "summary": "Safely unwrap optionals with if let.",
+              "signature": "if let value = optional { ... }",
+              "definition": "Safely unwrap optionals with if let.",
+              "mental_model": "Think of Optional binding as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Optional binding example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "if let nickname {\n    print(nickname)\n}",
+                  "explanation": "A compact example of Optional binding in use."
+                }
+              ]
+            },
+            {
+              "title": "guard",
+              "summary": "Require conditions or unwrapped values before continuing a scope.",
+              "signature": "guard condition else { return }",
+              "definition": "Require conditions or unwrapped values before continuing a scope.",
+              "mental_model": "Think of guard as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "guard example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "func greet(_ name: String?) {\n    guard let name else { return }\n    print(name)\n}",
+                  "explanation": "A compact example of guard in use."
+                }
+              ]
+            },
+            {
+              "title": "Structs",
+              "summary": "Define value-semantic composite types.",
+              "signature": "struct Name { ... }",
+              "definition": "Define value-semantic composite types.",
+              "mental_model": "Think of Structs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Structs example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "struct Host {\n    let name: String\n    let port: Int\n}",
+                  "explanation": "A compact example of Structs in use."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define reference-semantic types with identity and inheritance support.",
+              "signature": "class Name { ... }",
+              "definition": "Define reference-semantic types with identity and inheritance support.",
+              "mental_model": "Think of Classes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Classes example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "final class Counter {\n    var value = 0\n}",
+                  "explanation": "A compact example of Classes in use."
+                }
+              ]
+            },
+            {
+              "title": "Protocols",
+              "summary": "Describe required properties and methods independently of implementation.",
+              "signature": "protocol Name { ... }",
+              "definition": "Describe required properties and methods independently of implementation.",
+              "mental_model": "Think of Protocols as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Protocols example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "protocol Renderable {\n    func render() -> String\n}",
+                  "explanation": "A compact example of Protocols in use."
+                }
+              ]
+            },
+            {
+              "title": "Extensions",
+              "summary": "Add behavior to existing types without subclassing.",
+              "signature": "extension Type { ... }",
+              "definition": "Add behavior to existing types without subclassing.",
+              "mental_model": "Think of Extensions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Extensions example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "extension Int {\n    var isEven: Bool { self % 2 == 0 }\n}",
+                  "explanation": "A compact example of Extensions in use."
+                }
+              ]
+            },
+            {
+              "title": "Enums with associated values",
+              "summary": "Model variant data where cases can carry different payloads.",
+              "signature": "enum Name { case value(Type) }",
+              "definition": "Model variant data where cases can carry different payloads.",
+              "mental_model": "Think of Enums with associated values as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Enums with associated values example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "enum ResultState {\n    case idle\n    case loaded(String)\n    case failed(Error)\n}",
+                  "explanation": "A compact example of Enums with associated values in use."
+                }
+              ]
+            },
+            {
+              "title": "Closures",
+              "summary": "Use anonymous first-class functions.",
+              "signature": "{ (args) -> Return in ... }",
+              "definition": "Use anonymous first-class functions.",
+              "mental_model": "Think of Closures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Closures example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "let doubled = [1, 2, 3].map { $0 * 2 }",
+                  "explanation": "A compact example of Closures in use."
+                }
+              ]
+            },
+            {
+              "title": "Generics",
+              "summary": "Write reusable algorithms over constrained types.",
+              "signature": "func name<T>(...)",
+              "definition": "Write reusable algorithms over constrained types.",
+              "mental_model": "Think of Generics as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Generics example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "func first<T>(_ values: [T]) -> T? {\n    values.first\n}",
+                  "explanation": "A compact example of Generics in use."
+                }
+              ]
+            },
+            {
+              "title": "async/await",
+              "summary": "Express asynchronous work with structured suspension points.",
+              "signature": "async / await",
+              "definition": "Express asynchronous work with structured suspension points.",
+              "mental_model": "Think of async/await as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "async/await example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "func load() async throws -> Data {\n    let (data, _) = try await URLSession.shared.data(from: url)\n    return data\n}",
+                  "explanation": "A compact example of async/await in use."
+                }
+              ]
+            },
+            {
+              "title": "Actors",
+              "summary": "Protect mutable state from data races in Swift concurrency.",
+              "signature": "actor Name { ... }",
+              "definition": "Protect mutable state from data races in Swift concurrency.",
+              "mental_model": "Think of Actors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Actors example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "actor Counter {\n    private var value = 0\n    func increment() { value += 1 }\n}",
+                  "explanation": "A compact example of Actors in use."
+                }
+              ]
+            },
+            {
+              "title": "Codable",
+              "summary": "Encode and decode structured values with standard encoders.",
+              "signature": "Codable",
+              "definition": "Encode and decode structured values with standard encoders.",
+              "mental_model": "Think of Codable as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Codable example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "struct User: Codable {\n    let name: String\n    let score: Int\n}",
+                  "explanation": "A compact example of Codable in use."
+                }
+              ]
+            },
+            {
+              "title": "Property wrappers",
+              "summary": "Attach reusable storage/access behavior to properties.",
+              "signature": "@Wrapper var value",
+              "definition": "Attach reusable storage/access behavior to properties.",
+              "mental_model": "Think of Property wrappers as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Property wrappers example",
+                  "type": "practical",
+                  "syntax": "swift",
+                  "code": "@State var count = 0",
+                  "explanation": "A compact example of Property wrappers in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

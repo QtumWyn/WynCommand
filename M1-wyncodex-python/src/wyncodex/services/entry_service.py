@@ -207,6 +207,9 @@ class EntryService:
                     entry_id=created_entry.id,
                     title=title,
                     code=code,
+                    output=clean_optional_text(
+                        draft.output
+                    ),
                     explanation=clean_optional_text(
                         draft.explanation
                     ),
@@ -461,6 +464,9 @@ class EntryService:
                 entry_id=entry_id,
                 title=draft.title.strip(),
                 code=draft.code.strip(),
+                output=clean_optional_text(
+                    draft.output
+                ),
 
                 explanation=clean_optional_text(
                     draft.explanation

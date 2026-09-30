@@ -1,0 +1,468 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Python",
+      "description": "Python reference focused on desktop tooling, automation, data handling, subprocesses, packaging, and WynCodex/WynCommand development.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Syntax and runtime fundamentals.",
+          "entries": [
+            {
+              "title": "Variables and assignment",
+              "summary": "Bind names to Python objects.",
+              "signature": "name = value",
+              "definition": "Bind names to Python objects.",
+              "mental_model": "Names point at objects rather than containing fixed storage types.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "project = \"WynCodex\"\ncount = 6",
+                  "explanation": "Binds two names."
+                }
+              ]
+            },
+            {
+              "title": "if / elif / else",
+              "summary": "Select code paths based on truthy conditions.",
+              "signature": "if condition:",
+              "definition": "Select code paths based on truthy conditions.",
+              "mental_model": "Evaluate conditions from top to bottom until one matches.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "mode = \"merge\"\nif mode == \"merge\":\n    print(\"reuse existing\")\nelse:\n    print(\"strict\")",
+                  "explanation": "Chooses behavior by mode."
+                }
+              ]
+            },
+            {
+              "title": "for loops",
+              "summary": "Iterate over items from any iterable.",
+              "signature": "for item in iterable:",
+              "definition": "Iterate over items from any iterable.",
+              "mental_model": "for asks an iterable for successive values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "for key in [\"M1\", \"M2\", \"M3\"]:\n    print(key)",
+                  "explanation": "Visits each key."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Package reusable behavior behind a callable name.",
+              "signature": "def name(args):",
+              "definition": "Package reusable behavior behind a callable name.",
+              "mental_model": "A function is a named transformation with its own local scope.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "def label(key: str) -> str:\n    return key.upper()",
+                  "explanation": "Defines and calls reusable behavior."
+                }
+              ]
+            },
+            {
+              "title": "Comprehensions",
+              "summary": "Build collections concisely from iterables.",
+              "signature": "[expr for item in items]",
+              "definition": "Build collections concisely from iterables.",
+              "mental_model": "Map/filter syntax compressed into an expression.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "squares = [n * n for n in range(6)]",
+                  "explanation": "Creates a list of squares."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Match structured values using match/case.",
+              "signature": "match value: case pattern:",
+              "definition": "Match structured values using match/case.",
+              "mental_model": "Think structural switch with destructuring.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "match command:\n    case {\"type\": \"build\", \"target\": target}:\n        print(target)\n    case _:\n        print(\"unknown\")",
+                  "explanation": "Destructures a mapping by shape."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Data Structures and Models",
+          "description": "Common containers and structured data types.",
+          "entries": [
+            {
+              "title": "Lists",
+              "summary": "Store ordered mutable sequences.",
+              "signature": "[item1, item2]",
+              "definition": "Store ordered mutable sequences.",
+              "mental_model": "A resizable ordered container.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "keys = [\"M1\", \"M2\"]\nkeys.append(\"M3\")",
+                  "explanation": "Adds another macro key."
+                }
+              ]
+            },
+            {
+              "title": "Dictionaries",
+              "summary": "Map hashable keys to values.",
+              "signature": "{key: value}",
+              "definition": "Map hashable keys to values.",
+              "mental_model": "A fast key-value index.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "langs = {\"M1\": \"Python\", \"M4\": \"Zig\"}\nprint(langs[\"M4\"])",
+                  "explanation": "Looks up Zig by macro key."
+                }
+              ]
+            },
+            {
+              "title": "Sets",
+              "summary": "Store unique hashable values.",
+              "signature": "{a, b} / set()",
+              "definition": "Store unique hashable values.",
+              "mental_model": "A membership-focused bag of unique values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "features = {\"search\", \"import\", \"search\"}\nprint(features)",
+                  "explanation": "Duplicates collapse automatically."
+                }
+              ]
+            },
+            {
+              "title": "Tuples",
+              "summary": "Store fixed ordered sequences, often for lightweight records or multiple returns.",
+              "signature": "(a, b)",
+              "definition": "Store fixed ordered sequences, often for lightweight records or multiple returns.",
+              "mental_model": "An immutable positional record.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "point = (10, 20)\nx, y = point",
+                  "explanation": "Unpacks a tuple."
+                }
+              ]
+            },
+            {
+              "title": "dataclasses",
+              "summary": "Generate boilerplate for data-centric classes.",
+              "signature": "@dataclass",
+              "definition": "Generate boilerplate for data-centric classes.",
+              "mental_model": "Describe fields and let Python generate initialization and representation helpers.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "from dataclasses import dataclass\n\n@dataclass\nclass Pack:\n    name: str\n    entries: int",
+                  "explanation": "Defines a concise data model."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Files, Processes, and JSON",
+          "description": "Useful standard-library tools for WynCommand-style automation.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "pathlib",
+              "summary": "Object-oriented filesystem paths",
+              "description": "Portable path construction and filesystem operations.",
+              "entries": [
+                {
+                  "title": "Path",
+                  "summary": "Represent filesystem paths as objects.",
+                  "signature": "Path(value)",
+                  "definition": "Represent filesystem paths as objects.",
+                  "mental_model": "Paths become composable objects instead of string glue.",
+                  "return_value": "Path",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [
+                    {
+                      "name": "value",
+                      "type": "str | PathLike",
+                      "description": "Initial path value.",
+                      "required": true,
+                      "default": null
+                    }
+                  ],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "from pathlib import Path\nroot = Path.home() / \"WynCommand\"\nprint(root.exists())",
+                      "explanation": "Builds a platform-aware path."
+                    }
+                  ]
+                },
+                {
+                  "title": "Path.read_text()",
+                  "summary": "Read a text file using a chosen encoding.",
+                  "signature": "path.read_text(encoding=\"utf-8\")",
+                  "definition": "Read a text file using a chosen encoding.",
+                  "mental_model": "One method combines open/read/close for small text files.",
+                  "return_value": "str",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "text = Path(\"pack.json\").read_text(encoding=\"utf-8\")",
+                      "explanation": "Reads the file contents."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "json",
+              "summary": "JSON serialization and parsing",
+              "description": "Standard JSON support.",
+              "entries": [
+                {
+                  "title": "json.loads()",
+                  "summary": "Parse JSON text into Python objects.",
+                  "signature": "json.loads(text)",
+                  "definition": "Parse JSON text into Python objects.",
+                  "mental_model": "Convert wire-format text into Python dictionaries/lists/scalars.",
+                  "return_value": "Any",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "import json\ndata = json.loads(\"{\\\"mode\\\": \\\"merge\\\"}\")",
+                      "explanation": "Parses JSON text."
+                    }
+                  ]
+                },
+                {
+                  "title": "json.dumps()",
+                  "summary": "Serialize Python values into JSON text.",
+                  "signature": "json.dumps(value, indent=2)",
+                  "definition": "Serialize Python values into JSON text.",
+                  "mental_model": "Turn in-memory values into portable text.",
+                  "return_value": "str",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "import json\nprint(json.dumps({\"keys\": 6}, indent=2))",
+                      "explanation": "Formats a dictionary as JSON."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "subprocess",
+              "summary": "Child process execution",
+              "description": "Launch and control external commands.",
+              "entries": [
+                {
+                  "title": "subprocess.run()",
+                  "summary": "Run a child process and optionally capture/check its result.",
+                  "signature": "subprocess.run(args, ...)",
+                  "definition": "Run a child process and optionally capture/check its result.",
+                  "mental_model": "Treat an external command as a function call with explicit inputs and outputs.",
+                  "return_value": "CompletedProcess",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "import subprocess\nresult = subprocess.run([\"git\", \"status\"], capture_output=True, text=True, check=True)\nprint(result.stdout)",
+                      "explanation": "Runs git status and captures stdout."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Typing and Packaging",
+          "description": "Project structure and maintainability.",
+          "entries": [
+            {
+              "title": "Type hints",
+              "summary": "Annotate parameters, returns, and variables for tooling and static analysis.",
+              "signature": "def f(x: int) -> str:",
+              "definition": "Annotate parameters, returns, and variables for tooling and static analysis.",
+              "mental_model": "Type hints are contracts for humans and tools.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "def describe(count: int) -> str:\n    return f\"{count} entries\"",
+                  "explanation": "Adds static type information without changing normal runtime semantics."
+                }
+              ]
+            },
+            {
+              "title": "Virtual environments",
+              "summary": "Isolate project dependencies from system Python.",
+              "signature": "python -m venv .venv",
+              "definition": "Isolate project dependencies from system Python.",
+              "mental_model": "Give each project its own dependency sandbox.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "python -m venv .venv",
+                  "explanation": "Creates a local virtual environment."
+                }
+              ]
+            },
+            {
+              "title": "pyproject.toml",
+              "summary": "Central project metadata and build/dependency configuration file.",
+              "signature": "[project]",
+              "definition": "Central project metadata and build/dependency configuration file.",
+              "mental_model": "Python packaging configuration gathered under one standardized roof.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "toml",
+                  "code": "[project]\nname = \"wyncodex\"\nversion = \"0.1.0\"",
+                  "explanation": "Declares project metadata."
+                }
+              ]
+            },
+            {
+              "title": "argparse",
+              "summary": "Parse command-line flags and arguments using the standard library.",
+              "signature": "ArgumentParser()",
+              "definition": "Parse command-line flags and arguments using the standard library.",
+              "mental_model": "Describe a CLI grammar, then let argparse validate input.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "python",
+                  "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--dry-run\", action=\"store_true\")\nargs = p.parse_args()",
+                  "explanation": "Adds a boolean CLI flag."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

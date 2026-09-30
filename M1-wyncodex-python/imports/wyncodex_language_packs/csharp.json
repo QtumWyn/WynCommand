@@ -1,0 +1,399 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "C#",
+      "description": ".NET language reference focused on application tooling, async workflows, data modeling, LINQ, files, and desktop/backend code.",
+      "categories": [
+        {
+          "name": "Core Types and Modeling",
+          "description": "Classes, records, properties, interfaces, and patterns.",
+          "entries": [
+            {
+              "title": "Classes",
+              "summary": "Define reference types with fields, properties, constructors, and methods.",
+              "signature": "class Name { ... }",
+              "definition": "Define reference types with fields, properties, constructors, and methods.",
+              "mental_model": "Reference-type object model with rich metadata/runtime support.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "class Macro { public string Key { get; } public Macro(string key) => Key = key; }",
+                  "explanation": "Defines a simple class."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Define value-oriented reference or value types with concise immutable-style semantics.",
+              "signature": "record Name(...);",
+              "definition": "Define value-oriented reference or value types with concise immutable-style semantics.",
+              "mental_model": "Structural equality and with-expressions make records good data models.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "record Macro(string Key, string Language);",
+                  "explanation": "Creates a concise immutable-ish data carrier."
+                }
+              ]
+            },
+            {
+              "title": "Properties",
+              "summary": "Expose controlled get/set access with property syntax.",
+              "signature": "public T Name { get; set; }",
+              "definition": "Expose controlled get/set access with property syntax.",
+              "mental_model": "Field-like use with method-like control points.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "public string Name { get; init; } = \"Wyn\";",
+                  "explanation": "Defines an init-only property."
+                }
+              ]
+            },
+            {
+              "title": "Interfaces",
+              "summary": "Define contracts that types can implement.",
+              "signature": "interface IName { ... }",
+              "definition": "Define contracts that types can implement.",
+              "mental_model": "Behavioral capabilities decoupled from implementation classes.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "interface ICommand { int Run(); }",
+                  "explanation": "Declares a command contract."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Inspect type/shape/value patterns in switch and is expressions.",
+              "signature": "value switch { pattern => result }",
+              "definition": "Inspect type/shape/value patterns in switch and is expressions.",
+              "mental_model": "Branching and destructuring share one pattern system.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "var label = mode switch { Mode.Strict => \"strict\", Mode.Merge => \"merge\", _ => \"?\" };",
+                  "explanation": "Maps enum values to text."
+                }
+              ]
+            },
+            {
+              "title": "Nullable reference types",
+              "summary": "Annotate whether reference values are intended to allow null.",
+              "signature": "string / string?",
+              "definition": "Annotate whether reference values are intended to allow null.",
+              "mental_model": "Nullability becomes compiler-analyzed API intent.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "string? maybeName = null;\nConsole.WriteLine(maybeName ?? \"unknown\");",
+                  "explanation": "Uses a nullable string with fallback."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Collections and LINQ",
+          "description": "Generic collections, query operators, and delegates.",
+          "entries": [
+            {
+              "title": "List<T>",
+              "summary": "Store ordered growable collections.",
+              "signature": "List<T>",
+              "definition": "Store ordered growable collections.",
+              "mental_model": "Generic dynamic array/list abstraction.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "var langs = new List<string> { \"C#\", \"F#\" };\nlangs.Add(\"Rust\");",
+                  "explanation": "Appends an item."
+                }
+              ]
+            },
+            {
+              "title": "Dictionary<TKey,TValue>",
+              "summary": "Map keys to values.",
+              "signature": "Dictionary<TKey,TValue>",
+              "definition": "Map keys to values.",
+              "mental_model": "Generic hash-based key-value storage.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "var macros = new Dictionary<string,string> { [\"M1\"] = \"Python\" };",
+                  "explanation": "Creates a dictionary."
+                }
+              ]
+            },
+            {
+              "title": "LINQ",
+              "summary": "Query and transform sequences with composable operators.",
+              "signature": ".Where(...).Select(...)",
+              "definition": "Query and transform sequences with composable operators.",
+              "mental_model": "Functional-style pipelines over IEnumerable<T>.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "var names = new[] { \"rust\", \"zig\", \"java\" }.Select(x => x.ToUpper()).ToList();",
+                  "explanation": "Transforms each string."
+                }
+              ]
+            },
+            {
+              "title": "Delegates",
+              "summary": "Represent strongly typed callable references.",
+              "signature": "Func<...> / Action<...>",
+              "definition": "Represent strongly typed callable references.",
+              "mental_model": "A typed function pointer/object abstraction.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "Func<int,int> twice = x => x * 2;\nConsole.WriteLine(twice(21));",
+                  "explanation": "Stores a callable in a delegate."
+                }
+              ]
+            },
+            {
+              "title": "Events",
+              "summary": "Publish notifications using delegate-based subscription.",
+              "signature": "event EventHandler Name;",
+              "definition": "Publish notifications using delegate-based subscription.",
+              "mental_model": "Publisher-owned multicast delegate surface.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "public event EventHandler? Changed;",
+                  "explanation": "Declares an event."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Async, Errors, and Resources",
+          "description": "Tasks, async/await, exceptions, disposal, and files.",
+          "entries": [
+            {
+              "title": "async / await",
+              "summary": "Compose asynchronous Task-based operations.",
+              "signature": "async Task<T> Method()",
+              "definition": "Compose asynchronous Task-based operations.",
+              "mental_model": "await suspends the method until a Task completes without blocking the thread.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "async Task<int> GetAnswerAsync() { await Task.Delay(10); return 42; }",
+                  "explanation": "Returns an asynchronously produced integer."
+                }
+              ]
+            },
+            {
+              "title": "Task",
+              "summary": "Represent asynchronous work or a future result.",
+              "signature": "Task / Task<T>",
+              "definition": "Represent asynchronous work or a future result.",
+              "mental_model": "A completion handle for work that may still be running.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "Task<int> t = Task.Run(() => 21 * 2);\nConsole.WriteLine(await t);",
+                  "explanation": "Runs computation asynchronously."
+                }
+              ]
+            },
+            {
+              "title": "Exceptions",
+              "summary": "Signal failures with throw and handle them with try/catch/finally.",
+              "signature": "try / catch / finally",
+              "definition": "Signal failures with throw and handle them with try/catch/finally.",
+              "mental_model": "Structured stack unwinding with typed handlers.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "try { int.Parse(\"bat\"); } catch (FormatException ex) { Console.WriteLine(ex.Message); }",
+                  "explanation": "Handles a parsing error."
+                }
+              ]
+            },
+            {
+              "title": "using / IDisposable",
+              "summary": "Dispose resources deterministically at scope exit.",
+              "signature": "using var resource = ...;",
+              "definition": "Dispose resources deterministically at scope exit.",
+              "mental_model": "RAII-like deterministic cleanup via IDisposable.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "using var stream = File.OpenRead(\"README.md\");",
+                  "explanation": "Automatically disposes the stream."
+                }
+              ]
+            },
+            {
+              "title": "File APIs",
+              "summary": "Read and write files through System.IO helpers.",
+              "signature": "File.ReadAllText / WriteAllText",
+              "definition": "Read and write files through System.IO helpers.",
+              "mental_model": "High-level convenience APIs over streams and filesystem operations.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "csharp",
+                  "code": "var text = File.ReadAllText(\"README.md\");",
+                  "explanation": "Reads an entire file."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": ".NET Tooling",
+          "description": "Project files and CLI workflow.",
+          "entries": [
+            {
+              "title": ".csproj",
+              "summary": "Configure a .NET project using MSBuild XML.",
+              "signature": "<Project Sdk=\"Microsoft.NET.Sdk\">",
+              "definition": "Configure a .NET project using MSBuild XML.",
+              "mental_model": "Project metadata drives build, dependencies, targets, and tooling.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "xml",
+                  "code": "<Project Sdk=\"Microsoft.NET.Sdk\">\n  <PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup>\n</Project>",
+                  "explanation": "Defines a minimal SDK-style project."
+                }
+              ]
+            },
+            {
+              "title": "dotnet CLI",
+              "summary": "Create, build, run, test, and publish .NET projects.",
+              "signature": "dotnet build / run / test",
+              "definition": "Create, build, run, test, and publish .NET projects.",
+              "mental_model": "One command surface over SDK/MSBuild project operations.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "dotnet run",
+                  "explanation": "Builds and runs the current project."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

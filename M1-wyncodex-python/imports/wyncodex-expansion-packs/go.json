@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Go",
+      "description": "Compiled language focused on simplicity, tooling, concurrency, and networked software.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Go syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Short variable declarations",
+              "summary": "Declare and infer local variables with :=.",
+              "signature": "name := value",
+              "definition": "Declare and infer local variables with :=.",
+              "mental_model": "Think of Short variable declarations as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Short variable declarations example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "name := \"Wyn\"\ncount := 6",
+                  "explanation": "A compact example of Short variable declarations in use."
+                }
+              ]
+            },
+            {
+              "title": "Slices",
+              "summary": "Use dynamically sized views over arrays.",
+              "signature": "[]T",
+              "definition": "Use dynamically sized views over arrays.",
+              "mental_model": "Think of Slices as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Slices example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "values := []int{1, 2, 3}\nvalues = append(values, 4)",
+                  "explanation": "A compact example of Slices in use."
+                }
+              ]
+            },
+            {
+              "title": "Maps",
+              "summary": "Store key-value associations.",
+              "signature": "map[K]V",
+              "definition": "Store key-value associations.",
+              "mental_model": "Think of Maps as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Maps example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "ports := map[string]int{\"http\": 80, \"https\": 443}",
+                  "explanation": "A compact example of Maps in use."
+                }
+              ]
+            },
+            {
+              "title": "Structs",
+              "summary": "Group named fields into a concrete data type.",
+              "signature": "type Name struct { ... }",
+              "definition": "Group named fields into a concrete data type.",
+              "mental_model": "Think of Structs as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Structs example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "type Host struct {\n    Name string\n    Port int\n}",
+                  "explanation": "A compact example of Structs in use."
+                }
+              ]
+            },
+            {
+              "title": "Methods",
+              "summary": "Attach behavior to a receiver type.",
+              "signature": "func (r Receiver) Method() {}",
+              "definition": "Attach behavior to a receiver type.",
+              "mental_model": "Think of Methods as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Methods example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "func (h Host) Address() string {\n    return fmt.Sprintf(\"%s:%d\", h.Name, h.Port)\n}",
+                  "explanation": "A compact example of Methods in use."
+                }
+              ]
+            },
+            {
+              "title": "Interfaces",
+              "summary": "Describe behavior through method sets satisfied implicitly.",
+              "signature": "type Name interface { Method() }",
+              "definition": "Describe behavior through method sets satisfied implicitly.",
+              "mental_model": "Think of Interfaces as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Interfaces example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "type Runner interface {\n    Run() error\n}",
+                  "explanation": "A compact example of Interfaces in use."
+                }
+              ]
+            },
+            {
+              "title": "Errors",
+              "summary": "Represent expected failure as explicit return values.",
+              "signature": "(value, error)",
+              "definition": "Represent expected failure as explicit return values.",
+              "mental_model": "Think of Errors as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Errors example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "value, err := strconv.Atoi(\"42\")\nif err != nil { return err }",
+                  "explanation": "A compact example of Errors in use."
+                }
+              ]
+            },
+            {
+              "title": "defer",
+              "summary": "Schedule cleanup to run when the surrounding function returns.",
+              "signature": "defer call()",
+              "definition": "Schedule cleanup to run when the surrounding function returns.",
+              "mental_model": "Think of defer as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "defer example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "file, err := os.Open(\"data.txt\")\nif err != nil { return err }\ndefer file.Close()",
+                  "explanation": "A compact example of defer in use."
+                }
+              ]
+            },
+            {
+              "title": "goroutines",
+              "summary": "Run a function concurrently with go.",
+              "signature": "go function()",
+              "definition": "Run a function concurrently with go.",
+              "mental_model": "Think of goroutines as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "goroutines example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "go func() {\n    fmt.Println(\"background\")\n}()",
+                  "explanation": "A compact example of goroutines in use."
+                }
+              ]
+            },
+            {
+              "title": "Channels",
+              "summary": "Communicate typed values between goroutines.",
+              "signature": "chan T",
+              "definition": "Communicate typed values between goroutines.",
+              "mental_model": "Think of Channels as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Channels example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "ch := make(chan int)\ngo func() { ch <- 42 }()\nfmt.Println(<-ch)",
+                  "explanation": "A compact example of Channels in use."
+                }
+              ]
+            },
+            {
+              "title": "select",
+              "summary": "Wait on multiple channel operations.",
+              "signature": "select { case ... }",
+              "definition": "Wait on multiple channel operations.",
+              "mental_model": "Think of select as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "select example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "select {\ncase value := <-results:\n    fmt.Println(value)\ncase <-time.After(time.Second):\n    fmt.Println(\"timeout\")\n}",
+                  "explanation": "A compact example of select in use."
+                }
+              ]
+            },
+            {
+              "title": "context",
+              "summary": "Propagate cancellation and deadlines.",
+              "signature": "context.Context",
+              "definition": "Propagate cancellation and deadlines.",
+              "mental_model": "Think of context as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "context example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "ctx, cancel := context.WithTimeout(context.Background(), time.Second)\ndefer cancel()",
+                  "explanation": "A compact example of context in use."
+                }
+              ]
+            },
+            {
+              "title": "Generics",
+              "summary": "Parameterize functions and types over constrained type sets.",
+              "signature": "func Name[T constraint](...)",
+              "definition": "Parameterize functions and types over constrained type sets.",
+              "mental_model": "Think of Generics as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Generics example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "func First[T any](items []T) T {\n    return items[0]\n}",
+                  "explanation": "A compact example of Generics in use."
+                }
+              ]
+            },
+            {
+              "title": "Packages",
+              "summary": "Organize code into importable packages.",
+              "signature": "package name",
+              "definition": "Organize code into importable packages.",
+              "mental_model": "Think of Packages as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Packages example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "package network\n\nfunc Ping(host string) error { return nil }",
+                  "explanation": "A compact example of Packages in use."
+                }
+              ]
+            },
+            {
+              "title": "Table-driven tests",
+              "summary": "Express many test cases as data and iterate over them.",
+              "signature": "func TestX(t *testing.T)",
+              "definition": "Express many test cases as data and iterate over them.",
+              "mental_model": "Think of Table-driven tests as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Table-driven tests example",
+                  "type": "practical",
+                  "syntax": "go",
+                  "code": "func TestAdd(t *testing.T) {\n    cases := []struct{ a, b, want int }{{1,2,3}}\n    for _, tc := range cases {\n        if got := tc.a + tc.b; got != tc.want { t.Fail() }\n    }\n}",
+                  "explanation": "A compact example of Table-driven tests in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

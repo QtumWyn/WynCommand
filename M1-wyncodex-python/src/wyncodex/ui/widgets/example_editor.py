@@ -80,6 +80,16 @@ class ExampleEditorWidget(QFrame):
             140
         )
 
+        self._output_field = QPlainTextEdit()
+
+        self._output_field.setLineWrapMode(
+            QPlainTextEdit.LineWrapMode.NoWrap
+        )
+
+        self._output_field.setMaximumHeight(
+            100
+        )
+
         self._explanation_field = QTextEdit()
 
         self._explanation_field.setMaximumHeight(
@@ -120,6 +130,11 @@ class ExampleEditorWidget(QFrame):
         )
 
         form.addRow(
+            "Output",
+            self._output_field,
+        )
+
+        form.addRow(
             "Explanation",
             self._explanation_field,
         )
@@ -152,6 +167,10 @@ class ExampleEditorWidget(QFrame):
                 example.code
             )
 
+            self._output_field.setPlainText(
+                example.output or ""
+            )
+
             self._explanation_field.setPlainText(
                 example.explanation or ""
             )
@@ -179,6 +198,7 @@ class ExampleEditorWidget(QFrame):
         return ExampleDraft(
             title=self._title_field.text(),
             code=self._code_field.toPlainText(),
+            output=self._output_field.toPlainText(),
             explanation=(
                 self._explanation_field
                 .toPlainText()

@@ -1,0 +1,868 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Lua",
+      "description": "Expanded Lua reference covering core syntax, tables, functions, metatables, coroutines, modules, and standard libraries for embedded scripting.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Bindings, values, control flow, and operators.",
+          "entries": [
+            {
+              "title": "local variables",
+              "summary": "Declare variables with local scope.",
+              "signature": "local name = value",
+              "definition": "Declare variables with local scope.",
+              "mental_model": "local keeps names scoped to the current block/function rather than the global environment.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local project = \"WynCommand\"\nprint(project)",
+                  "explanation": "Declares and prints a local variable."
+                }
+              ]
+            },
+            {
+              "title": "Value types",
+              "summary": "Lua values include nil, boolean, number, string, function, userdata, thread, and table.",
+              "signature": "type(value)",
+              "definition": "Lua values include nil, boolean, number, string, function, userdata, thread, and table.",
+              "mental_model": "Lua is dynamically typed: values have types, variables do not.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "print(type(42))\nprint(type({}))\nprint(type(function() end))",
+                  "explanation": "Prints several runtime type names."
+                }
+              ]
+            },
+            {
+              "title": "if / elseif / else",
+              "summary": "Select branches using truthy conditions.",
+              "signature": "if cond then ... elseif ... else ... end",
+              "definition": "Select branches using truthy conditions.",
+              "mental_model": "Only false and nil are falsey in Lua.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local n = 6\nif n > 6 then print(\"many\") elseif n == 6 then print(\"six\") else print(\"few\") end",
+                  "explanation": "Chooses the matching branch."
+                }
+              ]
+            },
+            {
+              "title": "numeric for",
+              "summary": "Iterate across numeric ranges with optional step.",
+              "signature": "for i = start, stop, step do ... end",
+              "definition": "Iterate across numeric ranges with optional step.",
+              "mental_model": "Compact counter loop with inclusive stop.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "for i = 1, 3 do\n  print(i)\nend",
+                  "explanation": "Prints 1 through 3."
+                }
+              ]
+            },
+            {
+              "title": "generic for",
+              "summary": "Iterate using iterator functions such as pairs and ipairs.",
+              "signature": "for k, v in iterator do ... end",
+              "definition": "Iterate using iterator functions such as pairs and ipairs.",
+              "mental_model": "The iterator controls how successive values are produced.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "for i, name in ipairs({\"Lua\", \"Wren\"}) do\n  print(i, name)\nend",
+                  "explanation": "Iterates indexed values."
+                }
+              ]
+            },
+            {
+              "title": "while and repeat",
+              "summary": "Repeat with pre-test while or post-test repeat/until loops.",
+              "signature": "while cond do ... end / repeat ... until cond",
+              "definition": "Repeat with pre-test while or post-test repeat/until loops.",
+              "mental_model": "repeat always executes its body at least once.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local n = 0\nrepeat\n  n = n + 1\nuntil n == 3",
+                  "explanation": "Loops until n reaches 3."
+                }
+              ]
+            },
+            {
+              "title": "multiple assignment",
+              "summary": "Assign multiple values in parallel.",
+              "signature": "a, b = x, y",
+              "definition": "Assign multiple values in parallel.",
+              "mental_model": "Right-hand values are evaluated before assignment.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local a, b = 1, 2\na, b = b, a\nprint(a, b)",
+                  "explanation": "Swaps two variables."
+                }
+              ]
+            },
+            {
+              "title": "multiple return values",
+              "summary": "Functions may return multiple values that callers can capture separately.",
+              "signature": "return a, b",
+              "definition": "Functions may return multiple values that callers can capture separately.",
+              "mental_model": "Multiple values are a built-in calling convention feature.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local function split() return \"M1\", \"Python\" end\nlocal key, language = split()\nprint(key, language)",
+                  "explanation": "Captures two returned values."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Functions and Closures",
+          "description": "Callable values, varargs, closures, and method syntax.",
+          "entries": [
+            {
+              "title": "Functions",
+              "summary": "Define named or anonymous first-class functions.",
+              "signature": "function name(args) ... end",
+              "definition": "Define named or anonymous first-class functions.",
+              "mental_model": "Functions are ordinary values that can be stored and passed around.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local function double(x)\n  return x * 2\nend\nprint(double(21))",
+                  "explanation": "Defines and calls a function."
+                }
+              ]
+            },
+            {
+              "title": "Anonymous functions",
+              "summary": "Create function expressions without names.",
+              "signature": "function(args) ... end",
+              "definition": "Create function expressions without names.",
+              "mental_model": "Behavior as a value.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local twice = function(x) return x * 2 end\nprint(twice(21))",
+                  "explanation": "Stores an anonymous function."
+                }
+              ]
+            },
+            {
+              "title": "Closures",
+              "summary": "Functions capture lexical variables from surrounding scopes.",
+              "signature": "function() uses outer locals end",
+              "definition": "Functions capture lexical variables from surrounding scopes.",
+              "mental_model": "The function carries references to lexical upvalues.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local factor = 2\nlocal function scale(x) return x * factor end\nprint(scale(21))",
+                  "explanation": "Captures factor."
+                }
+              ]
+            },
+            {
+              "title": "Varargs",
+              "summary": "Accept a variable number of arguments using ....",
+              "signature": "function f(...)",
+              "definition": "Accept a variable number of arguments using ....",
+              "mental_model": "... represents the current function's extra argument list.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local function count(...)\n  return select(\"#\", ...)\nend\nprint(count(1,2,3))",
+                  "explanation": "Counts supplied arguments."
+                }
+              ]
+            },
+            {
+              "title": "Colon method syntax",
+              "summary": "Pass the table/object as implicit self when defining or calling methods with :.",
+              "signature": "obj:method(args)",
+              "definition": "Pass the table/object as implicit self when defining or calling methods with :.",
+              "mental_model": "obj:method(x) is sugar for obj.method(obj, x).",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local Tool = {}\nfunction Tool:label() return self.name end\nTool.name = \"Lua\"\nprint(Tool:label())",
+                  "explanation": "Calls a method with implicit self."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Tables and Iteration",
+          "description": "Lua's universal collection/object building block.",
+          "entries": [
+            {
+              "title": "Table construction",
+              "summary": "Create array-like, map-like, or mixed tables.",
+              "signature": "{ ... }",
+              "definition": "Create array-like, map-like, or mixed tables.",
+              "mental_model": "Tables are Lua's main mutable data structure.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local macro = { key = \"M1\", language = \"Python\", \"first\" }\nprint(macro.key, macro[1])",
+                  "explanation": "Uses keyed and indexed fields."
+                }
+              ]
+            },
+            {
+              "title": "pairs()",
+              "summary": "Iterate over table key-value pairs.",
+              "signature": "pairs(table)",
+              "definition": "Iterate over table key-value pairs.",
+              "mental_model": "General table iteration without ordering guarantees.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local t = {a = 1, b = 2}\nfor k, v in pairs(t) do print(k, v) end",
+                  "explanation": "Iterates all present keys."
+                }
+              ]
+            },
+            {
+              "title": "ipairs()",
+              "summary": "Iterate integer keys starting at 1 until the first missing index.",
+              "signature": "ipairs(table)",
+              "definition": "Iterate integer keys starting at 1 until the first missing index.",
+              "mental_model": "Designed for dense 1-based array sequences.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "for i, v in ipairs({\"a\", \"b\"}) do print(i, v) end",
+                  "explanation": "Iterates a sequence-style table."
+                }
+              ]
+            },
+            {
+              "title": "table.insert()",
+              "summary": "Insert a value into a sequence-like table.",
+              "signature": "table.insert(list, [pos,] value)",
+              "definition": "Insert a value into a sequence-like table.",
+              "mental_model": "Shift elements to make room when inserting in the middle.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local xs = {\"M1\", \"M3\"}\ntable.insert(xs, 2, \"M2\")",
+                  "explanation": "Inserts M2 at position 2."
+                }
+              ]
+            },
+            {
+              "title": "table.remove()",
+              "summary": "Remove and return an element from a sequence-like table.",
+              "signature": "table.remove(list, [pos])",
+              "definition": "Remove and return an element from a sequence-like table.",
+              "mental_model": "Delete one sequence slot and compact following elements.",
+              "return_value": "any",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local xs = {1,2,3}\nlocal removed = table.remove(xs, 2)\nprint(removed)",
+                  "explanation": "Removes and returns 2."
+                }
+              ]
+            },
+            {
+              "title": "table.concat()",
+              "summary": "Join sequence elements into a string.",
+              "signature": "table.concat(list, sep, i, j)",
+              "definition": "Join sequence elements into a string.",
+              "mental_model": "Stitch sequence strings together efficiently.",
+              "return_value": "string",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local words = {\"Trans\", \"Rights\", \"are\", \"Human\", \"Rights\"}\nprint(table.concat(words, \" \"))",
+                  "explanation": "Joins values with spaces."
+                }
+              ]
+            },
+            {
+              "title": "table.sort()",
+              "summary": "Sort a sequence in place with optional comparator.",
+              "signature": "table.sort(list, comp)",
+              "definition": "Sort a sequence in place with optional comparator.",
+              "mental_model": "In-place ordering of array-like table elements.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local xs = {3,1,2}\ntable.sort(xs)\nprint(table.concat(xs, \",\"))",
+                  "explanation": "Sorts ascending."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Metatables and Metamethods",
+          "description": "Customize table behavior and build prototype-like objects.",
+          "entries": [
+            {
+              "title": "setmetatable()",
+              "summary": "Attach a metatable that controls special operations for a table.",
+              "signature": "setmetatable(table, metatable)",
+              "definition": "Attach a metatable that controls special operations for a table.",
+              "mental_model": "A metatable is a behavior policy attached to another table.",
+              "return_value": "table",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local t = {}\nsetmetatable(t, { __index = { value = 42 } })\nprint(t.value)",
+                  "explanation": "Falls back to the metatable __index table."
+                }
+              ]
+            },
+            {
+              "title": "__index",
+              "summary": "Control fallback lookup for missing table keys.",
+              "signature": "__index = table_or_function",
+              "definition": "Control fallback lookup for missing table keys.",
+              "mental_model": "Prototype/default lookup hook.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local defaults = { mode = \"safe\" }\nlocal cfg = setmetatable({}, { __index = defaults })\nprint(cfg.mode)",
+                  "explanation": "Gets mode from defaults."
+                }
+              ]
+            },
+            {
+              "title": "__newindex",
+              "summary": "Intercept writes to absent keys.",
+              "signature": "__newindex = table_or_function",
+              "definition": "Intercept writes to absent keys.",
+              "mental_model": "A write hook used for proxies and validation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local t = setmetatable({}, { __newindex = function(_, k, v) print(k, v) end })\nt.answer = 42",
+                  "explanation": "Intercepts the assignment."
+                }
+              ]
+            },
+            {
+              "title": "__call",
+              "summary": "Allow a table to behave like a callable function.",
+              "signature": "__call = function(self, ...)",
+              "definition": "Allow a table to behave like a callable function.",
+              "mental_model": "Metamethods let operators dispatch to table-defined behavior.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local t = setmetatable({}, { __call = function(_, x) return x * 2 end })\nprint(t(21))",
+                  "explanation": "Calls a table as a function."
+                }
+              ]
+            },
+            {
+              "title": "__tostring",
+              "summary": "Customize tostring() output for a table/userdata.",
+              "signature": "__tostring = function(self)",
+              "definition": "Customize tostring() output for a table/userdata.",
+              "mental_model": "A printable representation hook.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local t = setmetatable({name=\"Wyn\"}, { __tostring = function(x) return \"User(\" .. x.name .. \")\" end })\nprint(t)",
+                  "explanation": "Prints custom text."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Coroutines and Errors",
+          "description": "Cooperative execution and failure handling.",
+          "entries": [
+            {
+              "title": "coroutine.create()",
+              "summary": "Create a suspended coroutine from a function.",
+              "signature": "coroutine.create(function)",
+              "definition": "Create a suspended coroutine from a function.",
+              "mental_model": "A coroutine is a resumable execution context.",
+              "return_value": "thread",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local co = coroutine.create(function() print(\"inside\") end)\ncoroutine.resume(co)",
+                  "explanation": "Creates and runs a coroutine."
+                }
+              ]
+            },
+            {
+              "title": "coroutine.yield()",
+              "summary": "Suspend the running coroutine and optionally pass values to its resumer.",
+              "signature": "coroutine.yield(values)",
+              "definition": "Suspend the running coroutine and optionally pass values to its resumer.",
+              "mental_model": "Cooperative suspension under program control.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local co = coroutine.create(function() coroutine.yield(\"paused\"); return \"done\" end)\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))",
+                  "explanation": "Yields then later finishes."
+                }
+              ]
+            },
+            {
+              "title": "error()",
+              "summary": "Raise a Lua error and unwind until protected handling is found.",
+              "signature": "error(message)",
+              "definition": "Raise a Lua error and unwind until protected handling is found.",
+              "mental_model": "Abort the current call chain with an error object/message.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local function fail() error(\"nope\") end",
+                  "explanation": "Raises an error."
+                }
+              ]
+            },
+            {
+              "title": "pcall()",
+              "summary": "Call a function in protected mode and capture success/failure as return values.",
+              "signature": "pcall(function, args...)",
+              "definition": "Call a function in protected mode and capture success/failure as return values.",
+              "mental_model": "Convert thrown errors into ordinary return values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "lua",
+                  "code": "local ok, value = pcall(function() return 21 * 2 end)\nprint(ok, value)",
+                  "explanation": "Returns true and 42."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Modules and Standard Libraries",
+          "description": "Code loading and common library functions.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "package",
+              "summary": "Module loading machinery",
+              "description": "Lua module search paths and require behavior.",
+              "entries": [
+                {
+                  "title": "require()",
+                  "summary": "Load a module once and return its exported value.",
+                  "signature": "require(\"module\")",
+                  "definition": "Load a module once and return its exported value.",
+                  "mental_model": "Search configured module paths, execute the module, cache the result.",
+                  "return_value": "any",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "local json = require(\"json\")",
+                      "explanation": "Loads a module named json."
+                    }
+                  ]
+                },
+                {
+                  "title": "package.path",
+                  "summary": "Configure Lua source module search patterns.",
+                  "signature": "package.path",
+                  "definition": "Configure Lua source module search patterns.",
+                  "mental_model": "A semicolon-separated template list used by require.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "package.path = package.path .. \";./scripts/?.lua\"",
+                      "explanation": "Adds a local script path pattern."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "string",
+              "summary": "String manipulation",
+              "description": "Pattern matching, formatting, slicing, and case conversion.",
+              "entries": [
+                {
+                  "title": "string.format()",
+                  "summary": "Create formatted strings using printf-like placeholders.",
+                  "signature": "string.format(format, ...)",
+                  "definition": "Create formatted strings using printf-like placeholders.",
+                  "mental_model": "Template-driven string construction.",
+                  "return_value": "string",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "print(string.format(\"M%d = %s\", 4, \"Zig\"))",
+                      "explanation": "Formats a string."
+                    }
+                  ]
+                },
+                {
+                  "title": "string.match()",
+                  "summary": "Extract the first substring matching a Lua pattern.",
+                  "signature": "string.match(s, pattern)",
+                  "definition": "Extract the first substring matching a Lua pattern.",
+                  "mental_model": "Lightweight pattern matching over strings.",
+                  "return_value": "string | nil",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "local word = string.match(\"macro=M4\", \"M%d\")\nprint(word)",
+                      "explanation": "Extracts M4."
+                    }
+                  ]
+                },
+                {
+                  "title": "string.gsub()",
+                  "summary": "Replace substrings matching a Lua pattern.",
+                  "signature": "string.gsub(s, pattern, replacement)",
+                  "definition": "Replace substrings matching a Lua pattern.",
+                  "mental_model": "Pattern-based global substitution plus replacement count.",
+                  "return_value": "string, integer",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "local s = string.gsub(\"hello bat\", \"bat\", \"Wyn\")\nprint(s)",
+                      "explanation": "Replaces bat with Wyn."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "math",
+              "summary": "Mathematical helpers",
+              "description": "Common numeric functions and constants.",
+              "entries": [
+                {
+                  "title": "math.floor()",
+                  "summary": "Round a number downward to the nearest integer.",
+                  "signature": "math.floor(x)",
+                  "definition": "Round a number downward to the nearest integer.",
+                  "mental_model": "Floor toward negative infinity.",
+                  "return_value": "integer",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "print(math.floor(3.9))",
+                      "explanation": "Prints 3."
+                    }
+                  ]
+                },
+                {
+                  "title": "math.random()",
+                  "summary": "Generate pseudo-random numbers using the implementation's PRNG.",
+                  "signature": "math.random(...)",
+                  "definition": "Generate pseudo-random numbers using the implementation's PRNG.",
+                  "mental_model": "Convenience pseudo-random generation, not cryptographic randomness.",
+                  "return_value": "number",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "print(math.random(1, 6))",
+                      "explanation": "Generates an integer in the requested range."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "io",
+              "summary": "File and stream I/O",
+              "description": "File handles and simple input/output helpers.",
+              "entries": [
+                {
+                  "title": "io.open()",
+                  "summary": "Open a file and return a file handle or error information.",
+                  "signature": "io.open(filename, mode)",
+                  "definition": "Open a file and return a file handle or error information.",
+                  "mental_model": "Manual handle-based file I/O.",
+                  "return_value": "file | nil",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "local f, err = io.open(\"out.txt\", \"w\")\nif f then f:write(\"Wyn\\n\"); f:close() end",
+                      "explanation": "Writes and closes a file."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "os",
+              "summary": "Operating-system helpers",
+              "description": "Environment, time, process and filesystem-adjacent helpers.",
+              "entries": [
+                {
+                  "title": "os.getenv()",
+                  "summary": "Read an environment variable.",
+                  "signature": "os.getenv(name)",
+                  "definition": "Read an environment variable.",
+                  "mental_model": "Expose process environment values to scripts.",
+                  "return_value": "string | nil",
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "print(os.getenv(\"HOME\"))",
+                      "explanation": "Prints HOME when set."
+                    }
+                  ]
+                },
+                {
+                  "title": "os.execute()",
+                  "summary": "Execute an operating-system command through the host shell/environment.",
+                  "signature": "os.execute(command)",
+                  "definition": "Execute an operating-system command through the host shell/environment.",
+                  "mental_model": "Simple process launching with platform-dependent details.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Example",
+                      "type": "practical",
+                      "syntax": "lua",
+                      "code": "local ok = os.execute(\"git --version\")\nprint(ok)",
+                      "explanation": "Runs an external command."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,345 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Python",
+      "description": "General-purpose Python language plus ecosystem knowledge.",
+      "categories": [
+        {
+          "name": "Game Development",
+          "description": "Practical game programming concepts and libraries.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "Pygame",
+              "summary": "SDL-based Python game library",
+              "description": "Core Pygame concepts for windows, timing, events, graphics, sprites, collisions, input, and audio.",
+              "entries": [
+                {
+                  "title": "pygame.init()",
+                  "summary": "Initialize imported Pygame modules.",
+                  "signature": "pygame.init()",
+                  "definition": "Initialize imported Pygame modules.",
+                  "mental_model": "Think of pygame.init() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "pygame.init() example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "import pygame\npygame.init()",
+                      "explanation": "A compact example of pygame.init() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "display.set_mode()",
+                  "summary": "Create the main display Surface.",
+                  "signature": "pygame.display.set_mode((width, height))",
+                  "definition": "Create the main display Surface.",
+                  "mental_model": "Think of display.set_mode() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "display.set_mode() example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "screen=pygame.display.set_mode((1280,720))",
+                      "explanation": "A compact example of display.set_mode() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Event queue",
+                  "summary": "Poll and process queued input and window events every frame.",
+                  "signature": "pygame.event.get()",
+                  "definition": "Poll and process queued input and window events every frame.",
+                  "mental_model": "Think of Event queue as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Event queue example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "for event in pygame.event.get():\n    if event.type == pygame.QUIT:\n        running=False",
+                      "explanation": "A compact example of Event queue in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Clock.tick()",
+                  "summary": "Cap frame rate and measure elapsed frame time.",
+                  "signature": "clock.tick(fps)",
+                  "definition": "Cap frame rate and measure elapsed frame time.",
+                  "mental_model": "Think of Clock.tick() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Clock.tick() example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "clock=pygame.time.Clock()\ndt=clock.tick(60)/1000.0",
+                      "explanation": "A compact example of Clock.tick() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Surface",
+                  "summary": "Represent an image or drawable pixel buffer.",
+                  "signature": "pygame.Surface((width, height))",
+                  "definition": "Represent an image or drawable pixel buffer.",
+                  "mental_model": "Think of Surface as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Surface example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "surface=pygame.Surface((64,64),pygame.SRCALPHA)",
+                      "explanation": "A compact example of Surface in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Rect",
+                  "summary": "Store and manipulate integer rectangular areas for positioning and collision.",
+                  "signature": "pygame.Rect(x, y, w, h)",
+                  "definition": "Store and manipulate integer rectangular areas for positioning and collision.",
+                  "mental_model": "Think of Rect as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Rect example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "player_rect=pygame.Rect(100,100,32,48)\nplayer_rect.center=(400,300)",
+                      "explanation": "A compact example of Rect in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Surface.blit()",
+                  "summary": "Copy one Surface onto another.",
+                  "signature": "destination.blit(source, position)",
+                  "definition": "Copy one Surface onto another.",
+                  "mental_model": "Think of Surface.blit() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Surface.blit() example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "screen.blit(player_image,player_rect)",
+                      "explanation": "A compact example of Surface.blit() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "image.load()",
+                  "summary": "Load an image file into a Surface.",
+                  "signature": "pygame.image.load(path)",
+                  "definition": "Load an image file into a Surface.",
+                  "mental_model": "Think of image.load() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "image.load() example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "player_image=pygame.image.load(\"bat.png\").convert_alpha()",
+                      "explanation": "A compact example of image.load() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Sprite",
+                  "summary": "Build reusable game objects with image and rect conventions.",
+                  "signature": "class Player(pygame.sprite.Sprite)",
+                  "definition": "Build reusable game objects with image and rect conventions.",
+                  "mental_model": "Think of Sprite as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Sprite example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "class Player(pygame.sprite.Sprite):\n    def __init__(self):\n        super().__init__()\n        self.image=pygame.Surface((32,32))\n        self.rect=self.image.get_rect()",
+                      "explanation": "A compact example of Sprite in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Group",
+                  "summary": "Store, update, and draw collections of Sprites.",
+                  "signature": "pygame.sprite.Group()",
+                  "definition": "Store, update, and draw collections of Sprites.",
+                  "mental_model": "Think of Group as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Group example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "all_sprites=pygame.sprite.Group(player,enemy)\nall_sprites.update(dt)\nall_sprites.draw(screen)",
+                      "explanation": "A compact example of Group in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "spritecollide()",
+                  "summary": "Test a Sprite against Sprites in a Group.",
+                  "signature": "pygame.sprite.spritecollide(sprite, group, dokill)",
+                  "definition": "Test a Sprite against Sprites in a Group.",
+                  "mental_model": "Think of spritecollide() as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "spritecollide() example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "hits=pygame.sprite.spritecollide(player,enemies,False)",
+                      "explanation": "A compact example of spritecollide() in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Keyboard state",
+                  "summary": "Read held keyboard keys each frame.",
+                  "signature": "pygame.key.get_pressed()",
+                  "definition": "Read held keyboard keys each frame.",
+                  "mental_model": "Think of Keyboard state as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Keyboard state example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "keys=pygame.key.get_pressed()\nif keys[pygame.K_a]: player.rect.x-=4",
+                      "explanation": "A compact example of Keyboard state in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Drawing primitives",
+                  "summary": "Draw shapes directly onto Surfaces.",
+                  "signature": "pygame.draw.rect(surface, color, rect)",
+                  "definition": "Draw shapes directly onto Surfaces.",
+                  "mental_model": "Think of Drawing primitives as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Drawing primitives example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "pygame.draw.rect(screen,(142,216,248),player_rect,2)",
+                      "explanation": "A compact example of Drawing primitives in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Font rendering",
+                  "summary": "Render text into a Surface.",
+                  "signature": "font.render(text, antialias, color)",
+                  "definition": "Render text into a Surface.",
+                  "mental_model": "Think of Font rendering as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Font rendering example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "font=pygame.font.Font(None,32)\ntext=font.render(\"WynCodex\",True,\"white\")",
+                      "explanation": "A compact example of Font rendering in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Sound effects",
+                  "summary": "Load and play short sound effects with pygame.mixer.Sound.",
+                  "signature": "pygame.mixer.Sound(path)",
+                  "definition": "Load and play short sound effects with pygame.mixer.Sound.",
+                  "mental_model": "Think of Sound effects as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Sound effects example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "click=pygame.mixer.Sound(\"click.wav\")\nclick.play()",
+                      "explanation": "A compact example of Sound effects in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Custom timers",
+                  "summary": "Post repeated events to the event queue on a timer.",
+                  "signature": "pygame.time.set_timer(event_type, millis)",
+                  "definition": "Post repeated events to the event queue on a timer.",
+                  "mental_model": "Think of Custom timers as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Custom timers example",
+                      "type": "practical",
+                      "syntax": "python",
+                      "code": "SPAWN=pygame.event.custom_type()\npygame.time.set_timer(SPAWN,1000)",
+                      "explanation": "A compact example of Custom timers in use."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

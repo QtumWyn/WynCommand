@@ -1,0 +1,379 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Wren",
+      "description": "Small embeddable scripting language reference tailored to WynCommand scripting helpers and extension points.",
+      "categories": [
+        {
+          "name": "Core Syntax",
+          "description": "Values, variables, control flow, and functions.",
+          "entries": [
+            {
+              "title": "var declarations",
+              "summary": "Create mutable local variables.",
+              "signature": "var name = value",
+              "definition": "Create mutable local variables.",
+              "mental_model": "A named slot whose value can change.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var mode = \"merge\"\nSystem.print(mode)",
+                  "explanation": "Declares and prints a variable."
+                }
+              ]
+            },
+            {
+              "title": "if / else",
+              "summary": "Choose between branches based on a boolean condition.",
+              "signature": "if (condition) { ... } else { ... }",
+              "definition": "Choose between branches based on a boolean condition.",
+              "mental_model": "Wren conditions are explicit boolean decisions.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var ready = true\nif (ready) { System.print(\"go\") } else { System.print(\"stop\") }",
+                  "explanation": "Selects one branch."
+                }
+              ]
+            },
+            {
+              "title": "while",
+              "summary": "Repeat a block while a condition remains true.",
+              "signature": "while (condition) { ... }",
+              "definition": "Repeat a block while a condition remains true.",
+              "mental_model": "Loop until the guard turns false.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var n = 0\nwhile (n < 3) {\n  System.print(n)\n  n = n + 1\n}",
+                  "explanation": "Prints 0 through 2."
+                }
+              ]
+            },
+            {
+              "title": "for",
+              "summary": "Iterate over any object implementing Wren iteration protocol.",
+              "signature": "for (item in sequence) { ... }",
+              "definition": "Iterate over any object implementing Wren iteration protocol.",
+              "mental_model": "Iteration is protocol-driven rather than limited to built-in lists.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "for (key in [\"M1\", \"M2\", \"M3\"]) { System.print(key) }",
+                  "explanation": "Iterates through a list."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Create callable function objects with Fn.new.",
+              "signature": "Fn.new { |args| ... }",
+              "definition": "Create callable function objects with Fn.new.",
+              "mental_model": "Functions are first-class objects.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var double = Fn.new { |x| x * 2 }\nSystem.print(double.call(21))",
+                  "explanation": "Calls a function object."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Classes and Objects",
+          "description": "Wren object model and methods.",
+          "entries": [
+            {
+              "title": "Classes",
+              "summary": "Define reusable object types.",
+              "signature": "class Name { ... }",
+              "definition": "Define reusable object types.",
+              "mental_model": "A class groups state, constructors, and methods.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "class Macro {\n  construct new(name) { _name = name }\n  name { _name }\n}\nSystem.print(Macro.new(\"M1\").name)",
+                  "explanation": "Defines and instantiates a class."
+                }
+              ]
+            },
+            {
+              "title": "Constructors",
+              "summary": "Initialize new instances using construct methods.",
+              "signature": "construct new(args) { ... }",
+              "definition": "Initialize new instances using construct methods.",
+              "mental_model": "Constructors are specially marked instance methods.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "class Pack {\n  construct new(name) { _name = name }\n}",
+                  "explanation": "Stores constructor input in a field."
+                }
+              ]
+            },
+            {
+              "title": "Fields",
+              "summary": "Store per-instance state in names beginning with underscore.",
+              "signature": "_field",
+              "definition": "Store per-instance state in names beginning with underscore.",
+              "mental_model": "Underscore-prefixed names are instance fields.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "class Box {\n  construct new(v) { _value = v }\n  value { _value }\n}",
+                  "explanation": "Stores instance state."
+                }
+              ]
+            },
+            {
+              "title": "Static methods",
+              "summary": "Attach behavior to the class object itself.",
+              "signature": "static methodName { ... }",
+              "definition": "Attach behavior to the class object itself.",
+              "mental_model": "Useful for constructors, factories, and namespaces.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "class Flags {\n  static default { \"safe\" }\n}\nSystem.print(Flags.default)",
+                  "explanation": "Calls behavior without an instance."
+                }
+              ]
+            },
+            {
+              "title": "Inheritance",
+              "summary": "Create a subclass that inherits behavior from a superclass.",
+              "signature": "class Child is Parent { ... }",
+              "definition": "Create a subclass that inherits behavior from a superclass.",
+              "mental_model": "Subclass lookup falls back to the parent class.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "class Tool { name { \"tool\" } }\nclass BuildTool is Tool { name { \"builder\" } }",
+                  "explanation": "Overrides inherited behavior."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Collections and Modules",
+          "description": "Built-in collection types and module organization.",
+          "entries": [
+            {
+              "title": "Lists",
+              "summary": "Store ordered mutable collections.",
+              "signature": "[a, b, c]",
+              "definition": "Store ordered mutable collections.",
+              "mental_model": "A growable indexed sequence.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var langs = [\"Python\", \"Wren\"]\nlangs.add(\"Prolog\")",
+                  "explanation": "Appends another element."
+                }
+              ]
+            },
+            {
+              "title": "Maps",
+              "summary": "Map keys to values.",
+              "signature": "{\"key\": value}",
+              "definition": "Map keys to values.",
+              "mental_model": "A hash-based dictionary.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var macros = {\"M1\": \"Python\", \"M4\": \"Zig\"}\nSystem.print(macros[\"M4\"])",
+                  "explanation": "Looks up a value by key."
+                }
+              ]
+            },
+            {
+              "title": "Ranges",
+              "summary": "Represent integer ranges for iteration and slicing-like operations.",
+              "signature": "start..end / start...end",
+              "definition": "Represent integer ranges for iteration and slicing-like operations.",
+              "mental_model": "Ranges are lightweight iterable interval objects.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "for (i in 1..3) { System.print(i) }",
+                  "explanation": "Iterates inclusively from 1 to 3."
+                }
+              ]
+            },
+            {
+              "title": "import",
+              "summary": "Load names from another Wren module.",
+              "signature": "import \"module\" for Name",
+              "definition": "Load names from another Wren module.",
+              "mental_model": "Modules are the unit of code loading and namespace separation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "import \"tools\" for Runner\nRunner.run()",
+                  "explanation": "Imports Runner from another module."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Fibers and Embedding",
+          "description": "Cooperative concurrency and host integration concepts.",
+          "entries": [
+            {
+              "title": "Fiber.new()",
+              "summary": "Create a cooperatively scheduled fiber around a function.",
+              "signature": "Fiber.new(fn)",
+              "definition": "Create a cooperatively scheduled fiber around a function.",
+              "mental_model": "A fiber is a resumable stack managed cooperatively.",
+              "return_value": "Fiber",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var fiber = Fiber.new { System.print(\"inside\") }\nfiber.call()",
+                  "explanation": "Creates and runs a fiber."
+                }
+              ]
+            },
+            {
+              "title": "Fiber.yield()",
+              "summary": "Yield control from the current fiber back to its caller.",
+              "signature": "Fiber.yield(value)",
+              "definition": "Yield control from the current fiber back to its caller.",
+              "mental_model": "Think suspendable function execution.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "var f = Fiber.new {\n  Fiber.yield(\"paused\")\n  return \"done\"\n}\nSystem.print(f.call())\nSystem.print(f.call())",
+                  "explanation": "Pauses and later resumes the fiber."
+                }
+              ]
+            },
+            {
+              "title": "Foreign methods",
+              "summary": "Declare methods implemented by the embedding host application.",
+              "signature": "foreign method(args)",
+              "definition": "Declare methods implemented by the embedding host application.",
+              "mental_model": "Wren names the API; your host language supplies the implementation.",
+              "return_value": null,
+              "gotchas": "Requires embedding API support from the host.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "wren",
+                  "code": "class Host {\n  foreign static run(command)\n}",
+                  "explanation": "Declares a host-provided static method."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QLabel,
     QPlainTextEdit,
+    QSizePolicy,
     QVBoxLayout,
 )
 
@@ -19,6 +20,11 @@ class CodeBlock(QFrame):
 
         self.setObjectName(
             "codeBlock"
+        )
+
+        self.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Fixed,
         )
 
         layout = QVBoxLayout(self)
@@ -49,6 +55,11 @@ class CodeBlock(QFrame):
             QPlainTextEdit.LineWrapMode.NoWrap
         )
 
+        self._editor.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Fixed,
+        )
+
         layout.addWidget(
             self._language_label
         )
@@ -67,11 +78,13 @@ class CodeBlock(QFrame):
             self,
             code: str,
             syntax_hint: str | None = None,
+            label: str | None = None,
     ) -> None:
         self._editor.setPlainText(code)
 
         self._language_label.setText(
-            (
+            label
+            or (
                 syntax_hint.upper()
                 if syntax_hint
                 else "TEXT"
@@ -88,7 +101,7 @@ class CodeBlock(QFrame):
             )
 
         visible_lines = min(
-            max(line_count, 3),
+            max(line_count, 1),
             14,
         )
 
@@ -101,3 +114,5 @@ class CodeBlock(QFrame):
             visible_lines * line_height
             + 20
         )
+
+        self.updateGeometry()

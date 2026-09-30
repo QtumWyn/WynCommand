@@ -1,0 +1,439 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Elixir",
+      "description": "BEAM/OTP language reference focused on concurrency, supervision, observability, polling, and resilient WynCommand/WynOS-style services.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Immutable data, functions, pattern matching, and pipelines.",
+          "entries": [
+            {
+              "title": "Pattern matching",
+              "summary": "Match and destructure values with = and function heads.",
+              "signature": "pattern = value",
+              "definition": "Match and destructure values with = and function heads.",
+              "mental_model": "The left side is a shape the right side must fit.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "{:ok, value} = {:ok, 42}",
+                  "explanation": "Binds value to 42."
+                }
+              ]
+            },
+            {
+              "title": "Immutable data",
+              "summary": "Values are not mutated in place; transformations produce new values.",
+              "signature": "new = update(old)",
+              "definition": "Values are not mutated in place; transformations produce new values.",
+              "mental_model": "Think persistent snapshots rather than mutable containers.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "original = [1, 2]\nupdated = [0 | original]\nIO.inspect(original)\nIO.inspect(updated)",
+                  "explanation": "Shows old and new lists coexist."
+                }
+              ]
+            },
+            {
+              "title": "Anonymous functions",
+              "summary": "Create function values with fn ... end.",
+              "signature": "fn args -> body end",
+              "definition": "Create function values with fn ... end.",
+              "mental_model": "Behavior can be stored and passed like data.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "double = fn x -> x * 2 end\nIO.puts(double.(21))",
+                  "explanation": "Invokes an anonymous function."
+                }
+              ]
+            },
+            {
+              "title": "Named functions and guards",
+              "summary": "Define multi-clause functions that dispatch by pattern and guard.",
+              "signature": "def f(pattern) when guard do ... end",
+              "definition": "Define multi-clause functions that dispatch by pattern and guard.",
+              "mental_model": "Function clauses form a top-to-bottom pattern decision table.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "defmodule Classifier do\n  def sign(x) when x > 0, do: :positive\n  def sign(_), do: :other\nend",
+                  "explanation": "Dispatches by guard."
+                }
+              ]
+            },
+            {
+              "title": "Pipe operator",
+              "summary": "Pass the previous expression as the first argument of the next call.",
+              "signature": "value |> function()",
+              "definition": "Pass the previous expression as the first argument of the next call.",
+              "mental_model": "Data flows left to right through transformations.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "[1,2,3]\n|> Enum.map(&(&1 * 2))\n|> Enum.sum()\n|> IO.inspect()",
+                  "explanation": "Builds a readable transformation pipeline."
+                }
+              ]
+            },
+            {
+              "title": "with",
+              "summary": "Chain pattern-matched success steps and short-circuit on failure.",
+              "signature": "with pattern <- expr do ... end",
+              "definition": "Chain pattern-matched success steps and short-circuit on failure.",
+              "mental_model": "A happy-path pipeline for tagged results.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "with {:ok, a} <- {:ok, 20},\n     {:ok, b} <- {:ok, 22} do\n  a + b\nend",
+                  "explanation": "Returns 42."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Processes and Message Passing",
+          "description": "BEAM lightweight process primitives.",
+          "entries": [
+            {
+              "title": "spawn/1",
+              "summary": "Create a lightweight BEAM process running a function.",
+              "signature": "spawn(fn -> ... end)",
+              "definition": "Create a lightweight BEAM process running a function.",
+              "mental_model": "Processes are isolated actors with independent heaps and mailboxes.",
+              "return_value": "pid",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "pid = spawn(fn -> IO.puts(\"worker\") end)\nIO.inspect(pid)",
+                  "explanation": "Starts a separate process."
+                }
+              ]
+            },
+            {
+              "title": "send/2",
+              "summary": "Send an immutable message to another process mailbox.",
+              "signature": "send(pid, message)",
+              "definition": "Send an immutable message to another process mailbox.",
+              "mental_model": "Messages are asynchronous envelopes placed in a mailbox.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "parent = self()\nspawn(fn -> send(parent, {:done, 42}) end)",
+                  "explanation": "Sends a tagged tuple back to the parent."
+                }
+              ]
+            },
+            {
+              "title": "receive",
+              "summary": "Pattern-match messages from the current process mailbox.",
+              "signature": "receive do pattern -> ... end",
+              "definition": "Pattern-match messages from the current process mailbox.",
+              "mental_model": "Mailbox scanning plus pattern matching.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "send(self(), {:status, :ok})\nreceive do\n  {:status, value} -> IO.inspect(value)\nend",
+                  "explanation": "Consumes a matching message."
+                }
+              ]
+            },
+            {
+              "title": "Process.monitor/1",
+              "summary": "Observe another process and receive a message if it terminates.",
+              "signature": "Process.monitor(pid)",
+              "definition": "Observe another process and receive a message if it terminates.",
+              "mental_model": "Monitoring is one-way observation without linking failure fate.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "pid = spawn(fn -> :ok end)\nref = Process.monitor(pid)\nreceive do\n  {:DOWN, ^ref, :process, ^pid, reason} -> IO.inspect(reason)\nend",
+                  "explanation": "Receives a DOWN notification."
+                }
+              ]
+            },
+            {
+              "title": "Links",
+              "summary": "Couple process lifecycles so failures can propagate according to trap-exit behavior.",
+              "signature": "Process.link(pid)",
+              "definition": "Couple process lifecycles so failures can propagate according to trap-exit behavior.",
+              "mental_model": "Links form failure-propagation relationships used by OTP supervision.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "pid = spawn(fn -> Process.sleep(:infinity) end)\nProcess.link(pid)",
+                  "explanation": "Links the processes."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "OTP Building Blocks",
+          "description": "Higher-level concurrency patterns for resilient systems.",
+          "entries": [
+            {
+              "title": "Task",
+              "summary": "Run one-off concurrent work with structured APIs.",
+              "signature": "Task.async(fn -> ... end)",
+              "definition": "Run one-off concurrent work with structured APIs.",
+              "mental_model": "A Task wraps a process around a single unit of work.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "task = Task.async(fn -> 21 * 2 end)\nIO.puts(Task.await(task))",
+                  "explanation": "Runs work concurrently and waits for 42."
+                }
+              ]
+            },
+            {
+              "title": "Agent",
+              "summary": "Manage simple shared state behind a process API.",
+              "signature": "Agent.start_link(fn -> state end)",
+              "definition": "Manage simple shared state behind a process API.",
+              "mental_model": "State lives in one process; callers interact through serialized requests.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "{:ok, pid} = Agent.start_link(fn -> 0 end)\nAgent.update(pid, &(&1 + 1))\nIO.puts(Agent.get(pid, & &1))",
+                  "explanation": "Safely updates state through messages."
+                }
+              ]
+            },
+            {
+              "title": "GenServer",
+              "summary": "Implement long-lived stateful processes with standardized call/cast/info callbacks.",
+              "signature": "use GenServer",
+              "definition": "Implement long-lived stateful processes with standardized call/cast/info callbacks.",
+              "mental_model": "GenServer is a disciplined mailbox loop with conventions.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "defmodule Counter do\n  use GenServer\n  def init(n), do: {:ok, n}\n  def handle_call(:get, _from, n), do: {:reply, n, n}\nend",
+                  "explanation": "Defines a minimal GenServer."
+                }
+              ]
+            },
+            {
+              "title": "Supervisor",
+              "summary": "Start and restart child processes according to a supervision strategy.",
+              "signature": "Supervisor.start_link(children, opts)",
+              "definition": "Start and restart child processes according to a supervision strategy.",
+              "mental_model": "Let processes crash, then use supervisors as recovery machinery.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "children = [{Task, fn -> Process.sleep(:infinity) end}]\nSupervisor.start_link(children, strategy: :one_for_one)",
+                  "explanation": "Starts a supervisor with one child."
+                }
+              ]
+            },
+            {
+              "title": "Registry",
+              "summary": "Associate names/keys with processes for dynamic lookup and dispatch.",
+              "signature": "Registry.start_link(keys: :unique, name: Name)",
+              "definition": "Associate names/keys with processes for dynamic lookup and dispatch.",
+              "mental_model": "A process directory maintained inside the BEAM.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "{:ok, _} = Registry.start_link(keys: :unique, name: MyRegistry)",
+                  "explanation": "Starts a unique-key process registry."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Tooling and Observability",
+          "description": "Mix, logging, and runtime inspection.",
+          "entries": [
+            {
+              "title": "Mix",
+              "summary": "Use Elixir's build tool for projects, dependencies, tasks, and releases.",
+              "signature": "mix new / mix run / mix test",
+              "definition": "Use Elixir's build tool for projects, dependencies, tasks, and releases.",
+              "mental_model": "Mix is the project/build command surface for Elixir.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "mix new wyn_worker --sup",
+                  "explanation": "Creates an OTP application skeleton."
+                }
+              ]
+            },
+            {
+              "title": "Logger",
+              "summary": "Emit structured runtime log messages.",
+              "signature": "Logger.info/1",
+              "definition": "Emit structured runtime log messages.",
+              "mental_model": "Centralized process-friendly logging.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "require Logger\nLogger.info(\"worker started\")",
+                  "explanation": "Writes an info log."
+                }
+              ]
+            },
+            {
+              "title": "Process.info/2",
+              "summary": "Inspect process metadata such as message queue length or memory.",
+              "signature": "Process.info(pid, item)",
+              "definition": "Inspect process metadata such as message queue length or memory.",
+              "mental_model": "Ask the BEAM runtime about a process without opening its internals.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "IO.inspect(Process.info(self(), :message_queue_len))",
+                  "explanation": "Reads mailbox length metadata."
+                }
+              ]
+            },
+            {
+              "title": ":timer.send_interval/2",
+              "summary": "Schedule recurring messages to the current process.",
+              "signature": ":timer.send_interval(ms, message)",
+              "definition": "Schedule recurring messages to the current process.",
+              "mental_model": "Turn time into mailbox events, ideal for polling loops.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "elixir",
+                  "code": "{:ok, _} = :timer.send_interval(1_000, :tick)\nreceive do :tick -> IO.puts(\"tick\") end",
+                  "explanation": "Schedules periodic :tick messages."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

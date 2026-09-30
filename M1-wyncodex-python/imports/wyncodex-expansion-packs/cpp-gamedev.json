@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "C++",
+      "description": "C++ language and systems programming knowledge.",
+      "categories": [
+        {
+          "name": "Game Development",
+          "description": "Engine-agnostic game programming patterns in modern C++.",
+          "entries": [
+            {
+              "title": "Game loop",
+              "summary": "Drive update and rendering repeatedly while the game is running.",
+              "signature": "while (running) { update(); render(); }",
+              "definition": "Drive update and rendering repeatedly while the game is running.",
+              "mental_model": "Think of Game loop as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Game loop example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Drive update and rendering repeatedly while the game is running.\nwhile (running) { update(); render(); }",
+                  "explanation": "A compact example of Game loop in use."
+                }
+              ]
+            },
+            {
+              "title": "Delta time",
+              "summary": "Scale time-based motion using elapsed frame time.",
+              "signature": "position += velocity * deltaTime;",
+              "definition": "Scale time-based motion using elapsed frame time.",
+              "mental_model": "Think of Delta time as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Delta time example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Scale time-based motion using elapsed frame time.\nposition += velocity * deltaTime;",
+                  "explanation": "A compact example of Delta time in use."
+                }
+              ]
+            },
+            {
+              "title": "Fixed timestep",
+              "summary": "Run simulation steps at a stable interval independent of rendering frequency.",
+              "signature": "while (accumulator >= fixedStep) { simulate(fixedStep); accumulator -= fixedStep; }",
+              "definition": "Run simulation steps at a stable interval independent of rendering frequency.",
+              "mental_model": "Think of Fixed timestep as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Fixed timestep example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Run simulation steps at a stable interval independent of rendering frequency.\nwhile (accumulator >= fixedStep) { simulate(fixedStep); accumulator -= fixedStep; }",
+                  "explanation": "A compact example of Fixed timestep in use."
+                }
+              ]
+            },
+            {
+              "title": "Vector math",
+              "summary": "Represent positions, directions, velocities, and forces with vector types.",
+              "signature": "position += velocity * dt;",
+              "definition": "Represent positions, directions, velocities, and forces with vector types.",
+              "mental_model": "Think of Vector math as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Vector math example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Represent positions, directions, velocities, and forces with vector types.\nposition += velocity * dt;",
+                  "explanation": "A compact example of Vector math in use."
+                }
+              ]
+            },
+            {
+              "title": "Transform hierarchy",
+              "summary": "Compose position, rotation, and scale through parent-child relationships.",
+              "signature": "world = parentWorld * local;",
+              "definition": "Compose position, rotation, and scale through parent-child relationships.",
+              "mental_model": "Think of Transform hierarchy as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Transform hierarchy example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Compose position, rotation, and scale through parent-child relationships.\nworld = parentWorld * local;",
+                  "explanation": "A compact example of Transform hierarchy in use."
+                }
+              ]
+            },
+            {
+              "title": "State machines",
+              "summary": "Represent mutually exclusive gameplay states with explicit transitions.",
+              "signature": "state = PlayerState.Jumping;",
+              "definition": "Represent mutually exclusive gameplay states with explicit transitions.",
+              "mental_model": "Think of State machines as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "State machines example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Represent mutually exclusive gameplay states with explicit transitions.\nstate = PlayerState.Jumping;",
+                  "explanation": "A compact example of State machines in use."
+                }
+              ]
+            },
+            {
+              "title": "Object pooling",
+              "summary": "Reuse frequently created game objects to reduce allocation churn.",
+              "signature": "pool.Release(projectile);",
+              "definition": "Reuse frequently created game objects to reduce allocation churn.",
+              "mental_model": "Think of Object pooling as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Object pooling example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Reuse frequently created game objects to reduce allocation churn.\npool.Release(projectile);",
+                  "explanation": "A compact example of Object pooling in use."
+                }
+              ]
+            },
+            {
+              "title": "Entity-component design",
+              "summary": "Compose game entities from focused reusable components.",
+              "signature": "entity.Add<Health>();",
+              "definition": "Compose game entities from focused reusable components.",
+              "mental_model": "Think of Entity-component design as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Entity-component design example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Compose game entities from focused reusable components.\nentity.Add<Health>();",
+                  "explanation": "A compact example of Entity-component design in use."
+                }
+              ]
+            },
+            {
+              "title": "Collision layers",
+              "summary": "Filter which categories of objects should test or respond to collisions.",
+              "signature": "if ((mask & otherLayer) != 0) { }",
+              "definition": "Filter which categories of objects should test or respond to collisions.",
+              "mental_model": "Think of Collision layers as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Collision layers example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Filter which categories of objects should test or respond to collisions.\nif ((mask & otherLayer) != 0) { }",
+                  "explanation": "A compact example of Collision layers in use."
+                }
+              ]
+            },
+            {
+              "title": "AABB collision",
+              "summary": "Use axis-aligned bounding boxes for inexpensive broad collision checks.",
+              "signature": "bool hit = a.Left < b.Right && a.Right > b.Left;",
+              "definition": "Use axis-aligned bounding boxes for inexpensive broad collision checks.",
+              "mental_model": "Think of AABB collision as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "AABB collision example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Use axis-aligned bounding boxes for inexpensive broad collision checks.\nbool hit = a.Left < b.Right && a.Right > b.Left;",
+                  "explanation": "A compact example of AABB collision in use."
+                }
+              ]
+            },
+            {
+              "title": "Spatial partitioning",
+              "summary": "Reduce world queries by grouping nearby objects spatially.",
+              "signature": "grid.Query(playerBounds);",
+              "definition": "Reduce world queries by grouping nearby objects spatially.",
+              "mental_model": "Think of Spatial partitioning as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Spatial partitioning example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Reduce world queries by grouping nearby objects spatially.\ngrid.Query(playerBounds);",
+                  "explanation": "A compact example of Spatial partitioning in use."
+                }
+              ]
+            },
+            {
+              "title": "Input actions",
+              "summary": "Map physical inputs to semantic gameplay actions.",
+              "signature": "input.IsPressed(\"Jump\")",
+              "definition": "Map physical inputs to semantic gameplay actions.",
+              "mental_model": "Think of Input actions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Input actions example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Map physical inputs to semantic gameplay actions.\ninput.IsPressed(\"Jump\")",
+                  "explanation": "A compact example of Input actions in use."
+                }
+              ]
+            },
+            {
+              "title": "Asset lifetime",
+              "summary": "Load, cache, share, and unload assets deliberately.",
+              "signature": "assets.Load<Texture>(\"bat.png\")",
+              "definition": "Load, cache, share, and unload assets deliberately.",
+              "mental_model": "Think of Asset lifetime as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Asset lifetime example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Load, cache, share, and unload assets deliberately.\nassets.Load<Texture>(\"bat.png\")",
+                  "explanation": "A compact example of Asset lifetime in use."
+                }
+              ]
+            },
+            {
+              "title": "Interpolation",
+              "summary": "Smooth rendered motion between discrete simulation states.",
+              "signature": "renderPos = Lerp(previous, current, alpha);",
+              "definition": "Smooth rendered motion between discrete simulation states.",
+              "mental_model": "Think of Interpolation as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Interpolation example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Smooth rendered motion between discrete simulation states.\nrenderPos = Lerp(previous, current, alpha);",
+                  "explanation": "A compact example of Interpolation in use."
+                }
+              ]
+            },
+            {
+              "title": "Game events",
+              "summary": "Decouple systems by publishing gameplay events.",
+              "signature": "events.Publish(new PlayerDied(id));",
+              "definition": "Decouple systems by publishing gameplay events.",
+              "mental_model": "Think of Game events as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Game events example",
+                  "type": "practical",
+                  "syntax": "cpp",
+                  "code": "// Decouple systems by publishing gameplay events.\nevents.Publish(new PlayerDied(id));",
+                  "explanation": "A compact example of Game events in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

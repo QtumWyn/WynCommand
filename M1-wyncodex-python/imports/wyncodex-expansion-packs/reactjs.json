@@ -1,0 +1,325 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "JavaScript",
+      "description": "JavaScript language reference plus runtime and framework knowledge.",
+      "categories": [
+        {
+          "name": "UI Frameworks",
+          "description": "Component-oriented user-interface libraries and frameworks.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "React.js",
+              "summary": "Component-based UI library",
+              "description": "Practical React concepts for components, state, events, effects, context, refs, and reusable Hooks.",
+              "entries": [
+                {
+                  "title": "Function components",
+                  "summary": "Define reusable UI pieces as JavaScript functions returning JSX.",
+                  "signature": "function Component(props) { return <div />; }",
+                  "definition": "Define reusable UI pieces as JavaScript functions returning JSX.",
+                  "mental_model": "Think of Function components as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Function components example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "function Greeting({name}) {\n  return <h1>Hello {name}</h1>;\n}",
+                      "explanation": "A compact example of Function components in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "JSX",
+                  "summary": "Describe UI structure with JavaScript-embedded markup.",
+                  "signature": "const element = <Tag />",
+                  "definition": "Describe UI structure with JavaScript-embedded markup.",
+                  "mental_model": "Think of JSX as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "JSX example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const card = <section><h2>WynCodex</h2><p>Ready.</p></section>;",
+                      "explanation": "A compact example of JSX in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Props",
+                  "summary": "Pass data from a parent component into a child component.",
+                  "signature": "<Card title={value} />",
+                  "definition": "Pass data from a parent component into a child component.",
+                  "mental_model": "Think of Props as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Props example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "function Card({title}) { return <h2>{title}</h2>; }",
+                      "explanation": "A compact example of Props in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "useState",
+                  "summary": "Store component-local state and update it to trigger rendering.",
+                  "signature": "const [value, setValue] = useState(initial)",
+                  "definition": "Store component-local state and update it to trigger rendering.",
+                  "mental_model": "Think of useState as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "useState example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const [count,setCount]=useState(0);\nreturn <button onClick={()=>setCount(count+1)}>{count}</button>;",
+                      "explanation": "A compact example of useState in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Event handlers",
+                  "summary": "Respond to user interaction by passing functions to event props.",
+                  "signature": "onClick={handler}",
+                  "definition": "Respond to user interaction by passing functions to event props.",
+                  "mental_model": "Think of Event handlers as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Event handlers example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "return <button onClick={()=>console.log(\"click\")}>Run</button>;",
+                      "explanation": "A compact example of Event handlers in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Conditional rendering",
+                  "summary": "Choose which UI to return based on state or props.",
+                  "signature": "condition ? <A /> : <B />",
+                  "definition": "Choose which UI to return based on state or props.",
+                  "mental_model": "Think of Conditional rendering as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Conditional rendering example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "return loggedIn ? <Dashboard /> : <Login />;",
+                      "explanation": "A compact example of Conditional rendering in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Rendering lists",
+                  "summary": "Map collections into elements and give siblings stable keys.",
+                  "signature": "items.map(item => <Row key={item.id} />)",
+                  "definition": "Map collections into elements and give siblings stable keys.",
+                  "mental_model": "Think of Rendering lists as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Rendering lists example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "return items.map(item => <li key={item.id}>{item.name}</li>);",
+                      "explanation": "A compact example of Rendering lists in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Lifting state up",
+                  "summary": "Move shared state to the nearest common parent.",
+                  "signature": "parent owns state",
+                  "definition": "Move shared state to the nearest common parent.",
+                  "mental_model": "Think of Lifting state up as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Lifting state up example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const [value,setValue]=useState(\"\");\nreturn <><Input value={value} onChange={setValue}/><Preview value={value}/></>;",
+                      "explanation": "A compact example of Lifting state up in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "useEffect",
+                  "summary": "Synchronize a component with systems outside React.",
+                  "signature": "useEffect(setup, dependencies)",
+                  "definition": "Synchronize a component with systems outside React.",
+                  "mental_model": "Think of useEffect as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "useEffect example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "useEffect(()=>{ document.title=`Count: ${count}`; },[count]);",
+                      "explanation": "A compact example of useEffect in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Effect cleanup",
+                  "summary": "Return cleanup logic from an Effect to undo subscriptions or resources.",
+                  "signature": "useEffect(() => { return cleanup; }, [])",
+                  "definition": "Return cleanup logic from an Effect to undo subscriptions or resources.",
+                  "mental_model": "Think of Effect cleanup as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Effect cleanup example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "useEffect(()=>{ const id=setInterval(refresh,1000); return ()=>clearInterval(id); },[]);",
+                      "explanation": "A compact example of Effect cleanup in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "useRef",
+                  "summary": "Hold mutable values or DOM references without causing re-renders.",
+                  "signature": "const ref = useRef(initial)",
+                  "definition": "Hold mutable values or DOM references without causing re-renders.",
+                  "mental_model": "Think of useRef as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "useRef example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const inputRef=useRef(null);\nreturn <input ref={inputRef}/>;",
+                      "explanation": "A compact example of useRef in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Context",
+                  "summary": "Share values with distant descendants without threading props through every level.",
+                  "signature": "useContext(Context)",
+                  "definition": "Share values with distant descendants without threading props through every level.",
+                  "mental_model": "Think of Context as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Context example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const theme = useContext(ThemeContext);",
+                      "explanation": "A compact example of Context in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "useReducer",
+                  "summary": "Manage state transitions with a reducer function.",
+                  "signature": "const [state, dispatch] = useReducer(reducer, initial)",
+                  "definition": "Manage state transitions with a reducer function.",
+                  "mental_model": "Think of useReducer as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "useReducer example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const [state,dispatch]=useReducer(reducer,{count:0});\ndispatch({type:\"increment\"});",
+                      "explanation": "A compact example of useReducer in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Custom Hooks",
+                  "summary": "Extract reusable stateful logic into functions whose names begin with use.",
+                  "signature": "function useThing() {}",
+                  "definition": "Extract reusable stateful logic into functions whose names begin with use.",
+                  "mental_model": "Think of Custom Hooks as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Custom Hooks example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "function useOnline(){ const [online]=useState(navigator.onLine); return online; }",
+                      "explanation": "A compact example of Custom Hooks in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "useMemo",
+                  "summary": "Cache an expensive calculated value while dependencies remain unchanged.",
+                  "signature": "useMemo(calculate, deps)",
+                  "definition": "Cache an expensive calculated value while dependencies remain unchanged.",
+                  "mental_model": "Think of useMemo as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "useMemo example",
+                      "type": "practical",
+                      "syntax": "jsx",
+                      "code": "const sorted=useMemo(()=>[...items].sort(compare),[items]);",
+                      "explanation": "A compact example of useMemo in use."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

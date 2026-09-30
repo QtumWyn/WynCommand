@@ -51,6 +51,19 @@ class ExampleDisplayWidget(QFrame):
         layout.addWidget(example_type)
         layout.addWidget(code)
 
+        if example.output:
+            output = CodeBlock()
+
+            output.set_code(
+                example.output,
+                "text",
+                label="OUTPUT",
+            )
+
+            layout.addWidget(
+                output
+            )
+
         if example.explanation:
             explanation = QLabel(
                 example.explanation

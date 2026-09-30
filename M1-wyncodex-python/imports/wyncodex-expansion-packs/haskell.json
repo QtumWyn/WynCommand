@@ -1,0 +1,318 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Haskell",
+      "description": "Pure functional language with lazy evaluation and a powerful static type system.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Haskell syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Function definitions",
+              "summary": "Define functions by equations and pattern matching.",
+              "signature": "name args = expression",
+              "definition": "Define functions by equations and pattern matching.",
+              "mental_model": "Think of Function definitions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Function definitions example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "square x = x * x",
+                  "explanation": "A compact example of Function definitions in use."
+                }
+              ]
+            },
+            {
+              "title": "Type signatures",
+              "summary": "Declare a function or value type explicitly.",
+              "signature": "name :: Type",
+              "definition": "Declare a function or value type explicitly.",
+              "mental_model": "Think of Type signatures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Type signatures example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "square :: Num a => a -> a\nsquare x = x * x",
+                  "explanation": "A compact example of Type signatures in use."
+                }
+              ]
+            },
+            {
+              "title": "Currying",
+              "summary": "Treat multi-argument functions as chains of single-argument functions.",
+              "signature": "a -> b -> c",
+              "definition": "Treat multi-argument functions as chains of single-argument functions.",
+              "mental_model": "Think of Currying as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Currying example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "add :: Int -> Int -> Int\nadd a b = a + b\naddFive = add 5",
+                  "explanation": "A compact example of Currying in use."
+                }
+              ]
+            },
+            {
+              "title": "Function composition",
+              "summary": "Compose functions right-to-left with the . operator.",
+              "signature": "(.)",
+              "definition": "Compose functions right-to-left with the . operator.",
+              "mental_model": "Think of Function composition as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Function composition example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "normalize = map toLower . filter isAlpha",
+                  "explanation": "A compact example of Function composition in use."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Deconstruct values directly in function equations or case expressions.",
+              "signature": "f pattern = ...",
+              "definition": "Deconstruct values directly in function equations or case expressions.",
+              "mental_model": "Think of Pattern matching as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pattern matching example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "headOr def [] = def\nheadOr _ (x:_) = x",
+                  "explanation": "A compact example of Pattern matching in use."
+                }
+              ]
+            },
+            {
+              "title": "Guards",
+              "summary": "Choose function results using ordered boolean conditions.",
+              "signature": "| condition = result",
+              "definition": "Choose function results using ordered boolean conditions.",
+              "mental_model": "Think of Guards as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Guards example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "classify n\n  | n < 0 = \"negative\"\n  | n == 0 = \"zero\"\n  | otherwise = \"positive\"",
+                  "explanation": "A compact example of Guards in use."
+                }
+              ]
+            },
+            {
+              "title": "Algebraic data types",
+              "summary": "Define sum and product types with data constructors.",
+              "signature": "data Name = A | B ...",
+              "definition": "Define sum and product types with data constructors.",
+              "mental_model": "Think of Algebraic data types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Algebraic data types example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "data Status = Idle | Running | Failed String",
+                  "explanation": "A compact example of Algebraic data types in use."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Give fields names inside data constructors.",
+              "signature": "data Name = Name { field :: Type }",
+              "definition": "Give fields names inside data constructors.",
+              "mental_model": "Think of Records as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Records example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "data Host = Host { name :: String, port :: Int }",
+                  "explanation": "A compact example of Records in use."
+                }
+              ]
+            },
+            {
+              "title": "Typeclasses",
+              "summary": "Describe shared behavior implemented by multiple types.",
+              "signature": "class Constraint a where ...",
+              "definition": "Describe shared behavior implemented by multiple types.",
+              "mental_model": "Think of Typeclasses as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Typeclasses example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "class Render a where\n  render :: a -> String",
+                  "explanation": "A compact example of Typeclasses in use."
+                }
+              ]
+            },
+            {
+              "title": "Maybe",
+              "summary": "Represent an optional value explicitly.",
+              "signature": "Maybe a",
+              "definition": "Represent an optional value explicitly.",
+              "mental_model": "Think of Maybe as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Maybe example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "safeHead [] = Nothing\nsafeHead (x:_) = Just x",
+                  "explanation": "A compact example of Maybe in use."
+                }
+              ]
+            },
+            {
+              "title": "Either",
+              "summary": "Represent success/failure or two alternative result types.",
+              "signature": "Either e a",
+              "definition": "Represent success/failure or two alternative result types.",
+              "mental_model": "Think of Either as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Either example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "parsePort s = case reads s of\n  [(n, \"\")] -> Right n\n  _ -> Left \"invalid port\"",
+                  "explanation": "A compact example of Either in use."
+                }
+              ]
+            },
+            {
+              "title": "Higher-order functions",
+              "summary": "Pass functions as values to functions such as map and filter.",
+              "signature": "(a -> b) -> [a] -> [b]",
+              "definition": "Pass functions as values to functions such as map and filter.",
+              "mental_model": "Think of Higher-order functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Higher-order functions example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "squares = map (^2) [1..5]",
+                  "explanation": "A compact example of Higher-order functions in use."
+                }
+              ]
+            },
+            {
+              "title": "IO",
+              "summary": "Describe effectful actions using the IO type.",
+              "signature": "IO a",
+              "definition": "Describe effectful actions using the IO type.",
+              "mental_model": "Think of IO as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "IO example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "main :: IO ()\nmain = putStrLn \"Hello\"",
+                  "explanation": "A compact example of IO in use."
+                }
+              ]
+            },
+            {
+              "title": "do notation",
+              "summary": "Sequence monadic actions with readable imperative-looking syntax.",
+              "signature": "do ...",
+              "definition": "Sequence monadic actions with readable imperative-looking syntax.",
+              "mental_model": "Think of do notation as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "do notation example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "main = do\n  name <- getLine\n  putStrLn (\"Hello \" ++ name)",
+                  "explanation": "A compact example of do notation in use."
+                }
+              ]
+            },
+            {
+              "title": "fmap",
+              "summary": "Apply a pure function inside a functorial context.",
+              "signature": "fmap :: Functor f => (a -> b) -> f a -> f b",
+              "definition": "Apply a pure function inside a functorial context.",
+              "mental_model": "Think of fmap as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "fmap example",
+                  "type": "practical",
+                  "syntax": "haskell",
+                  "code": "result = fmap length (Just \"Wyn\")",
+                  "explanation": "A compact example of fmap in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

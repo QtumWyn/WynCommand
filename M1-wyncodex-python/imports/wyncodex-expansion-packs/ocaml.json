@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "OCaml",
+      "description": "Statically typed functional language with algebraic data types, modules, inference, and pragmatic imperative features.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core OCaml syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "let bindings",
+              "summary": "Bind immutable names to expressions.",
+              "signature": "let name = expression",
+              "definition": "Bind immutable names to expressions.",
+              "mental_model": "Think of let bindings as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "let bindings example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "let app = \"WynCodex\"\nlet count = 42",
+                  "explanation": "A compact example of let bindings in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define curried functions with let.",
+              "signature": "let f x = expression",
+              "definition": "Define curried functions with let.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "let square x = x * x",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Pattern matching",
+              "summary": "Deconstruct algebraic values with match.",
+              "signature": "match value with ...",
+              "definition": "Deconstruct algebraic values with match.",
+              "mental_model": "Think of Pattern matching as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pattern matching example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "let describe = function\n  | Some x -> x\n  | None -> \"missing\"",
+                  "explanation": "A compact example of Pattern matching in use."
+                }
+              ]
+            },
+            {
+              "title": "Variants",
+              "summary": "Define algebraic sum types.",
+              "signature": "type t = A | B of value",
+              "definition": "Define algebraic sum types.",
+              "mental_model": "Think of Variants as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Variants example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "type status = Idle | Running | Failed of string",
+                  "explanation": "A compact example of Variants in use."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Define named product types.",
+              "signature": "type t = { field : type }",
+              "definition": "Define named product types.",
+              "mental_model": "Think of Records as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Records example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "type host = { name : string; port : int }",
+                  "explanation": "A compact example of Records in use."
+                }
+              ]
+            },
+            {
+              "title": "Option",
+              "summary": "Represent optional values with Some and None.",
+              "signature": "'a option",
+              "definition": "Represent optional values with Some and None.",
+              "mental_model": "Think of Option as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Option example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "let port = Some 443",
+                  "explanation": "A compact example of Option in use."
+                }
+              ]
+            },
+            {
+              "title": "Result",
+              "summary": "Represent computations that can return Ok or Error.",
+              "signature": "('a, 'e) result",
+              "definition": "Represent computations that can return Ok or Error.",
+              "mental_model": "Think of Result as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Result example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "let parse ok = if ok then Ok 42 else Error \"bad\"",
+                  "explanation": "A compact example of Result in use."
+                }
+              ]
+            },
+            {
+              "title": "Lists",
+              "summary": "Use immutable linked lists and recursive processing.",
+              "signature": "[] / ::",
+              "definition": "Use immutable linked lists and recursive processing.",
+              "mental_model": "Think of Lists as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Lists example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "let values = [1; 2; 3]\nlet doubled = List.map (( * ) 2) values",
+                  "explanation": "A compact example of Lists in use."
+                }
+              ]
+            },
+            {
+              "title": "Modules",
+              "summary": "Group definitions behind namespaces and signatures.",
+              "signature": "module Name = struct ... end",
+              "definition": "Group definitions behind namespaces and signatures.",
+              "mental_model": "Think of Modules as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Modules example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "module Net = struct\n  let default_port = 443\nend",
+                  "explanation": "A compact example of Modules in use."
+                }
+              ]
+            },
+            {
+              "title": "Pipelines",
+              "summary": "Feed values left-to-right with the |> operator.",
+              "signature": "value |> function",
+              "definition": "Feed values left-to-right with the |> operator.",
+              "mental_model": "Think of Pipelines as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Pipelines example",
+                  "type": "practical",
+                  "syntax": "ocaml",
+                  "code": "[1;2;3] |> List.map (fun x -> x * x)",
+                  "explanation": "A compact example of Pipelines in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

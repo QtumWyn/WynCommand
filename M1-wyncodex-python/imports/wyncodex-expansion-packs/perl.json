@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Perl",
+      "description": "Dynamic language widely used for text processing, automation, systems work, and legacy applications.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Perl syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Scalars",
+              "summary": "Store single values in $-prefixed variables.",
+              "signature": "$name",
+              "definition": "Store single values in $-prefixed variables.",
+              "mental_model": "Think of Scalars as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Scalars example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my $name = \"Wyn\";\nmy $count = 42;",
+                  "explanation": "A compact example of Scalars in use."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Store ordered lists in @-prefixed variables.",
+              "signature": "@items",
+              "definition": "Store ordered lists in @-prefixed variables.",
+              "mental_model": "Think of Arrays as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Arrays example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my @ports = (22, 80, 443);\nprint $ports[1];",
+                  "explanation": "A compact example of Arrays in use."
+                }
+              ]
+            },
+            {
+              "title": "Hashes",
+              "summary": "Store key-value maps in %-prefixed variables.",
+              "signature": "%map",
+              "definition": "Store key-value maps in %-prefixed variables.",
+              "mental_model": "Think of Hashes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Hashes example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my %host = (name => \"localhost\", port => 443);",
+                  "explanation": "A compact example of Hashes in use."
+                }
+              ]
+            },
+            {
+              "title": "my",
+              "summary": "Declare lexically scoped variables.",
+              "signature": "my $x = ...",
+              "definition": "Declare lexically scoped variables.",
+              "mental_model": "Think of my as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "my example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my $value = 42;",
+                  "explanation": "A compact example of my in use."
+                }
+              ]
+            },
+            {
+              "title": "Regular expressions",
+              "summary": "Match and transform text with built-in regex operators.",
+              "signature": "$text =~ /pattern/",
+              "definition": "Match and transform text with built-in regex operators.",
+              "mental_model": "Think of Regular expressions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Regular expressions example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my $text = \"port=443\";\nif ($text =~ /port=(\\d+)/) { print $1; }",
+                  "explanation": "A compact example of Regular expressions in use."
+                }
+              ]
+            },
+            {
+              "title": "Substitution",
+              "summary": "Replace matching text with s///.",
+              "signature": "$text =~ s/old/new/g",
+              "definition": "Replace matching text with s///.",
+              "mental_model": "Think of Substitution as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Substitution example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my $name = \"Wyn Codex\";\n$name =~ s/ /-/g;",
+                  "explanation": "A compact example of Substitution in use."
+                }
+              ]
+            },
+            {
+              "title": "sub",
+              "summary": "Define named functions.",
+              "signature": "sub name { ... }",
+              "definition": "Define named functions.",
+              "mental_model": "Think of sub as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "sub example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "sub square {\n    my ($x) = @_;\n    return $x * $x;\n}",
+                  "explanation": "A compact example of sub in use."
+                }
+              ]
+            },
+            {
+              "title": "References",
+              "summary": "Create nested data structures through references.",
+              "signature": "\\@array / \\%hash",
+              "definition": "Create nested data structures through references.",
+              "mental_model": "Think of References as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "References example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my $config = { ports => [80, 443], debug => 1 };",
+                  "explanation": "A compact example of References in use."
+                }
+              ]
+            },
+            {
+              "title": "map",
+              "summary": "Transform lists expression-wise.",
+              "signature": "map EXPR, LIST",
+              "definition": "Transform lists expression-wise.",
+              "mental_model": "Think of map as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "map example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my @squares = map { $_ * $_ } (1,2,3);",
+                  "explanation": "A compact example of map in use."
+                }
+              ]
+            },
+            {
+              "title": "grep",
+              "summary": "Filter lists by a boolean expression.",
+              "signature": "grep EXPR, LIST",
+              "definition": "Filter lists by a boolean expression.",
+              "mental_model": "Think of grep as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "grep example",
+                  "type": "practical",
+                  "syntax": "perl",
+                  "code": "my @even = grep { $_ % 2 == 0 } (1..10);",
+                  "explanation": "A compact example of grep in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

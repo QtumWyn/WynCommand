@@ -1,0 +1,325 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Rust",
+      "description": "Rust language reference plus ecosystem knowledge.",
+      "categories": [
+        {
+          "name": "Web Frameworks",
+          "description": "Rust web application and UI frameworks.",
+          "entries": [],
+          "packages": [
+            {
+              "name": "Leptos",
+              "summary": "Reactive Rust web framework",
+              "description": "Core Leptos concepts for reactive UI, components, async data, and server functions.",
+              "entries": [
+                {
+                  "title": "component",
+                  "summary": "Define a reusable Leptos UI component.",
+                  "signature": "#[component] fn Name(...) -> impl IntoView",
+                  "definition": "Define a reusable Leptos UI component.",
+                  "mental_model": "Think of component as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "component example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "#[component]\nfn Greeting(name: String) -> impl IntoView {\n    view! { <h1>\"Hello \" {name}</h1> }\n}",
+                      "explanation": "A compact example of component in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "view! macro",
+                  "summary": "Describe DOM structure with Rust expressions embedded in markup.",
+                  "signature": "view! { ... }",
+                  "definition": "Describe DOM structure with Rust expressions embedded in markup.",
+                  "mental_model": "Think of view! macro as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "view! macro example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "view! { <main><h1>\"WynCodex\"</h1></main> }",
+                      "explanation": "A compact example of view! macro in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Signals",
+                  "summary": "Store reactive values that notify dependent computations when changed.",
+                  "signature": "let (value, set_value) = signal(initial);",
+                  "definition": "Store reactive values that notify dependent computations when changed.",
+                  "mental_model": "Think of Signals as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Signals example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "let (count,set_count)=signal(0);\nview! { <button on:click=move |_| *set_count.write() += 1>{count}</button> }",
+                      "explanation": "A compact example of Signals in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "RwSignal",
+                  "summary": "Use one reactive handle that supports both reads and writes.",
+                  "signature": "RwSignal::new(initial)",
+                  "definition": "Use one reactive handle that supports both reads and writes.",
+                  "mental_model": "Think of RwSignal as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "RwSignal example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "let name=RwSignal::new(String::from(\"Wyn\"));\nname.set(String::from(\"Wynter\"));",
+                      "explanation": "A compact example of RwSignal in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Derived signals",
+                  "summary": "Compute reactive values from other signals without storing duplicate state.",
+                  "signature": "move || expression",
+                  "definition": "Compute reactive values from other signals without storing duplicate state.",
+                  "mental_model": "Think of Derived signals as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Derived signals example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "let doubled=move || count.get()*2;",
+                      "explanation": "A compact example of Derived signals in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Memo",
+                  "summary": "Cache a reactive computation until its dependencies change.",
+                  "signature": "Memo::new(move |_| expression)",
+                  "definition": "Cache a reactive computation until its dependencies change.",
+                  "mental_model": "Think of Memo as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Memo example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "let memo=Memo::new(move |_| expensive(source.get()));",
+                      "explanation": "A compact example of Memo in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Effect",
+                  "summary": "Run side effects in response to reactive dependencies.",
+                  "signature": "Effect::new(move |_| { ... })",
+                  "definition": "Run side effects in response to reactive dependencies.",
+                  "mental_model": "Think of Effect as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Effect example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "Effect::new(move |_| { logging::log!(\"count = {}\",count.get()); });",
+                      "explanation": "A compact example of Effect in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Resource",
+                  "summary": "Represent asynchronous data that depends on reactive inputs.",
+                  "signature": "Resource::new(source, fetcher)",
+                  "definition": "Represent asynchronous data that depends on reactive inputs.",
+                  "mental_model": "Think of Resource as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Resource example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "let user=Resource::new(move || user_id.get(), |id| async move { load_user(id).await });",
+                      "explanation": "A compact example of Resource in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Action",
+                  "summary": "Model asynchronous mutations triggered by user interaction.",
+                  "signature": "Action::new(|input| async move { ... })",
+                  "definition": "Model asynchronous mutations triggered by user interaction.",
+                  "mental_model": "Think of Action as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Action example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "let save=Action::new(|name:&String| { let name=name.clone(); async move { save_name(name).await } });",
+                      "explanation": "A compact example of Action in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Server functions",
+                  "summary": "Declare server-only Rust logic callable from the client through generated transport code.",
+                  "signature": "#[server] async fn name(...) -> Result<...>",
+                  "definition": "Declare server-only Rust logic callable from the client through generated transport code.",
+                  "mental_model": "Think of Server functions as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Server functions example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "#[server]\nasync fn server_time() -> Result<String,ServerFnError> {\n    Ok(format!(\"{:?}\",std::time::SystemTime::now()))\n}",
+                      "explanation": "A compact example of Server functions in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Suspense",
+                  "summary": "Render fallback UI while asynchronous resources are pending.",
+                  "signature": "<Suspense fallback=...>",
+                  "definition": "Render fallback UI while asynchronous resources are pending.",
+                  "mental_model": "Think of Suspense as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Suspense example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "view! { <Suspense fallback=move || view!{<p>\"Loading...\"</p>}>{move || data.get()}</Suspense> }",
+                      "explanation": "A compact example of Suspense in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Show",
+                  "summary": "Conditionally mount one view or a fallback.",
+                  "signature": "<Show when=... fallback=...>",
+                  "definition": "Conditionally mount one view or a fallback.",
+                  "mental_model": "Think of Show as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Show example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "view! { <Show when=move || logged_in.get() fallback=|| view!{<Login/>}><Dashboard/></Show> }",
+                      "explanation": "A compact example of Show in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "For",
+                  "summary": "Render keyed reactive collections efficiently.",
+                  "signature": "<For each=... key=... children=... />",
+                  "definition": "Render keyed reactive collections efficiently.",
+                  "mental_model": "Think of For as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "For example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "view! { <For each=move || items.get() key=|item| item.id children=|item| view!{<li>{item.name}</li>}/> }",
+                      "explanation": "A compact example of For in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Context",
+                  "summary": "Provide values to descendant components without explicitly threading every prop.",
+                  "signature": "provide_context(value)",
+                  "definition": "Provide values to descendant components without explicitly threading every prop.",
+                  "mental_model": "Think of Context as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Context example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "provide_context(AppState::default());\nlet state=expect_context::<AppState>();",
+                      "explanation": "A compact example of Context in use."
+                    }
+                  ]
+                },
+                {
+                  "title": "Event handlers",
+                  "summary": "Attach Rust closures to browser DOM events.",
+                  "signature": "on:click=move |_| {}",
+                  "definition": "Attach Rust closures to browser DOM events.",
+                  "mental_model": "Think of Event handlers as one of the core tools behind this concept.",
+                  "return_value": null,
+                  "gotchas": null,
+                  "notes": null,
+                  "arguments": [],
+                  "examples": [
+                    {
+                      "title": "Event handlers example",
+                      "type": "practical",
+                      "syntax": "rust",
+                      "code": "view! { <button on:click=move |_| set_open.set(true)>\"Open\"</button> }",
+                      "explanation": "A compact example of Event handlers in use."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

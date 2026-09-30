@@ -1,0 +1,218 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Ada",
+      "description": "Strongly typed language designed for reliability, real-time systems, embedded software, and high-integrity applications.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Core Ada syntax, semantics, and common programming patterns.",
+          "entries": [
+            {
+              "title": "Packages",
+              "summary": "Group related declarations and implementations into package specs and bodies.",
+              "signature": "package Name is ... end Name;",
+              "definition": "Group related declarations and implementations into package specs and bodies.",
+              "mental_model": "Think of Packages as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Packages example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "package Math_Tools is\n   function Square (X : Integer) return Integer;\nend Math_Tools;",
+                  "explanation": "A compact example of Packages in use."
+                }
+              ]
+            },
+            {
+              "title": "Strong types",
+              "summary": "Create distinct types that are not implicitly interchangeable.",
+              "signature": "type Name is range ...",
+              "definition": "Create distinct types that are not implicitly interchangeable.",
+              "mental_model": "Think of Strong types as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Strong types example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "type Port_Number is range 1 .. 65_535;\nPort : Port_Number := 443;",
+                  "explanation": "A compact example of Strong types in use."
+                }
+              ]
+            },
+            {
+              "title": "Subtypes",
+              "summary": "Constrain an existing type without creating a fully distinct type.",
+              "signature": "subtype Name is Type range ...",
+              "definition": "Constrain an existing type without creating a fully distinct type.",
+              "mental_model": "Think of Subtypes as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Subtypes example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "subtype Percentage is Integer range 0 .. 100;",
+                  "explanation": "A compact example of Subtypes in use."
+                }
+              ]
+            },
+            {
+              "title": "Procedures",
+              "summary": "Define callable units without return values.",
+              "signature": "procedure Name (...) is ...",
+              "definition": "Define callable units without return values.",
+              "mental_model": "Think of Procedures as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Procedures example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "procedure Greet (Name : String) is\nbegin\n   Put_Line (\"Hello \" & Name);\nend Greet;",
+                  "explanation": "A compact example of Procedures in use."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define callable units that return a value.",
+              "signature": "function Name (...) return Type is ...",
+              "definition": "Define callable units that return a value.",
+              "mental_model": "Think of Functions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Functions example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "function Square (X : Integer) return Integer is\nbegin\n   return X * X;\nend Square;",
+                  "explanation": "A compact example of Functions in use."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Define structured values with named fields.",
+              "signature": "type Name is record ... end record;",
+              "definition": "Define structured values with named fields.",
+              "mental_model": "Think of Records as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Records example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "type Host is record\n   Port : Integer;\nend record;",
+                  "explanation": "A compact example of Records in use."
+                }
+              ]
+            },
+            {
+              "title": "Case statements",
+              "summary": "Perform exhaustive branch selection over discrete values.",
+              "signature": "case X is when ...",
+              "definition": "Perform exhaustive branch selection over discrete values.",
+              "mental_model": "Think of Case statements as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Case statements example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "case Status is\n   when Ready => null;\n   when Failed => Put_Line (\"failed\");\nend case;",
+                  "explanation": "A compact example of Case statements in use."
+                }
+              ]
+            },
+            {
+              "title": "Exceptions",
+              "summary": "Handle declared or predefined exceptions.",
+              "signature": "exception when ...",
+              "definition": "Handle declared or predefined exceptions.",
+              "mental_model": "Think of Exceptions as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Exceptions example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "begin\n   Risky_Call;\nexception\n   when Constraint_Error => Put_Line (\"bad value\");\nend;",
+                  "explanation": "A compact example of Exceptions in use."
+                }
+              ]
+            },
+            {
+              "title": "Tasks",
+              "summary": "Model concurrent activities directly in the language.",
+              "signature": "task type Name is ...",
+              "definition": "Model concurrent activities directly in the language.",
+              "mental_model": "Think of Tasks as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Tasks example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "task type Worker is\n   entry Start;\nend Worker;",
+                  "explanation": "A compact example of Tasks in use."
+                }
+              ]
+            },
+            {
+              "title": "Contracts",
+              "summary": "Express preconditions and postconditions with aspects.",
+              "signature": "with Pre => ..., Post => ...",
+              "definition": "Express preconditions and postconditions with aspects.",
+              "mental_model": "Think of Contracts as one of the core tools behind this concept.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Contracts example",
+                  "type": "practical",
+                  "syntax": "ada",
+                  "code": "function Divide (A, B : Integer) return Integer\n  with Pre => B /= 0;",
+                  "explanation": "A compact example of Contracts in use."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

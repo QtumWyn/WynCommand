@@ -1,0 +1,419 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "Java",
+      "description": "JVM language reference focused on Git tooling, desktop/backend utilities, concurrency, process execution, and robust application structure.",
+      "categories": [
+        {
+          "name": "Core Language and OO",
+          "description": "Java syntax and object-oriented foundations.",
+          "entries": [
+            {
+              "title": "Primitive types",
+              "summary": "Use fixed primitive value types such as int, long, double, boolean, char, byte, short, and float.",
+              "signature": "int count = 6;",
+              "definition": "Use fixed primitive value types such as int, long, double, boolean, char, byte, short, and float.",
+              "mental_model": "Primitives are direct values, distinct from object references.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "int macroKeys = 6;\nboolean ready = true;",
+                  "explanation": "Declares primitive values."
+                }
+              ]
+            },
+            {
+              "title": "Classes",
+              "summary": "Define object types containing fields, constructors, and methods.",
+              "signature": "class Name { ... }",
+              "definition": "Define object types containing fields, constructors, and methods.",
+              "mental_model": "A class is a blueprint for state plus behavior.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "class Repo {\n    private final String path;\n    Repo(String path) { this.path = path; }\n}",
+                  "explanation": "Defines a small Repo type."
+                }
+              ]
+            },
+            {
+              "title": "Interfaces",
+              "summary": "Define behavioral contracts that classes can implement.",
+              "signature": "interface Name { ... }",
+              "definition": "Define behavioral contracts that classes can implement.",
+              "mental_model": "Program to capabilities instead of concrete classes.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "interface Command {\n    int run();\n}",
+                  "explanation": "Declares a command contract."
+                }
+              ]
+            },
+            {
+              "title": "Records",
+              "summary": "Define concise immutable data carriers.",
+              "signature": "record Name(Type field) {}",
+              "definition": "Define concise immutable data carriers.",
+              "mental_model": "Records are purpose-built transparent data holders.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "record GitStatus(String branch, boolean dirty) {}",
+                  "explanation": "Creates a compact value-oriented type."
+                }
+              ]
+            },
+            {
+              "title": "Enums",
+              "summary": "Represent a closed set of named constants, optionally with behavior.",
+              "signature": "enum Name { A, B }",
+              "definition": "Represent a closed set of named constants, optionally with behavior.",
+              "mental_model": "A finite type-safe set of values.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "enum Mode { STRICT, MERGE }",
+                  "explanation": "Defines two modes."
+                }
+              ]
+            },
+            {
+              "title": "switch expressions",
+              "summary": "Select a value with expression-style switch syntax.",
+              "signature": "switch (value) { case X -> result; }",
+              "definition": "Select a value with expression-style switch syntax.",
+              "mental_model": "Switch can be an expression, not only a statement.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "String label = switch (mode) {\n    case STRICT -> \"Strict\";\n    case MERGE -> \"Merge\";\n};",
+                  "explanation": "Produces a value from switch."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Collections and Functional APIs",
+          "description": "Generics, collections, streams, and lambdas.",
+          "entries": [
+            {
+              "title": "Generics",
+              "summary": "Parameterize types and methods while preserving compile-time type safety.",
+              "signature": "List<String>",
+              "definition": "Parameterize types and methods while preserving compile-time type safety.",
+              "mental_model": "A type-level placeholder filled by the caller.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "List<String> keys = new ArrayList<>();\nkeys.add(\"M1\");",
+                  "explanation": "Creates a list restricted to strings."
+                }
+              ]
+            },
+            {
+              "title": "List",
+              "summary": "Store ordered collections with duplicates.",
+              "signature": "List<T>",
+              "definition": "Store ordered collections with duplicates.",
+              "mental_model": "An indexed ordered sequence abstraction.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "List<String> langs = List.of(\"Java\", \"Scala\", \"Kotlin\");",
+                  "explanation": "Creates an immutable list."
+                }
+              ]
+            },
+            {
+              "title": "Map",
+              "summary": "Associate keys with values.",
+              "signature": "Map<K,V>",
+              "definition": "Associate keys with values.",
+              "mental_model": "Key-value lookup abstraction.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "Map<String, String> macros = Map.of(\"M1\", \"Python\", \"M4\", \"Zig\");",
+                  "explanation": "Creates a small immutable map."
+                }
+              ]
+            },
+            {
+              "title": "Streams",
+              "summary": "Transform and aggregate collection-like data declaratively.",
+              "signature": "stream().filter(...).map(...)",
+              "definition": "Transform and aggregate collection-like data declaratively.",
+              "mental_model": "A lazy-ish transformation pipeline over elements.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "var names = List.of(\"java\", \"zig\", \"rust\").stream()\n        .map(String::toUpperCase)\n        .toList();",
+                  "explanation": "Maps each string to uppercase."
+                }
+              ]
+            },
+            {
+              "title": "Lambdas",
+              "summary": "Create anonymous function values for functional interfaces.",
+              "signature": "args -> expression",
+              "definition": "Create anonymous function values for functional interfaces.",
+              "mental_model": "Compact behavior passed as data.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "Runnable task = () -> System.out.println(\"run\");\ntask.run();",
+                  "explanation": "Creates a Runnable lambda."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Errors, Files, and Processes",
+          "description": "Robust I/O and external command execution.",
+          "entries": [
+            {
+              "title": "Exceptions",
+              "summary": "Represent and propagate exceptional failures.",
+              "signature": "try { ... } catch (...) { ... }",
+              "definition": "Represent and propagate exceptional failures.",
+              "mental_model": "Exceptions unwind the call stack until a matching handler appears.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "try {\n    Integer.parseInt(\"bat\");\n} catch (NumberFormatException ex) {\n    System.out.println(\"bad number\");\n}",
+                  "explanation": "Handles a parse failure."
+                }
+              ]
+            },
+            {
+              "title": "try-with-resources",
+              "summary": "Automatically close AutoCloseable resources.",
+              "signature": "try (Resource r = ...) { ... }",
+              "definition": "Automatically close AutoCloseable resources.",
+              "mental_model": "Resource lifetime is tied to the lexical block.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "try (var lines = Files.lines(Path.of(\"README.md\"))) {\n    System.out.println(lines.count());\n}",
+                  "explanation": "Closes the stream automatically."
+                }
+              ]
+            },
+            {
+              "title": "Path and Files",
+              "summary": "Use java.nio.file for platform-aware filesystem operations.",
+              "signature": "Path.of(...) / Files.*",
+              "definition": "Use java.nio.file for platform-aware filesystem operations.",
+              "mental_model": "Path models location; Files performs operations.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "Path path = Path.of(\"packs\", \"java.json\");\nString text = Files.readString(path);",
+                  "explanation": "Reads a text file."
+                }
+              ]
+            },
+            {
+              "title": "ProcessBuilder",
+              "summary": "Launch external programs with explicit arguments and I/O behavior.",
+              "signature": "new ProcessBuilder(args)",
+              "definition": "Launch external programs with explicit arguments and I/O behavior.",
+              "mental_model": "Build a child-process configuration, then start it.",
+              "return_value": "Process",
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "Process p = new ProcessBuilder(\"git\", \"status\", \"--short\")\n        .inheritIO()\n        .start();\nint code = p.waitFor();",
+                  "explanation": "Runs git status and waits for completion."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Concurrency and JVM Tooling",
+          "description": "Threads, tasks, and project/build concepts.",
+          "entries": [
+            {
+              "title": "ExecutorService",
+              "summary": "Run tasks using managed thread pools.",
+              "signature": "Executors.newFixedThreadPool(n)",
+              "definition": "Run tasks using managed thread pools.",
+              "mental_model": "Separate task submission from thread management.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "try (var pool = java.util.concurrent.Executors.newFixedThreadPool(2)) {\n    pool.submit(() -> System.out.println(\"task\"));\n}",
+                  "explanation": "Submits work to a pool."
+                }
+              ]
+            },
+            {
+              "title": "CompletableFuture",
+              "summary": "Compose asynchronous operations and continuations.",
+              "signature": "CompletableFuture.supplyAsync(...)",
+              "definition": "Compose asynchronous operations and continuations.",
+              "mental_model": "A future plus a graph of dependent stages.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "java",
+                  "code": "var f = java.util.concurrent.CompletableFuture.supplyAsync(() -> 21)\n        .thenApply(x -> x * 2);\nSystem.out.println(f.join());",
+                  "explanation": "Produces 42 asynchronously."
+                }
+              ]
+            },
+            {
+              "title": "JAR files",
+              "summary": "Package compiled classes and resources into Java archives.",
+              "signature": "jar / build-tool output",
+              "definition": "Package compiled classes and resources into Java archives.",
+              "mental_model": "A ZIP-based application/library bundle understood by the JVM ecosystem.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "jar --create --file app.jar -C out .",
+                  "explanation": "Creates a JAR from compiled output."
+                }
+              ]
+            },
+            {
+              "title": "JVM bytecode",
+              "summary": "Java source compiles to class-file bytecode executed or JIT-compiled by the JVM.",
+              "signature": "javac -> .class",
+              "definition": "Java source compiles to class-file bytecode executed or JIT-compiled by the JVM.",
+              "mental_model": "Portable intermediate instructions sit between source and machine code.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "javac Main.java\njavap -c Main",
+                  "explanation": "Compiles and disassembles bytecode."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

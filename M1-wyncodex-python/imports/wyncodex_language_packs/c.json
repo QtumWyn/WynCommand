@@ -1,0 +1,392 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "C",
+      "description": "C systems programming reference focused on memory, ABI-level data, files, compilation, and interoperability.",
+      "categories": [
+        {
+          "name": "Core Language",
+          "description": "Types, control flow, functions, and translation units.",
+          "entries": [
+            {
+              "title": "Fundamental types",
+              "summary": "Use integer, floating, character, and boolean-like fundamental C types.",
+              "signature": "int / long / char / double / ...",
+              "definition": "Use integer, floating, character, and boolean-like fundamental C types.",
+              "mental_model": "C types describe raw value representation and operations.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int count = 6;\nchar grade = 'A';\ndouble ratio = 0.5;",
+                  "explanation": "Declares basic scalar values."
+                }
+              ]
+            },
+            {
+              "title": "if / switch",
+              "summary": "Choose control-flow branches using conditions or integral-like cases.",
+              "signature": "if (...) / switch (...)",
+              "definition": "Choose control-flow branches using conditions or integral-like cases.",
+              "mental_model": "Classic statement-based branching.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "switch (mode) {\ncase 0: puts(\"strict\"); break;\ncase 1: puts(\"merge\"); break;\n}",
+                  "explanation": "Dispatches by integer mode."
+                }
+              ]
+            },
+            {
+              "title": "for / while loops",
+              "summary": "Repeat statements using counter- or condition-driven loops.",
+              "signature": "for (...) / while (...)",
+              "definition": "Repeat statements using counter- or condition-driven loops.",
+              "mental_model": "Explicit state mutation drives iteration.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "for (int i = 0; i < 3; ++i) { printf(\"%d\\n\", i); }",
+                  "explanation": "Counts from 0 to 2."
+                }
+              ]
+            },
+            {
+              "title": "Functions",
+              "summary": "Define callable procedures with typed parameters and return values.",
+              "signature": "return_type name(params)",
+              "definition": "Define callable procedures with typed parameters and return values.",
+              "mental_model": "A typed call boundary with value/pointer arguments.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int add(int a, int b) { return a + b; }",
+                  "explanation": "Defines an integer addition function."
+                }
+              ]
+            },
+            {
+              "title": "Header files",
+              "summary": "Declare interfaces shared across translation units.",
+              "signature": "#include \"name.h\"",
+              "definition": "Declare interfaces shared across translation units.",
+              "mental_model": "Headers are textual interface fragments included before compilation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "/* mathx.h */\nint add(int a, int b);",
+                  "explanation": "Declares a function in a header."
+                }
+              ]
+            },
+            {
+              "title": "static and extern",
+              "summary": "Control linkage/storage duration and declare externally defined symbols.",
+              "signature": "static / extern",
+              "definition": "Control linkage/storage duration and declare externally defined symbols.",
+              "mental_model": "Linkage determines whether names cross translation-unit boundaries.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "static int internal_count;\nextern int shared_count;",
+                  "explanation": "Defines an internal symbol and declares an external one."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Pointers and Memory",
+          "description": "Addresses, arrays, strings, allocation, and lifetime.",
+          "entries": [
+            {
+              "title": "Pointers",
+              "summary": "Store memory addresses and dereference them with *.",
+              "signature": "T *ptr",
+              "definition": "Store memory addresses and dereference them with *.",
+              "mental_model": "A pointer is a typed numeric-like reference to memory.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int value = 42;\nint *p = &value;\nprintf(\"%d\\n\", *p);",
+                  "explanation": "Reads a value through its address."
+                }
+              ]
+            },
+            {
+              "title": "Arrays",
+              "summary": "Store fixed-size contiguous sequences.",
+              "signature": "T name[N]",
+              "definition": "Store fixed-size contiguous sequences.",
+              "mental_model": "Contiguous elements with no built-in runtime bounds checking.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int values[3] = {1, 2, 3};\nprintf(\"%d\\n\", values[1]);",
+                  "explanation": "Indexes the second element."
+                }
+              ]
+            },
+            {
+              "title": "C strings",
+              "summary": "Represent text as char arrays terminated by a zero byte.",
+              "signature": "char * / char[]",
+              "definition": "Represent text as char arrays terminated by a zero byte.",
+              "mental_model": "String boundaries are encoded by a sentinel byte, not stored length.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "char name[] = \"Wyn\";\nprintf(\"%s\\n\", name);",
+                  "explanation": "Creates a null-terminated string."
+                }
+              ]
+            },
+            {
+              "title": "malloc / free",
+              "summary": "Allocate and release dynamic heap memory manually.",
+              "signature": "malloc(size) / free(ptr)",
+              "definition": "Allocate and release dynamic heap memory manually.",
+              "mental_model": "You manually pair resource acquisition with release.",
+              "return_value": null,
+              "gotchas": "Leaks, double-free, and use-after-free are programmer hazards.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int *values = malloc(3 * sizeof *values);\nif (values) {\n    values[0] = 42;\n    free(values);\n}",
+                  "explanation": "Allocates and frees an integer array."
+                }
+              ]
+            },
+            {
+              "title": "struct",
+              "summary": "Group named fields into one aggregate type.",
+              "signature": "struct Name { ... };",
+              "definition": "Group named fields into one aggregate type.",
+              "mental_model": "Named fields laid out in memory with possible padding.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "struct Macro { const char *key; const char *language; };",
+                  "explanation": "Defines a record-like aggregate."
+                }
+              ]
+            },
+            {
+              "title": "enum",
+              "summary": "Define named integer constants.",
+              "signature": "enum Name { A, B };",
+              "definition": "Define named integer constants.",
+              "mental_model": "Names layered over integer representation.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "enum Mode { MODE_STRICT, MODE_MERGE };",
+                  "explanation": "Defines named mode constants."
+                }
+              ]
+            },
+            {
+              "title": "function pointers",
+              "summary": "Store addresses of functions with compatible signatures.",
+              "signature": "R (*fn)(Args)",
+              "definition": "Store addresses of functions with compatible signatures.",
+              "mental_model": "Behavior represented as an address with a signature contract.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int twice(int x) { return x * 2; }\nint (*fn)(int) = twice;\nprintf(\"%d\\n\", fn(21));",
+                  "explanation": "Calls a function through a pointer."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "I/O and Compilation",
+          "description": "Files, errors, macros, and the compile/link model.",
+          "entries": [
+            {
+              "title": "FILE* I/O",
+              "summary": "Use stdio streams for file input and output.",
+              "signature": "fopen/fread/fwrite/fclose",
+              "definition": "Use stdio streams for file input and output.",
+              "mental_model": "stdio wraps file descriptors/handles with buffered stream behavior.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "FILE *f = fopen(\"out.txt\", \"w\");\nif (f) { fputs(\"Wyn\\n\", f); fclose(f); }",
+                  "explanation": "Writes a text file."
+                }
+              ]
+            },
+            {
+              "title": "errno",
+              "summary": "Inspect thread-local error codes used by many C/POSIX APIs.",
+              "signature": "errno / perror()",
+              "definition": "Inspect thread-local error codes used by many C/POSIX APIs.",
+              "mental_model": "A side-channel error number set by certain failing APIs.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "FILE *f = fopen(\"missing.txt\", \"r\");\nif (!f) perror(\"fopen\");",
+                  "explanation": "Prints a system error message."
+                }
+              ]
+            },
+            {
+              "title": "Preprocessor macros",
+              "summary": "Perform token-level transformations before C compilation.",
+              "signature": "#define NAME value",
+              "definition": "Perform token-level transformations before C compilation.",
+              "mental_model": "The preprocessor rewrites tokens before the compiler sees C.",
+              "return_value": null,
+              "gotchas": "Macros are not type-safe functions.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "#define ARRAY_LEN(x) (sizeof(x) / sizeof((x)[0]))",
+                  "explanation": "Defines a compile-time text macro."
+                }
+              ]
+            },
+            {
+              "title": "Compilation and linking",
+              "summary": "Compile source into object files, then link objects/libraries into an executable.",
+              "signature": "cc -c file.c / cc file.o -o app",
+              "definition": "Compile source into object files, then link objects/libraries into an executable.",
+              "mental_model": "Translation units become objects; the linker resolves symbols between them.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "bash",
+                  "code": "cc -c main.c -o main.o\ncc main.o -o app",
+                  "explanation": "Builds an executable in two stages."
+                }
+              ]
+            },
+            {
+              "title": "Undefined behavior",
+              "summary": "Certain invalid operations have no defined C semantics, allowing arbitrary results.",
+              "signature": "language rule category",
+              "definition": "Certain invalid operations have no defined C semantics, allowing arbitrary results.",
+              "mental_model": "The standard stops promising what happens, so optimizers may assume it never occurs.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "c",
+                  "code": "int *p = NULL;\n/* *p = 1; would invoke undefined behavior */",
+                  "explanation": "Shows a null pointer that must not be dereferenced."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}

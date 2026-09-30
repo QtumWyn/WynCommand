@@ -1,0 +1,486 @@
+{
+  "wyncodex_schema": 1,
+  "languages": [
+    {
+      "name": "NASM",
+      "description": "Netwide Assembler reference focused on x86-64 systems programming, helper routines, ABI boundaries, and WynCommand integration.",
+      "categories": [
+        {
+          "name": "Registers and Data Movement",
+          "description": "Core x86-64 registers and movement instructions.",
+          "entries": [
+            {
+              "title": "General-purpose registers",
+              "summary": "Use x86-64 general-purpose registers such as RAX, RBX, RCX, RDX, RSI, RDI, RSP, RBP, and R8-R15.",
+              "signature": "rax, rbx, rcx, ...",
+              "definition": "Use x86-64 general-purpose registers such as RAX, RBX, RCX, RDX, RSI, RDI, RSP, RBP, and R8-R15.",
+              "mental_model": "Registers are the CPU's tiny, ultra-fast scratchpad.",
+              "return_value": null,
+              "gotchas": "Some registers have ABI-defined roles across calls.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov rax, 42\nmov rbx, rax",
+                  "explanation": "Loads 42 into RAX, then copies it into RBX."
+                }
+              ]
+            },
+            {
+              "title": "MOV",
+              "summary": "Copy data between registers, memory, and immediates.",
+              "signature": "mov destination, source",
+              "definition": "Copy data between registers, memory, and immediates.",
+              "mental_model": "MOV copies bits; it does not conceptually move ownership.",
+              "return_value": null,
+              "gotchas": "Memory-to-memory MOV is generally not allowed.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov rax, 123\nmov [value], rax",
+                  "explanation": "Copies an immediate into RAX, then stores RAX to memory."
+                }
+              ]
+            },
+            {
+              "title": "LEA",
+              "summary": "Compute an effective address without dereferencing it.",
+              "signature": "lea destination, [address-expression]",
+              "definition": "Compute an effective address without dereferencing it.",
+              "mental_model": "Treat LEA as integer/address arithmetic using addressing syntax.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "lea rax, [rbx + rcx*4 + 8]",
+                  "explanation": "Computes an address expression and stores the address in RAX."
+                }
+              ]
+            },
+            {
+              "title": "MOVZX",
+              "summary": "Copy a smaller unsigned value into a larger register and zero-extend it.",
+              "signature": "movzx destination, source",
+              "definition": "Copy a smaller unsigned value into a larger register and zero-extend it.",
+              "mental_model": "Promote a small unsigned integer without preserving garbage in upper bits.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "movzx eax, byte [flag]",
+                  "explanation": "Loads one byte and clears the upper bits of EAX."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Arithmetic and Logic",
+          "description": "Integer arithmetic, comparisons, and bit operations.",
+          "entries": [
+            {
+              "title": "ADD and SUB",
+              "summary": "Perform integer addition and subtraction.",
+              "signature": "add dst, src / sub dst, src",
+              "definition": "Perform integer addition and subtraction.",
+              "mental_model": "Mutate the destination register in place.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov rax, 10\nadd rax, 5\nsub rax, 3",
+                  "explanation": "Leaves 12 in RAX."
+                }
+              ]
+            },
+            {
+              "title": "IMUL",
+              "summary": "Perform signed integer multiplication.",
+              "signature": "imul destination, source",
+              "definition": "Perform signed integer multiplication.",
+              "mental_model": "Signed multiplication with convenient two-operand forms.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov rax, 7\nimul rax, 6",
+                  "explanation": "Leaves 42 in RAX."
+                }
+              ]
+            },
+            {
+              "title": "CMP",
+              "summary": "Compare two operands by setting CPU flags as if subtraction occurred.",
+              "signature": "cmp left, right",
+              "definition": "Compare two operands by setting CPU flags as if subtraction occurred.",
+              "mental_model": "CMP prepares flags for a later conditional instruction.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "cmp rax, 0\nje .zero",
+                  "explanation": "Branches if RAX equals zero."
+                }
+              ]
+            },
+            {
+              "title": "TEST",
+              "summary": "Perform a bitwise AND for flags without storing the result.",
+              "signature": "test left, right",
+              "definition": "Perform a bitwise AND for flags without storing the result.",
+              "mental_model": "Use TEST when you care about flags, not the AND result.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "test rax, rax\njz .zero",
+                  "explanation": "Efficiently checks whether RAX is zero."
+                }
+              ]
+            },
+            {
+              "title": "Bitwise operations",
+              "summary": "Manipulate bits with AND, OR, XOR, NOT, SHL, and SHR.",
+              "signature": "and/or/xor/not/shl/shr",
+              "definition": "Manipulate bits with AND, OR, XOR, NOT, SHL, and SHR.",
+              "mental_model": "Think masks, flags, packing, and powers of two.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "xor eax, eax\nmov ecx, 1\nshl ecx, 4",
+                  "explanation": "Clears EAX and shifts ECX left by four bits."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Control Flow and Calls",
+          "description": "Branches, loops, functions, and stack discipline.",
+          "entries": [
+            {
+              "title": "JMP",
+              "summary": "Perform an unconditional branch.",
+              "signature": "jmp label",
+              "definition": "Perform an unconditional branch.",
+              "mental_model": "Replace fall-through execution with an explicit destination.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "jmp .done\nmov rax, 1\n.done:",
+                  "explanation": "Skips over the MOV instruction."
+                }
+              ]
+            },
+            {
+              "title": "Conditional jumps",
+              "summary": "Branch based on CPU flags using JE, JNE, JL, JG, JB, JA, and related instructions.",
+              "signature": "je label / jne label / ...",
+              "definition": "Branch based on CPU flags using JE, JNE, JL, JG, JB, JA, and related instructions.",
+              "mental_model": "CMP/TEST sets flags; Jcc consumes them.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "cmp rdi, rsi\nje .equal\njg .greater",
+                  "explanation": "Chooses a path based on the comparison."
+                }
+              ]
+            },
+            {
+              "title": "CALL and RET",
+              "summary": "Call a function and return using the stack-stored return address.",
+              "signature": "call function / ret",
+              "definition": "Call a function and return using the stack-stored return address.",
+              "mental_model": "CALL is controlled stack bookkeeping plus a jump.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "call add_two\n; ...\nadd_two:\n    add rax, 2\n    ret",
+                  "explanation": "CALL pushes the return address; RET pops it."
+                }
+              ]
+            },
+            {
+              "title": "PUSH and POP",
+              "summary": "Save and restore stack values.",
+              "signature": "push operand / pop operand",
+              "definition": "Save and restore stack values.",
+              "mental_model": "RSP moves as values are pushed and popped.",
+              "return_value": null,
+              "gotchas": "Maintain ABI-required stack alignment before external calls.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "push rbx\nmov rbx, 99\npop rbx",
+                  "explanation": "Temporarily preserves RBX."
+                }
+              ]
+            },
+            {
+              "title": "System V AMD64 calling convention",
+              "summary": "Pass integer/pointer arguments in RDI, RSI, RDX, RCX, R8, and R9 on Linux/macOS System V x86-64.",
+              "signature": "rdi, rsi, rdx, rcx, r8, r9",
+              "definition": "Pass integer/pointer arguments in RDI, RSI, RDX, RCX, R8, and R9 on Linux/macOS System V x86-64.",
+              "mental_model": "Registers are agreed-upon mail slots between caller and callee.",
+              "return_value": null,
+              "gotchas": "Windows x64 uses a different convention.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "my_func:\n    mov rax, rdi\n    add rax, rsi\n    ret",
+                  "explanation": "Returns the sum of the first two integer arguments."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Memory, Sections, and Tooling",
+          "description": "Addressing, sections, labels, directives, and object generation.",
+          "entries": [
+            {
+              "title": "Memory addressing",
+              "summary": "Address memory with base, index, scale, and displacement expressions.",
+              "signature": "[base + index*scale + displacement]",
+              "definition": "Address memory with base, index, scale, and displacement expressions.",
+              "mental_model": "Effective addresses are arithmetic expressions evaluated by the CPU.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov eax, [rdi + rcx*4]",
+                  "explanation": "Loads a 32-bit element indexed by RCX."
+                }
+              ]
+            },
+            {
+              "title": "Sections",
+              "summary": "Organize code and data into sections such as .text, .data, .rodata, and .bss.",
+              "signature": "section .text",
+              "definition": "Organize code and data into sections such as .text, .data, .rodata, and .bss.",
+              "mental_model": "Sections tell the linker what kind of bytes you are defining.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "section .data\nvalue dq 42\nsection .text",
+                  "explanation": "Declares writable data and then switches to code."
+                }
+              ]
+            },
+            {
+              "title": "Labels",
+              "summary": "Name instruction or data addresses.",
+              "signature": "label:",
+              "definition": "Name instruction or data addresses.",
+              "mental_model": "A label is a symbolic address resolved by the assembler/linker.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "loop_start:\n    dec rcx\n    jnz loop_start",
+                  "explanation": "Uses a label as a branch target."
+                }
+              ]
+            },
+            {
+              "title": "DB, DW, DD, DQ",
+              "summary": "Define byte, word, doubleword, and quadword data.",
+              "signature": "db/dw/dd/dq values",
+              "definition": "Define byte, word, doubleword, and quadword data.",
+              "mental_model": "Directives emit raw bytes into the object file.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "msg db \"Wyn\", 0\ncount dq 6",
+                  "explanation": "Defines a null-terminated byte string and a 64-bit integer."
+                }
+              ]
+            },
+            {
+              "title": "EQU",
+              "summary": "Define an assembly-time constant.",
+              "signature": "NAME equ expression",
+              "definition": "Define an assembly-time constant.",
+              "mental_model": "EQU is textual/assembly-time meaning, not runtime memory.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "SYS_write equ 1\nBUFFER_SIZE equ 4096",
+                  "explanation": "Creates symbolic constants without storage."
+                }
+              ]
+            },
+            {
+              "title": "GLOBAL and EXTERN",
+              "summary": "Export symbols and reference symbols provided by other object files.",
+              "signature": "global symbol / extern symbol",
+              "definition": "Export symbols and reference symbols provided by other object files.",
+              "mental_model": "GLOBAL opens a door outward; EXTERN declares a door expected elsewhere.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "global wyn_helper\nextern malloc",
+                  "explanation": "Exports one function and declares an external dependency."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        },
+        {
+          "name": "Linux Syscalls",
+          "description": "Direct kernel entry points useful for low-level helpers.",
+          "entries": [
+            {
+              "title": "syscall instruction",
+              "summary": "Enter the Linux kernel using the x86-64 syscall ABI.",
+              "signature": "syscall",
+              "definition": "Enter the Linux kernel using the x86-64 syscall ABI.",
+              "mental_model": "Place the syscall number and arguments in ABI-defined registers, then cross into the kernel.",
+              "return_value": null,
+              "gotchas": "Syscall numbers and conventions are OS/architecture specific.",
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov rax, 60\nxor rdi, rdi\nsyscall",
+                  "explanation": "Invokes exit(0) on Linux x86-64."
+                }
+              ]
+            },
+            {
+              "title": "write syscall",
+              "summary": "Write bytes to a file descriptor directly through Linux.",
+              "signature": "rax=1, rdi=fd, rsi=buf, rdx=len",
+              "definition": "Write bytes to a file descriptor directly through Linux.",
+              "mental_model": "A minimal path from your process to the kernel without libc.",
+              "return_value": null,
+              "gotchas": null,
+              "notes": null,
+              "arguments": [],
+              "examples": [
+                {
+                  "title": "Example",
+                  "type": "practical",
+                  "syntax": "nasm",
+                  "code": "mov rax, 1\nmov rdi, 1\nlea rsi, [rel msg]\nmov rdx, msg_len\nsyscall",
+                  "explanation": "Writes msg to stdout."
+                }
+              ]
+            }
+          ],
+          "packages": []
+        }
+      ]
+    }
+  ]
+}
