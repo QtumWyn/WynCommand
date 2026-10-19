@@ -63,3 +63,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+# WynCodex build artifacts
+M1-wyncodex-python/build/
+M1-wyncodex-python/dist/

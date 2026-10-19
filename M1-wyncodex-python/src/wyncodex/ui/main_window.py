@@ -1,19 +1,29 @@
-from PySide6.QtCore import QModelIndex, Qt
+from PySide6.QtCore import (
+    QModelIndex,
+    QSettings,
+    QSortFilterProxyModel,
+    Qt,
+)
 from pathlib import Path
 from PySide6.QtWidgets import (
     QDialog,
+    QFileDialog,
     QFrame,
+    QHBoxLayout,
+    QInputDialog,
     QLabel,
+    QLineEdit,
     QMainWindow,
+    QMessageBox,
     QPushButton,
     QSplitter,
     QStackedWidget,
     QTreeView,
     QVBoxLayout,
     QWidget,
-    QFileDialog,
-    QMessageBox,
-    QInputDialog,
+    QSizePolicy,
+    QListWidget,
+    QListWidgetItem,
 )
 
 from wyncodex.services.language_service import LanguageService
@@ -61,6 +71,9 @@ from wyncodex.ui.pages.entry_detail_page import (
 from wyncodex.importers.json_importer import (
     JsonImportService,
 )
+from wyncodex.services.search_service import (
+    SearchService,
+)
 
 
 class MainWindow(QMainWindow):
@@ -71,16 +84,17 @@ class MainWindow(QMainWindow):
             package_service: PackageService,
             entry_service: EntryService,
             import_service: JsonImportService,
+            search_service: SearchService,
     ) -> None:
         super().__init__()
+        self._settings = QSettings()
 
         self._language_service = language_service
         self._category_service = category_service
         self._package_service = package_service
         self._entry_service = entry_service
-        self._import_service = (
-            import_service
-        )
+        self._import_service = import_service
+        self._search_service = search_service
 
         self.setWindowTitle("WynCodex")
         self.resize(1100, 700)
@@ -92,10 +106,36 @@ class MainWindow(QMainWindow):
             entry_service,
         )
 
+        self._navigation_proxy = (
+            QSortFilterProxyModel(self)
+        )
+
+        self._navigation_proxy.setSourceModel(
+            self._navigation_model
+        )
+
+        self._navigation_proxy.setFilterKeyColumn(
+            0
+        )
+
+        self._navigation_proxy.setFilterCaseSensitivity(
+            Qt.CaseSensitivity.CaseInsensitive
+        )
+
+        self._navigation_proxy.setRecursiveFilteringEnabled(
+            True
+        )
+
+        self._navigation_proxy.setAutoAcceptChildRows(
+            True
+        )
+
         self._build_ui()
 
+        self._restore_window_state()
+
         self._navigation_model.reload()
-        self._language_tree.expandAll()
+        self._language_tree.collapseAll()
 
     def _build_ui(self) -> None:
         root = QWidget()
@@ -110,21 +150,21 @@ class MainWindow(QMainWindow):
         stripe.setObjectName("transStripe")
         stripe.setFixedHeight(3)
 
-        splitter = QSplitter(
+        self._splitter = QSplitter(
             Qt.Orientation.Horizontal
         )
 
         left_panel = self._build_left_panel()
         right_panel = self._build_right_panel()
 
-        splitter.addWidget(left_panel)
-        splitter.addWidget(right_panel)
+        self._splitter.addWidget(left_panel)
+        self._splitter.addWidget(right_panel)
 
-        splitter.setStretchFactor(0, 0)
-        splitter.setStretchFactor(1, 1)
+        self._splitter.setStretchFactor(0, 0)
+        self._splitter.setStretchFactor(1, 1)
 
         layout.addWidget(stripe)
-        layout.addWidget(splitter)
+        layout.addWidget(self._splitter)
 
         self.setCentralWidget(root)
 
@@ -140,10 +180,33 @@ class MainWindow(QMainWindow):
         title = QLabel("LANGUAGES")
         title.setObjectName("sectionLabel")
 
+        self._search_field = QLineEdit()
+
+        self._search_field.setObjectName(
+            "searchField"
+        )
+
+        self._search_field.setPlaceholderText(
+            "Search languages, packages, entries..."
+        )
+
+        self._search_field.setClearButtonEnabled(
+            True
+        )
+
+        # Create the tree FIRST.
         self._language_tree = QTreeView()
 
         self._language_tree.setModel(
-            self._navigation_model
+            self._navigation_proxy
+        )
+
+        self._search_field.textChanged.connect(
+            self._search
+        )
+
+        self._search_field.returnPressed.connect(
+            self._open_current_search_result
         )
 
         self._language_tree.selectionModel().currentChanged.connect(
@@ -151,6 +214,83 @@ class MainWindow(QMainWindow):
         )
 
         self._language_tree.setHeaderHidden(True)
+
+        self._search_status = QLabel()
+
+        self._search_status.setObjectName(
+            "sectionLabel"
+        )
+
+        self._search_status.setVisible(
+            False
+        )
+
+
+        self._search_results = QListWidget()
+
+        self._search_results.setObjectName(
+            "searchResults"
+        )
+
+        self._search_results.setWordWrap(
+            True
+        )
+
+        self._search_results.itemClicked.connect(
+            self._open_search_result
+        )
+
+
+        self._navigation_stack = (
+            QStackedWidget()
+        )
+
+        self._navigation_stack.addWidget(
+            self._language_tree
+        )
+
+        self._navigation_stack.addWidget(
+            self._search_results
+        )
+
+        self._navigation_stack.setCurrentWidget(
+            self._language_tree
+        )
+
+        # Now buttons can safely reference the tree.
+        tree_controls = QHBoxLayout()
+
+        expand_all_button = QPushButton(
+            "EXPAND ALL"
+        )
+
+        collapse_all_button = QPushButton(
+            "COLLAPSE ALL"
+        )
+
+        expand_all_button.setObjectName(
+            "primaryButton"
+        )
+
+        collapse_all_button.setObjectName(
+            "primaryButton"
+        )
+
+        expand_all_button.clicked.connect(
+            self._language_tree.expandAll
+        )
+
+        collapse_all_button.clicked.connect(
+            self._language_tree.collapseAll
+        )
+
+        tree_controls.addWidget(
+            expand_all_button
+        )
+
+        tree_controls.addWidget(
+            collapse_all_button
+        )
 
         add_language_button = QPushButton(
             "+ LANGUAGE"
@@ -177,8 +317,21 @@ class MainWindow(QMainWindow):
         )
 
         layout.addWidget(title)
+
         layout.addWidget(
-            self._language_tree
+            self._search_field
+        )
+
+        layout.addLayout(
+            tree_controls
+        )
+
+        layout.addWidget(
+            self._search_status
+        )
+
+        layout.addWidget(
+            self._navigation_stack
         )
 
         layout.addWidget(
@@ -205,6 +358,16 @@ class MainWindow(QMainWindow):
         )
 
         self._content_stack = QStackedWidget()
+
+        self._content_stack.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Ignored,
+        )
+
+        self._content_stack.setMinimumSize(
+            0,
+            0,
+        )
 
         self._welcome_page = WelcomePage()
 
@@ -251,6 +414,10 @@ class MainWindow(QMainWindow):
         self._entry_page = EntryDetailPage()
         self._entry_page.edit_requested.connect(
             self._open_entry_editor
+        )
+
+        self._entry_page.add_child_requested.connect(
+            self._open_child_entry_editor
         )
 
         self._content_stack.addWidget(
@@ -305,11 +472,19 @@ class MainWindow(QMainWindow):
             )
             return
 
-        raw_node_type = current.data(
+        source_index = (
+            self._navigation_proxy
+            .mapToSource(current)
+        )
+
+        if not source_index.isValid():
+            return
+
+        raw_node_type = source_index.data(
             NODE_TYPE_ROLE
         )
 
-        node_id = current.data(
+        node_id = source_index.data(
             NODE_ID_ROLE
         )
 
@@ -459,7 +634,7 @@ class MainWindow(QMainWindow):
 
         if result == QDialog.DialogCode.Accepted:
             self._navigation_model.reload()
-            self._language_tree.expandAll()
+            self._language_tree.collapseAll()
 
     def _open_category_entry_editor(
             self,
@@ -535,28 +710,42 @@ class MainWindow(QMainWindow):
             node_type: NavigationNodeType,
             node_id: int,
     ) -> None:
-        index = self._find_navigation_index(
-            node_type,
-            node_id,
+        if self._search_field.text():
+            self._search_field.clear()
+
+        source_index = (
+            self._find_navigation_index(
+                node_type,
+                node_id,
+            )
         )
 
-        if not index.isValid():
+        if not source_index.isValid():
             return
 
-        parent = index.parent()
+        proxy_index = (
+            self._navigation_proxy
+            .mapFromSource(source_index)
+        )
+
+        if not proxy_index.isValid():
+            return
+
+        parent = proxy_index.parent()
 
         while parent.isValid():
             self._language_tree.expand(
                 parent
             )
+
             parent = parent.parent()
 
         self._language_tree.setCurrentIndex(
-            index
+            proxy_index
         )
 
         self._language_tree.scrollTo(
-            index
+            proxy_index
         )
 
     def _navigate_to_category(
@@ -769,20 +958,41 @@ class MainWindow(QMainWindow):
             )
 
     def _import_json(self) -> None:
-        file_name, _ = (
-            QFileDialog.getOpenFileName(
-                self,
-                "Import WynCodex JSON",
-                "",
-                (
-                    "WynCodex JSON (*.json);;"
-                    "All Files (*)"
-                ),
-            )
+        dialog = QFileDialog(
+            self,
+            "Import WynCodex JSON",
         )
 
-        if not file_name:
+        dialog.setFileMode(
+            QFileDialog.FileMode.ExistingFile
+        )
+
+        dialog.setNameFilters(
+            [
+                "WynCodex JSON (*.json)",
+                "All Files (*)",
+            ]
+        )
+
+        dialog.setOption(
+            QFileDialog.Option.DontUseNativeDialog,
+            True,
+        )
+
+        if (
+                dialog.exec()
+                != QDialog.DialogCode.Accepted
+        ):
             return
+
+        selected_files = (
+            dialog.selectedFiles()
+        )
+
+        if not selected_files:
+            return
+
+        file_name = selected_files[0]
 
         mode_label, accepted = (
             QInputDialog.getItem(
@@ -916,4 +1126,232 @@ class MainWindow(QMainWindow):
                 f"Existing entries: "
                 f"{import_result.entries_skipped}"
             ),
+        )
+
+    def _search(
+            self,
+            text: str,
+    ) -> None:
+        query = text.strip()
+
+        if not query:
+            self._search_results.clear()
+
+            self._search_status.clear()
+
+            self._search_status.setVisible(
+                False
+            )
+
+            self._navigation_stack.setCurrentWidget(
+                self._language_tree
+            )
+
+            self._language_tree.collapseAll()
+
+            return
+
+        if len(query) < 2:
+            self._search_results.clear()
+
+            self._search_status.setText(
+                "TYPE AT LEAST 2 CHARACTERS"
+            )
+
+            self._search_status.setVisible(
+                True
+            )
+
+            self._navigation_stack.setCurrentWidget(
+                self._search_results
+            )
+
+            return
+
+        results = (
+            self._search_service.search(
+                query
+            )
+        )
+
+        self._search_results.clear()
+
+        count = len(results)
+
+        self._search_status.setText(
+            (
+                f"{count} RESULT"
+                if count == 1
+                else f"{count} RESULTS"
+            )
+        )
+
+        self._search_status.setVisible(
+            True
+        )
+
+        for result in results:
+            kind = (
+                f" · {result.entry_kind}"
+                if result.entry_kind
+                   and result.entry_kind != "entry"
+                else ""
+            )
+
+            text = (
+                f"{result.title}{kind}\n"
+                f"{result.full_path}\n"
+                f"{result.preview}"
+            )
+
+            item = QListWidgetItem(
+                text
+            )
+
+            item.setData(
+                Qt.ItemDataRole.UserRole,
+                result.entry_id,
+            )
+
+            item.setToolTip(
+                result.full_path
+            )
+
+            self._search_results.addItem(
+                item
+            )
+
+        if count:
+            self._search_results.setCurrentRow(
+                0
+            )
+
+        self._navigation_stack.setCurrentWidget(
+            self._search_results
+        )
+
+    def _open_search_result(
+            self,
+            item: QListWidgetItem,
+    ) -> None:
+        entry_id = item.data(
+            Qt.ItemDataRole.UserRole
+        )
+
+        if not isinstance(
+                entry_id,
+                int,
+        ):
+            return
+
+        self._show_entry(
+            entry_id
+        )
+
+
+    def _open_current_search_result(
+            self,
+    ) -> None:
+        item = (
+            self._search_results
+            .currentItem()
+        )
+
+        if item is None:
+            return
+
+        self._open_search_result(
+            item
+        )
+
+    def _open_child_entry_editor(
+            self,
+            parent_entry_id: int,
+    ) -> None:
+        parent_entry = (
+            self._entry_service
+            .get_entry_by_id(
+                parent_entry_id
+            )
+        )
+
+        if parent_entry is None:
+            return
+
+        syntax_hint = (
+            self._syntax_hint_for_category(
+                parent_entry.category_id
+            )
+        )
+
+        dialog = EntryEditorDialog(
+            entry_service=self._entry_service,
+            category_id=parent_entry.category_id,
+            package_id=parent_entry.package_id,
+            parent_entry_id=parent_entry_id,
+            default_syntax_hint=syntax_hint,
+            parent=self,
+        )
+
+        result = dialog.exec()
+
+        if result == QDialog.DialogCode.Accepted:
+            self._navigation_model.reload()
+
+            self._navigate_to_entry(
+                parent_entry_id
+            )
+
+            self._language_tree.expand(
+                self._language_tree.currentIndex()
+            )
+
+    def _restore_window_state(
+            self,
+    ) -> None:
+        geometry = self._settings.value(
+            "window/geometry"
+        )
+
+        if geometry is not None:
+            self.restoreGeometry(
+                geometry
+            )
+
+        splitter_state = (
+            self._settings.value(
+                "window/splitter"
+            )
+        )
+
+        if splitter_state is not None:
+            self._splitter.restoreState(
+                splitter_state
+            )
+
+
+    def _save_window_state(
+            self,
+    ) -> None:
+        self._settings.setValue(
+            "window/geometry",
+            self.saveGeometry(),
+        )
+
+        self._settings.setValue(
+            "window/splitter",
+            self._splitter.saveState(),
+        )
+
+        self._settings.sync()
+
+
+    def closeEvent(
+            self,
+            event,
+    ) -> None:
+        self._save_window_state()
+
+        super().closeEvent(
+            event
         )

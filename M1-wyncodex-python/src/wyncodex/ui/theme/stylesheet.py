@@ -176,6 +176,29 @@ def build_stylesheet() -> str:
             font-size: 13px;
         }}
         
+        QListWidget#searchResults {{
+            background-color: #0b090e;
+            border: 1px solid #403846;
+            border-radius: 5px;
+            padding: 4px;
+            outline: none;
+        }}
+        
+        QListWidget#searchResults::item {{
+            padding: 9px 8px;
+            margin: 2px;
+            border-radius: 4px;
+        }}
+        
+        QListWidget#searchResults::item:selected {{
+            background-color: #241824;
+            border-left: 2px solid #f5a9c8;
+        }}
+        
+        QListWidget#searchResults::item:hover {{
+            background-color: #211a25;
+        }}
+        
         QFrame#editorCard {{
             background-color: {palette.RAISED_BLACK};
         

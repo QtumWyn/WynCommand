@@ -4,6 +4,8 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QWidget,
+    QGridLayout,
+    QScrollArea,
 )
 
 from PySide6.QtCore import Signal
@@ -24,7 +26,32 @@ class LanguageOverviewPage(QWidget):
         self._build_ui()
 
     def _build_ui(self) -> None:
-        layout = QVBoxLayout(self)
+        root_layout = QVBoxLayout(self)
+
+        root_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        root_layout.setSpacing(0)
+
+        scroll = QScrollArea()
+
+        scroll.setWidgetResizable(
+            True
+        )
+
+        scroll.setFrameShape(
+            QScrollArea.Shape.NoFrame
+        )
+
+        content = QWidget()
+
+        layout = QVBoxLayout(
+            content
+        )
 
         layout.setContentsMargins(
             40,
@@ -34,6 +61,14 @@ class LanguageOverviewPage(QWidget):
         )
 
         layout.setSpacing(14)
+
+        scroll.setWidget(
+            content
+        )
+
+        root_layout.addWidget(
+            scroll
+        )
 
         self._title_label = QLabel()
         self._title_label.setObjectName(

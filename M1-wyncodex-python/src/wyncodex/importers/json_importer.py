@@ -31,7 +31,8 @@ from wyncodex.services.package_service import (
 from wyncodex.utils.text import slugify
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+SUPPORTED_SCHEMA_VERSIONS = {1, 2}
 
 
 class JsonImportService:
@@ -132,11 +133,17 @@ class JsonImportService:
             "wyncodex_schema"
         )
 
-        if schema_version != SCHEMA_VERSION:
+        if schema_version not in SUPPORTED_SCHEMA_VERSIONS:
+            supported = ", ".join(
+                str(version)
+                for version
+                in sorted(SUPPORTED_SCHEMA_VERSIONS)
+            )
+
             raise ImportValidationError(
                 f"Unsupported WynCodex schema "
                 f"{schema_version!r}. "
-                f"Expected {SCHEMA_VERSION}."
+                f"Supported versions: {supported}."
             )
 
         languages = self._require_list(
@@ -366,6 +373,7 @@ class JsonImportService:
             entries: list[Any],
             path: str,
             seen_entry_slugs: set[str],
+            parent_slug: str | None = None,
     ) -> None:
         for index, entry in enumerate(
                 entries
@@ -383,6 +391,8 @@ class JsonImportService:
                 entry,
                 {
                     "title",
+                    "slug",
+                    "kind",
                     "summary",
                     "signature",
                     "definition",
@@ -392,6 +402,7 @@ class JsonImportService:
                     "notes",
                     "arguments",
                     "examples",
+                    "children",
                 },
                 entry_path,
             )
@@ -401,13 +412,34 @@ class JsonImportService:
                 f"{entry_path}.title",
             )
 
-            entry_slug = slugify(title)
+            self._optional_text(
+                entry.get("slug"),
+                f"{entry_path}.slug",
+            )
 
-            if not entry_slug:
+            self._optional_text(
+                entry.get("kind"),
+                f"{entry_path}.kind",
+            )
+
+            base_slug = slugify(
+                entry.get("slug")
+                or title
+            )
+
+            if not base_slug:
                 raise ImportValidationError(
-                    f"{entry_path}.title cannot "
+                    f"{entry_path}.title/slug cannot "
                     f"produce a valid slug."
                 )
+
+            if parent_slug is not None:
+                entry_slug = (
+                    f"{parent_slug}-"
+                    f"{base_slug}"
+                )
+            else:
+                entry_slug = base_slug
 
             if entry_slug in seen_entry_slugs:
                 raise ImportValidationError(
@@ -474,6 +506,19 @@ class JsonImportService:
                     example,
                     example_path,
                 )
+
+            children = self._optional_list(
+                entry,
+                "children",
+                entry_path,
+            )
+
+            self._validate_entries(
+                children,
+                f"{entry_path}.children",
+                seen_entry_slugs,
+                parent_slug=entry_slug,
+            )
 
 
     def _validate_argument(
@@ -737,6 +782,49 @@ class JsonImportService:
         arguments = 0
         examples = 0
 
+        def count_entries(
+                entry_list: list[dict[str, Any]],
+        ) -> tuple[int, int, int]:
+            entry_count = 0
+            argument_count = 0
+            example_count = 0
+
+            for entry in entry_list:
+                entry_count += 1
+                argument_count += len(
+                    entry.get(
+                        "arguments",
+                        [],
+                    )
+                )
+                example_count += len(
+                    entry.get(
+                        "examples",
+                        [],
+                    )
+                )
+
+                (
+                    child_entries,
+                    child_arguments,
+                    child_examples,
+                ) = count_entries(
+                    entry.get(
+                        "children",
+                        [],
+                    )
+                )
+
+                entry_count += child_entries
+                argument_count += child_arguments
+                example_count += child_examples
+
+            return (
+                entry_count,
+                argument_count,
+                example_count,
+            )
+
         for language in document["languages"]:
             languages += 1
 
@@ -746,23 +834,20 @@ class JsonImportService:
             ):
                 categories += 1
 
-                for entry in category.get(
+                (
+                    direct_entries,
+                    direct_arguments,
+                    direct_examples,
+                ) = count_entries(
+                    category.get(
                         "entries",
                         [],
-                ):
-                    entries += 1
-                    arguments += len(
-                        entry.get(
-                            "arguments",
-                            [],
-                        )
                     )
-                    examples += len(
-                        entry.get(
-                            "examples",
-                            [],
-                        )
-                    )
+                )
+
+                entries += direct_entries
+                arguments += direct_arguments
+                examples += direct_examples
 
                 for package in category.get(
                         "packages",
@@ -770,23 +855,20 @@ class JsonImportService:
                 ):
                     packages += 1
 
-                    for entry in package.get(
+                    (
+                        package_entries,
+                        package_arguments,
+                        package_examples,
+                    ) = count_entries(
+                        package.get(
                             "entries",
                             [],
-                    ):
-                        entries += 1
-                        arguments += len(
-                            entry.get(
-                                "arguments",
-                                [],
-                            )
                         )
-                        examples += len(
-                            entry.get(
-                                "examples",
-                                [],
-                            )
-                        )
+                    )
+
+                    entries += package_entries
+                    arguments += package_arguments
+                    examples += package_examples
 
         return ImportCounts(
             languages=languages,
@@ -934,10 +1016,23 @@ class JsonImportService:
             default_syntax_hint: str,
             mode: ImportMode,
             result: ImportResult,
+            parent_entry_id: int | None = None,
+            parent_slug: str | None = None,
     ) -> None:
-        entry_slug = slugify(
-            entry_data["title"]
+        base_slug = slugify(
+            entry_data.get("slug")
+            or entry_data["title"]
         )
+
+        if parent_slug is not None:
+            entry_slug = (
+                f"{parent_slug}-"
+                f"{base_slug}"
+            )
+        else:
+            entry_slug = base_slug
+
+        existing = None
 
         if (
                 mode
@@ -951,103 +1046,132 @@ class JsonImportService:
                 )
             )
 
-            if existing is not None:
-                result.entries_skipped += 1
+        if existing is not None:
+            result.entries_skipped += 1
+            resolved_entry = existing
+        else:
+            arguments = [
+                ArgumentDraft(
+                    name=argument["name"],
+                    type_text=argument.get(
+                        "type"
+                    ),
+                    description=argument.get(
+                        "description"
+                    ),
+                    required=argument.get(
+                        "required",
+                        True,
+                    ),
+                    default_value=argument.get(
+                        "default"
+                    ),
+                )
+                for argument
+                in entry_data.get(
+                    "arguments",
+                    [],
+                )
+            ]
 
-                return
+            examples = [
+                ExampleDraft(
+                    title=example["title"],
+                    code=example["code"],
+                    output=example.get(
+                        "output"
+                    ),
+                    explanation=example.get(
+                        "explanation"
+                    ),
+                    example_type=(
+                            example.get("type")
+                            or "practical"
+                    ),
+                    syntax_hint=(
+                            example.get("syntax")
+                            or default_syntax_hint
+                    ),
+                )
+                for example
+                in entry_data.get(
+                    "examples",
+                    [],
+                )
+            ]
 
-        arguments = [
-            ArgumentDraft(
-                name=argument["name"],
-                type_text=argument.get(
-                    "type"
-                ),
-                description=argument.get(
-                    "description"
-                ),
-                required=argument.get(
-                    "required",
-                    True,
-                ),
-                default_value=argument.get(
-                    "default"
-                ),
+            resolved_entry = (
+                self._entry_service
+                .create_entry(
+                    category_id=category_id,
+                    package_id=package_id,
+                    parent_entry_id=parent_entry_id,
+                    entry_kind=(
+                            entry_data.get("kind")
+                            or "entry"
+                    ),
+                    slug=entry_data.get("slug"),
+
+                    title=entry_data["title"],
+                    summary=entry_data.get(
+                        "summary"
+                    ),
+                    signature=entry_data.get(
+                        "signature"
+                    ),
+                    definition=entry_data.get(
+                        "definition"
+                    ),
+                    mental_model=entry_data.get(
+                        "mental_model"
+                    ),
+                    return_value=entry_data.get(
+                        "return_value"
+                    ),
+                    gotchas=entry_data.get(
+                        "gotchas"
+                    ),
+                    notes=entry_data.get(
+                        "notes"
+                    ),
+
+                    arguments=arguments,
+                    examples=examples,
+
+                    commit=False,
+                )
             )
-            for argument
-            in entry_data.get(
-                "arguments",
+
+            result.entries_created += 1
+
+            result.arguments_created += len(
+                arguments
+            )
+
+            result.examples_created += len(
+                examples
+            )
+
+        if resolved_entry.id is None:
+            raise RuntimeError(
+                "Imported entry has no ID."
+            )
+
+        for child_data in entry_data.get(
+                "children",
                 [],
+        ):
+            self._import_entry(
+                child_data,
+                language_id=language_id,
+                category_id=category_id,
+                package_id=package_id,
+                default_syntax_hint=default_syntax_hint,
+                mode=mode,
+                result=result,
+                parent_entry_id=resolved_entry.id,
+                parent_slug=resolved_entry.slug,
             )
-        ]
-
-        examples = [
-            ExampleDraft(
-                title=example["title"],
-                code=example["code"],
-                output=example.get(
-                    "output"
-                ),
-                explanation=example.get(
-                    "explanation"
-                ),
-                example_type=(
-                        example.get("type")
-                        or "practical"
-                ),
-                syntax_hint=(
-                        example.get("syntax")
-                        or default_syntax_hint
-                ),
-            )
-            for example
-            in entry_data.get(
-                "examples",
-                [],
-            )
-        ]
-
-        self._entry_service.create_entry(
-            category_id=category_id,
-            package_id=package_id,
-
-            title=entry_data["title"],
-            summary=entry_data.get(
-                "summary"
-            ),
-            signature=entry_data.get(
-                "signature"
-            ),
-            definition=entry_data.get(
-                "definition"
-            ),
-            mental_model=entry_data.get(
-                "mental_model"
-            ),
-            return_value=entry_data.get(
-                "return_value"
-            ),
-            gotchas=entry_data.get(
-                "gotchas"
-            ),
-            notes=entry_data.get(
-                "notes"
-            ),
-
-            arguments=arguments,
-            examples=examples,
-
-            commit=False,
-        )
-
-        result.entries_created += 1
-
-        result.arguments_created += len(
-            arguments
-        )
-        
-        result.examples_created += len(
-            examples
-        )
 
     def _resolve_language(
             self,

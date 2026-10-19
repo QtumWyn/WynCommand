@@ -23,6 +23,8 @@ class EntryRepository:
                 language_id,
                 category_id,
                 package_id,
+                parent_entry_id,
+                entry_kind,
                 title,
                 slug,
                 summary,
@@ -35,8 +37,8 @@ class EntryRepository:
                 sort_order
             )
             VALUES (
-                       ?, ?, ?, ?, ?, ?, ?,
-                       ?, ?, ?, ?, ?, ?, ?
+                       ?, ?, ?, ?, ?, ?, ?, ?,
+                       ?, ?, ?, ?, ?, ?, ?, ?
                    )
             """,
             (
@@ -44,6 +46,8 @@ class EntryRepository:
                 entry.language_id,
                 entry.category_id,
                 entry.package_id,
+                entry.parent_entry_id,
+                entry.entry_kind,
                 entry.title,
                 entry.slug,
                 entry.summary,
@@ -126,6 +130,7 @@ class EntryRepository:
             SELECT *
             FROM entries
             WHERE package_id = ?
+              AND parent_entry_id IS NULL
             ORDER BY sort_order, title
             """,
             (package_id,),
@@ -146,9 +151,29 @@ class EntryRepository:
             FROM entries
             WHERE category_id = ?
               AND package_id IS NULL
+              AND parent_entry_id IS NULL
             ORDER BY sort_order, title
             """,
             (category_id,),
+        ).fetchall()
+
+        return [
+            self._from_row(row)
+            for row in rows
+        ]
+
+    def get_children(
+            self,
+            parent_entry_id: int,
+    ) -> list[Entry]:
+        rows = self._connection.execute(
+            """
+            SELECT *
+            FROM entries
+            WHERE parent_entry_id = ?
+            ORDER BY sort_order, title
+            """,
+            (parent_entry_id,),
         ).fetchall()
 
         return [
@@ -166,6 +191,8 @@ class EntryRepository:
             language_id=row["language_id"],
             category_id=row["category_id"],
             package_id=row["package_id"],
+            parent_entry_id=row["parent_entry_id"],
+            entry_kind=row["entry_kind"],
             title=row["title"],
             slug=row["slug"],
             summary=row["summary"],
@@ -212,6 +239,7 @@ class EntryRepository:
             """
             UPDATE entries
             SET
+                entry_kind = ?,
                 title = ?,
                 slug = ?,
                 summary = ?,
@@ -230,6 +258,7 @@ class EntryRepository:
             WHERE id = ?
             """,
             (
+                entry.entry_kind,
                 entry.title,
                 entry.slug,
                 entry.summary,

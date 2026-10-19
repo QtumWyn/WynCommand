@@ -29,6 +29,7 @@ from wyncodex.ui.widgets.code_block import (
 
 class EntryDetailPage(QWidget):
     edit_requested = Signal(int)
+    add_child_requested = Signal(int)
     def __init__(self) -> None:
         super().__init__()
 
@@ -100,6 +101,18 @@ class EntryDetailPage(QWidget):
 
         layout.addWidget(
             self._edit_button
+        )
+
+        self._add_child_button = QPushButton(
+            "+ MEMBER"
+        )
+
+        self._add_child_button.clicked.connect(
+            self._request_add_child
+        )
+
+        layout.addWidget(
+            self._add_child_button
         )
 
         self._signature_title = self._section_label(
@@ -331,6 +344,10 @@ class EntryDetailPage(QWidget):
             entry.id is not None
         )
 
+        self._add_child_button.setEnabled(
+            entry.id is not None
+        )
+
     @staticmethod
     def _set_section(
             title: QLabel,
@@ -412,5 +429,16 @@ class EntryDetailPage(QWidget):
             return
 
         self.edit_requested.emit(
+            self._entry.id
+        )
+
+    def _request_add_child(self) -> None:
+        if (
+                self._entry is None
+                or self._entry.id is None
+        ):
+            return
+
+        self.add_child_requested.emit(
             self._entry.id
         )

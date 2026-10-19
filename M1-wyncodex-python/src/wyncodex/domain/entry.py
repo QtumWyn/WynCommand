@@ -10,6 +10,8 @@ class Entry:
     language_id: int
     category_id: int
     package_id: int | None
+    parent_entry_id: int | None
+    entry_kind: str
 
     title: str
     slug: str
@@ -36,6 +38,8 @@ class Entry:
         title: str,
         slug: str,
         package_id: int | None = None,
+        parent_entry_id: int | None = None,
+        entry_kind: str = "entry",
         summary: str | None = None,
         signature: str | None = None,
         definition: str | None = None,
@@ -50,6 +54,11 @@ class Entry:
             language_id=language_id,
             category_id=category_id,
             package_id=package_id,
+            parent_entry_id=parent_entry_id,
+            entry_kind=(
+                    entry_kind.strip().lower()
+                    or "entry"
+            ),
             title=title,
             slug=slug,
             summary=summary,

@@ -1,5 +1,8 @@
 import sys
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import (
+    QApplication,
+    QMessageBox,
+)
 
 from wyncodex.repositories.language_repository import LanguageRepository
 from wyncodex.repositories.category_repository import (
@@ -43,6 +46,18 @@ from wyncodex.importers.json_importer import (
     JsonImportService,
 )
 
+from wyncodex.repositories.search_repository import (
+    SearchRepository,
+)
+
+from wyncodex.services.search_service import (
+    SearchService,
+)
+
+from wyncodex.services.starter_library_service import (
+    StarterLibraryService,
+)
+
 def main() -> int:
     app = QApplication(sys.argv)
 
@@ -73,6 +88,8 @@ def main() -> int:
 
         example_repository = ExampleRepository(connection)
 
+        search_repository = SearchRepository(connection)
+
         category_service = CategoryService(
             category_repository,
             language_repository,
@@ -101,12 +118,66 @@ def main() -> int:
             entry_service,
         )
 
+        starter_library_service = (
+            StarterLibraryService(
+                connection,
+                import_service,
+            )
+        )
+
+        try:
+            seed_result = (
+                starter_library_service
+                .seed_if_needed()
+            )
+
+        except Exception as error:
+            QMessageBox.critical(
+                None,
+                "WynCodex Startup Failed",
+                (
+                    "WynCodex could not initialize "
+                    "its starter library.\n\n"
+                    f"{error}"
+                ),
+            )
+
+            return 1
+
+        search_service = SearchService(search_repository)
+
+        if seed_result is not None:
+            print(
+                "Starter library initialized:"
+            )
+
+            print(
+                f"  Languages: "
+                f"{seed_result.languages_created}"
+            )
+
+            print(
+                f"  Categories: "
+                f"{seed_result.categories_created}"
+            )
+
+            print(
+                f"  Packages: "
+                f"{seed_result.packages_created}"
+            )
+
+            print(
+                f"  Entries: "
+                f"{seed_result.entries_created}"
+            )
+
         window = MainWindow(
             language_service,
             category_service,
             package_service,
             entry_service,
             import_service,
+            search_service,
         )
 
         window.show()

@@ -50,6 +50,8 @@ class EntryService:
             category_id: int,
             title: str,
             package_id: int | None = None,
+            parent_entry_id: int | None = None,
+            entry_kind: str = "entry",
             slug: str | None = None,
             summary: str | None = None,
             signature: str | None = None,
@@ -96,9 +98,46 @@ class EntryService:
                     "belong to the selected category."
                 )
 
-        resolved_slug = slugify(
+        parent_entry = None
+
+        if parent_entry_id is not None:
+            parent_entry = (
+                self._entry_repository
+                .get_by_id(parent_entry_id)
+            )
+
+            if parent_entry is None:
+                raise ValueError(
+                    "The selected parent entry does not exist."
+                )
+
+            if parent_entry.category_id != category_id:
+                raise ValueError(
+                    "The parent entry belongs to a different category."
+                )
+
+            if parent_entry.package_id != package_id:
+                raise ValueError(
+                    "The parent entry belongs to a different package."
+                )
+
+        base_slug = slugify(
             slug if slug else title
         )
+
+        if not base_slug:
+            raise ValueError(
+                "Entry title could not produce "
+                "a valid slug."
+            )
+
+        if parent_entry is not None:
+            resolved_slug = (
+                f"{parent_entry.slug}-"
+                f"{base_slug}"
+            )
+        else:
+            resolved_slug = base_slug
 
         if not resolved_slug:
             raise ValueError(
@@ -125,19 +164,32 @@ class EntryService:
             language_id=category.language_id,
             category_id=category_id,
             package_id=package_id,
+
+            parent_entry_id=parent_entry_id,
+            entry_kind=entry_kind,
+
             title=title,
             slug=resolved_slug,
+
             summary=clean_optional_text(summary),
             signature=clean_optional_text(signature),
             definition=clean_optional_text(definition),
+
             mental_model=clean_optional_text(
                 mental_model
             ),
+
             return_value=clean_optional_text(
                 return_value
             ),
-            gotchas=clean_optional_text(gotchas),
-            notes=clean_optional_text(notes),
+
+            gotchas=clean_optional_text(
+                gotchas
+            ),
+
+            notes=clean_optional_text(
+                notes
+            ),
         )
 
         created_entry = (
@@ -301,6 +353,7 @@ class EntryService:
             arguments: list[ArgumentDraft] | None = None,
             examples: list[ExampleDraft] | None = None,
             commit: bool = True,
+            entry_kind: str | None = None,
     ) -> Entry:
         existing = (
             self._entry_repository
@@ -319,7 +372,33 @@ class EntryService:
                 "Entry title cannot be empty."
             )
 
-        resolved_slug = slugify(title)
+        base_slug = slugify(title)
+
+        if not base_slug:
+            raise ValueError(
+                "Entry title could not produce "
+                "a valid slug."
+            )
+
+        if existing.parent_entry_id is not None:
+            parent_entry = (
+                self._entry_repository
+                .get_by_id(
+                    existing.parent_entry_id
+                )
+            )
+
+            if parent_entry is None:
+                raise ValueError(
+                    "The parent entry no longer exists."
+                )
+
+            resolved_slug = (
+                f"{parent_entry.slug}-"
+                f"{base_slug}"
+            )
+        else:
+            resolved_slug = base_slug
 
         if not resolved_slug:
             raise ValueError(
@@ -376,9 +455,18 @@ class EntryService:
         updated_entry = Entry(
             id=existing.id,
             uuid=existing.uuid,
+
             language_id=existing.language_id,
             category_id=existing.category_id,
             package_id=existing.package_id,
+
+            parent_entry_id=existing.parent_entry_id,
+
+            entry_kind=(
+                entry_kind.strip().lower()
+                if entry_kind
+                else existing.entry_kind
+            ),
 
             title=title,
             slug=resolved_slug,
@@ -504,4 +592,13 @@ class EntryService:
                 language_id,
                 slug,
             )
+        )
+
+    def get_child_entries(
+            self,
+            entry_id: int,
+    ) -> list[Entry]:
+        return (
+            self._entry_repository
+            .get_children(entry_id)
         )

@@ -6,12 +6,15 @@ from PySide6.QtGui import (
 )
 
 from pygments import lex
+
 from pygments.lexers import (
     get_lexer_by_name,
 )
+
 from pygments.lexers.special import (
     TextLexer,
 )
+
 from pygments.token import (
     Comment,
     Keyword,
@@ -21,7 +24,40 @@ from pygments.token import (
     String,
 )
 
+from pygments.util import (
+    ClassNotFound,
+)
+
 from wyncodex.ui.theme import palette
+
+
+LEXER_ALIASES: dict[str, str] = {
+    "c-sharp": "csharp",
+    "c#": "csharp",
+    "cs": "csharp",
+
+    "c-plus-plus": "cpp",
+    "c++": "cpp",
+    "cplusplus": "cpp",
+
+    "f-sharp": "fsharp",
+    "f#": "fsharp",
+    "fs": "fsharp",
+
+    "java-script": "javascript",
+    "js": "javascript",
+
+    "type-script": "typescript",
+    "ts": "typescript",
+
+    "power-shell": "powershell",
+    "ps1": "powershell",
+
+    "assembly": "nasm",
+
+    "shell": "bash",
+    "sh": "bash",
+}
 
 
 class PygmentsHighlighter(
@@ -46,14 +82,41 @@ class PygmentsHighlighter(
     ) -> None:
         if not syntax_hint:
             self._lexer = TextLexer()
+
             self.rehighlight()
+
             return
 
-        try:
-            self._lexer = get_lexer_by_name(
-                syntax_hint
+        normalized_hint = (
+            syntax_hint
+            .strip()
+            .lower()
+        )
+
+        lexer_name = (
+            LEXER_ALIASES.get(
+                normalized_hint,
+                normalized_hint,
             )
-        except Exception:
+        )
+
+        try:
+            if lexer_name == "php":
+                self._lexer = (
+                    get_lexer_by_name(
+                        "php",
+                        startinline=True,
+                    )
+                )
+
+            else:
+                self._lexer = (
+                    get_lexer_by_name(
+                        lexer_name
+                    )
+                )
+
+        except ClassNotFound:
             self._lexer = TextLexer()
 
         self.rehighlight()
@@ -100,17 +163,23 @@ class PygmentsHighlighter(
         text_format = QTextCharFormat()
 
         text_format.setForeground(
-            QColor(palette.BONE)
+            QColor(
+                palette.BONE
+            )
         )
 
         if token_type in Comment:
             text_format.setForeground(
-                QColor(palette.DIM_ASH)
+                QColor(
+                    palette.DIM_ASH
+                )
             )
 
         elif token_type in Keyword:
             text_format.setForeground(
-                QColor(palette.PASTEL_PINK)
+                QColor(
+                    palette.PASTEL_PINK
+                )
             )
 
             text_format.setFontWeight(
@@ -123,22 +192,30 @@ class PygmentsHighlighter(
                 or token_type in Name.Builtin
         ):
             text_format.setForeground(
-                QColor(palette.PASTEL_BLUE)
+                QColor(
+                    palette.PASTEL_BLUE
+                )
             )
 
         elif token_type in String:
             text_format.setForeground(
-                QColor(palette.VIOLET)
+                QColor(
+                    palette.VIOLET
+                )
             )
 
         elif token_type in Number:
             text_format.setForeground(
-                QColor(palette.PASTEL_BLUE)
+                QColor(
+                    palette.PASTEL_BLUE
+                )
             )
 
         elif token_type in Operator:
             text_format.setForeground(
-                QColor(palette.WINE)
+                QColor(
+                    palette.WINE
+                )
             )
 
         return text_format

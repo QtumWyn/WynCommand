@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QVBoxLayout,
     QWidget,
+    QComboBox,
 )
 from wyncodex.services.entry_service import (
     EntryService,
@@ -35,6 +36,7 @@ class EntryEditorDialog(QDialog):
             entry_service: EntryService,
             category_id: int,
             package_id: int | None = None,
+            parent_entry_id: int | None = None,
             default_syntax_hint: str | None = None,
             entry: Entry | None = None,
             arguments: list[Argument] | None = None,
@@ -46,6 +48,9 @@ class EntryEditorDialog(QDialog):
         self._entry_service = entry_service
         self._category_id = category_id
         self._package_id = package_id
+        self._parent_entry_id = (
+            parent_entry_id
+        )
 
         self._entry = entry
 
@@ -85,6 +90,33 @@ class EntryEditorDialog(QDialog):
         layout = QVBoxLayout(self)
 
         form = QFormLayout()
+
+        self._kind_field = QComboBox()
+
+        self._kind_field.addItems(
+            [
+                "entry",
+                "type",
+                "class",
+                "interface",
+                "enum",
+                "struct",
+                "trait",
+                "record",
+                "object",
+                "field",
+                "property",
+                "method",
+                "function",
+                "constructor",
+                "constant",
+                "variable",
+                "macro",
+                "operator",
+                "keyword",
+                "command",
+            ]
+        )
 
         self._title_field = QLineEdit()
         self._summary_field = QTextEdit()
@@ -133,6 +165,11 @@ class EntryEditorDialog(QDialog):
         self._configure_text_area(
             self._notes_field,
             110,
+        )
+
+        form.addRow(
+            "Kind",
+            self._kind_field,
         )
 
         form.addRow(
@@ -372,6 +409,8 @@ class EntryEditorDialog(QDialog):
                 self._entry_service.create_entry(
                     category_id=self._category_id,
                     package_id=self._package_id,
+                    parent_entry_id=self._parent_entry_id,
+                    entry_kind=self._kind_field.currentText(),
 
                     title=self._title_field.text(),
 
@@ -416,6 +455,7 @@ class EntryEditorDialog(QDialog):
             else:
                 self._entry_service.update_entry(
                     entry_id=self._entry.id,
+                    entry_kind=self._kind_field.currentText(),
                     title=self._title_field.text(),
 
                     summary=(
@@ -537,6 +577,17 @@ class EntryEditorDialog(QDialog):
         if self._entry is None:
             return
 
+        kind_index = (
+            self._kind_field.findText(
+                self._entry.entry_kind
+            )
+        )
+
+        if kind_index >= 0:
+            self._kind_field.setCurrentIndex(
+                kind_index
+            )
+
         self._title_field.setText(
             self._entry.title
         )
@@ -578,6 +629,7 @@ class EntryEditorDialog(QDialog):
             self._add_example_from_existing(
                 example
             )
+
     def _add_argument_from_existing(
             self,
             argument: Argument,

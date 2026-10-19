@@ -86,21 +86,9 @@ class NavigationModel(QStandardItemModel):
                 )
 
                 for entry in direct_entries:
-                    if entry.id is None:
-                        continue
-
-                    entry_item = QStandardItem(
-                        entry.title
-                    )
-
-                    self._configure_item(
-                        entry_item,
-                        NavigationNodeType.ENTRY,
-                        entry.id,
-                    )
-
-                    category_item.appendRow(
-                        entry_item
+                    self._append_entry_tree(
+                        category_item,
+                        entry,
                     )
 
                 packages = (
@@ -139,21 +127,9 @@ class NavigationModel(QStandardItemModel):
                     )
 
                     for entry in entries:
-                        if entry.id is None:
-                            continue
-
-                        entry_item = QStandardItem(
-                            entry.title
-                        )
-
-                        self._configure_item(
-                            entry_item,
-                            NavigationNodeType.ENTRY,
-                            entry.id,
-                        )
-
-                        package_item.appendRow(
-                            entry_item
+                        self._append_entry_tree(
+                            package_item,
+                            entry,
                         )
 
                     if package.description:
@@ -190,3 +166,45 @@ class NavigationModel(QStandardItemModel):
             node_id,
             NODE_ID_ROLE,
         )
+
+    def _append_entry_tree(
+            self,
+            parent_item: QStandardItem,
+            entry,
+    ) -> None:
+        if entry.id is None:
+            return
+
+        label = entry.title
+
+        if entry.entry_kind != "entry":
+            label += (
+                f"  · {entry.entry_kind}"
+            )
+
+        entry_item = QStandardItem(
+            label
+        )
+
+        self._configure_item(
+            entry_item,
+            NavigationNodeType.ENTRY,
+            entry.id,
+        )
+
+        parent_item.appendRow(
+            entry_item
+        )
+
+        children = (
+            self._entry_service
+            .get_child_entries(
+                entry.id
+            )
+        )
+
+        for child in children:
+            self._append_entry_tree(
+                entry_item,
+                child,
+            )
