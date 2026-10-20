@@ -26,7 +26,7 @@ def build_stylesheet() -> str:
         }}
 
         QWidget#contentPanel {{
-            background-color: {palette.VOID_BLACK};
+            background-color: {palette.PAGE_BACKGROUND};
         }}
 
 
@@ -210,6 +210,10 @@ def build_stylesheet() -> str:
         
         QFrame#editorCard:hover {{
             border-color: {palette.BRIGHT_IRON};
+        }}
+        
+        QWidget#navigationBar {{
+            background-color: {palette.PAGE_BACKGROUND};
         }}
         
         QFrame#argumentCard,

@@ -89,6 +89,14 @@ class MainWindow(QMainWindow):
         super().__init__()
         self._settings = QSettings()
 
+        self._navigation_history: list[
+            tuple[NavigationNodeType, int]
+        ] = []
+
+        self._history_index: int = -1
+
+        self._replaying_history: bool = False
+
         self._language_service = language_service
         self._category_service = category_service
         self._package_service = package_service
@@ -357,6 +365,71 @@ class MainWindow(QMainWindow):
             0,
         )
 
+        navigation_bar_widget = QWidget()
+
+        navigation_bar_widget.setObjectName(
+            "navigationBar"
+        )
+
+        navigation_bar = QHBoxLayout(
+            navigation_bar_widget
+        )
+
+        navigation_bar.setContentsMargins(
+            18,
+            12,
+            18,
+            8,
+        )
+
+        navigation_bar.setSpacing(
+            8
+        )
+
+        self._back_button = QPushButton("←")
+        self._forward_button = QPushButton("→")
+
+        self._back_button.setObjectName(
+            "primaryButton"
+        )
+
+        self._forward_button.setObjectName(
+            "primaryButton"
+        )
+
+        self._back_button.setFixedWidth(46)
+        self._forward_button.setFixedWidth(46)
+
+        self._back_button.setToolTip(
+            "Back"
+        )
+
+        self._forward_button.setToolTip(
+            "Forward"
+        )
+
+        self._back_button.clicked.connect(
+            self._go_back
+        )
+
+        self._forward_button.clicked.connect(
+            self._go_forward
+        )
+
+        navigation_bar.addWidget(
+            self._back_button
+        )
+
+        navigation_bar.addWidget(
+            self._forward_button
+        )
+
+        navigation_bar.addStretch()
+
+        layout.addWidget(
+            navigation_bar_widget
+        )
+
         self._content_stack = QStackedWidget()
 
         self._content_stack.setSizePolicy(
@@ -418,6 +491,10 @@ class MainWindow(QMainWindow):
 
         self._entry_page.add_child_requested.connect(
             self._open_child_entry_editor
+        )
+
+        self._entry_page.member_selected.connect(
+            self._navigate_to_entry
         )
 
         self._content_stack.addWidget(
@@ -535,6 +612,11 @@ class MainWindow(QMainWindow):
         if language is None:
             return
 
+        self._record_navigation(
+            NavigationNodeType.LANGUAGE,
+            language_id,
+        )
+
         categories = (
             self._category_service
             .get_categories_for_language(
@@ -565,6 +647,11 @@ class MainWindow(QMainWindow):
 
         if category is None:
             return
+
+        self._record_navigation(
+            NavigationNodeType.CATEGORY,
+            category_id,
+        )
 
         packages = (
             self._package_service
@@ -603,6 +690,11 @@ class MainWindow(QMainWindow):
 
         if package is None:
             return
+
+        self._record_navigation(
+            NavigationNodeType.PACKAGE,
+            package_id,
+        )
 
         entries = (
             self._entry_service
@@ -838,9 +930,21 @@ class MainWindow(QMainWindow):
         if entry is None:
             return
 
+        self._record_navigation(
+            NavigationNodeType.ENTRY,
+            entry_id,
+        )
+
         arguments = (
             self._entry_service
             .get_arguments_for_entry(
+                entry_id
+            )
+        )
+
+        members = (
+            self._entry_service
+            .get_child_entries(
                 entry_id
             )
         )
@@ -869,6 +973,7 @@ class MainWindow(QMainWindow):
             entry,
             arguments,
             examples,
+            members,
             syntax_hint,
         )
 
@@ -1354,4 +1459,124 @@ class MainWindow(QMainWindow):
 
         super().closeEvent(
             event
+        )
+
+    def _record_navigation(
+            self,
+            node_type: NavigationNodeType,
+            node_id: int,
+    ) -> None:
+        if self._replaying_history:
+            return
+
+        destination = (
+            node_type,
+            node_id,
+        )
+
+        if (
+                self._history_index >= 0
+                and self._navigation_history[
+            self._history_index
+        ] == destination
+        ):
+            return
+
+        # If we went Back and then choose
+        # somewhere new, discard the old
+        # Forward branch.
+        if (
+                self._history_index
+                < len(
+            self._navigation_history
+        ) - 1
+        ):
+            self._navigation_history = (
+                self._navigation_history[
+                    :self._history_index + 1
+                ]
+            )
+
+        self._navigation_history.append(
+            destination
+        )
+
+        self._history_index = (
+                len(self._navigation_history) - 1
+        )
+
+        self._update_history_buttons()
+
+    def _go_back(
+            self,
+    ) -> None:
+        if self._history_index <= 0:
+            return
+
+        self._history_index -= 1
+
+        self._replay_history_destination()
+
+
+    def _go_forward(
+            self,
+    ) -> None:
+        if (
+                self._history_index
+                >= len(
+            self._navigation_history
+        ) - 1
+        ):
+            return
+
+        self._history_index += 1
+
+        self._replay_history_destination()
+
+    def _replay_history_destination(
+            self,
+    ) -> None:
+        if not (
+                0
+                <= self._history_index
+                < len(
+            self._navigation_history
+        )
+        ):
+            return
+
+        node_type, node_id = (
+            self._navigation_history[
+                self._history_index
+            ]
+        )
+
+        self._replaying_history = True
+
+        try:
+            self._navigate_to_node(
+                node_type,
+                node_id,
+            )
+
+        finally:
+            self._replaying_history = False
+
+        self._update_history_buttons()
+
+    def _update_history_buttons(
+            self,
+    ) -> None:
+        self._back_button.setEnabled(
+            self._history_index > 0
+        )
+
+        self._forward_button.setEnabled(
+            (
+                    self._history_index >= 0
+                    and self._history_index
+                    < len(
+                self._navigation_history
+            ) - 1
+            )
         )

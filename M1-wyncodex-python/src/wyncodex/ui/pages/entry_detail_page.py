@@ -1,35 +1,33 @@
 from PySide6.QtWidgets import (
+    QGridLayout,
     QLabel,
+    QLayout,
     QPushButton,
     QVBoxLayout,
     QWidget,
-)
-from PySide6.QtCore import Signal
-
-from wyncodex.domain.entry import Entry
-from PySide6.QtWidgets import (
     QScrollArea,
 )
-
+from PySide6.QtCore import Signal
+from wyncodex.domain.entry import Entry
 from wyncodex.domain.argument import Argument
 from wyncodex.domain.example import Example
-
 from wyncodex.ui.widgets.argument_display import (
     ArgumentDisplayWidget,
 )
-
 from wyncodex.ui.widgets.example_display import (
     ExampleDisplayWidget,
 )
-
 from wyncodex.ui.widgets.code_block import (
     CodeBlock,
 )
-
+from wyncodex.ui.widgets.overview_card import (
+    OverviewCard,
+)
 
 class EntryDetailPage(QWidget):
     edit_requested = Signal(int)
     add_child_requested = Signal(int)
+    member_selected = Signal(int)
     def __init__(self) -> None:
         super().__init__()
 
@@ -113,6 +111,43 @@ class EntryDetailPage(QWidget):
 
         layout.addWidget(
             self._add_child_button
+        )
+
+        self._members_title = (
+            self._section_label(
+                "MEMBERS"
+            )
+        )
+
+        self._members_container = QWidget()
+
+        self._members_layout = QGridLayout(
+            self._members_container
+        )
+
+        self._members_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        self._members_layout.setHorizontalSpacing(
+            12
+        )
+
+        self._members_layout.setVerticalSpacing(
+            12
+        )
+
+        layout.addSpacing(18)
+
+        layout.addWidget(
+            self._members_title
+        )
+
+        layout.addWidget(
+            self._members_container
         )
 
         self._signature_title = self._section_label(
@@ -268,6 +303,7 @@ class EntryDetailPage(QWidget):
             entry: Entry,
             arguments: list[Argument],
             examples: list[Example],
+            members: list[Entry],
             syntax_hint: str | None,
     ) -> None:
         self._entry = entry
@@ -331,6 +367,10 @@ class EntryDetailPage(QWidget):
                 entry.signature,
                 syntax_hint,
             )
+
+        self._populate_members(
+            members
+        )
 
         self._populate_arguments(
             arguments
@@ -411,7 +451,7 @@ class EntryDetailPage(QWidget):
 
     @staticmethod
     def _clear_layout(
-            layout: QVBoxLayout,
+            layout: QLayout,
     ) -> None:
         while layout.count():
             item = layout.takeAt(0)
@@ -442,3 +482,55 @@ class EntryDetailPage(QWidget):
         self.add_child_requested.emit(
             self._entry.id
         )
+
+
+    def _populate_members(
+            self,
+            members: list[Entry],
+    ) -> None:
+        self._clear_layout(
+            self._members_layout
+        )
+
+        has_members = bool(
+            members
+        )
+
+        self._members_title.setVisible(
+            has_members
+        )
+
+        self._members_container.setVisible(
+            has_members
+        )
+
+        for index, member in enumerate(
+                members
+        ):
+            if member.id is None:
+                continue
+
+            card = OverviewCard(
+                item_id=member.id,
+                title=(
+                    f"{member.title} "
+                    f"· {member.entry_kind}"
+                ),
+                description=(
+                        member.summary
+                        or member.definition
+                ),
+            )
+
+            card.clicked.connect(
+                self.member_selected.emit
+            )
+
+            row = index // 2
+            column = index % 2
+
+            self._members_layout.addWidget(
+                card,
+                row,
+                column,
+            )

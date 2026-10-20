@@ -75,3 +75,4 @@ class ArgumentDisplayWidget(QFrame):
             layout.addWidget(
                 description
             )
+
