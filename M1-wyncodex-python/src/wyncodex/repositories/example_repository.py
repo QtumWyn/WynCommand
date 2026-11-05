@@ -24,12 +24,14 @@ class ExampleRepository:
                 title,
                 code,
                 output,
+                romanization,
+                pronunciation,
                 explanation,
                 example_type,
                 syntax_hint,
                 sort_order
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 example.uuid,
@@ -37,6 +39,8 @@ class ExampleRepository:
                 example.title,
                 example.code,
                 example.output,
+                example.romanization,
+                example.pronunciation,
                 example.explanation,
                 example.example_type,
                 example.syntax_hint,
@@ -93,6 +97,8 @@ class ExampleRepository:
             title=row["title"],
             code=row["code"],
             output=row["output"],
+            romanization=row["romanization"],
+            pronunciation=row["pronunciation"],
             explanation=row["explanation"],
             example_type=row["example_type"],
             syntax_hint=row["syntax_hint"],

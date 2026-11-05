@@ -1,4 +1,4 @@
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Qt
 from PySide6.QtWidgets import (
     QGridLayout,
     QLabel,
@@ -20,6 +20,7 @@ class CategoryOverviewPage(QWidget):
     package_selected = Signal(int)
     add_entry_requested = Signal(int)
     entry_selected = Signal(int)
+    edit_requested = Signal(int)
 
     def __init__(self) -> None:
         super().__init__()
@@ -79,6 +80,7 @@ class CategoryOverviewPage(QWidget):
         )
 
         self._title_label = QLabel()
+        self._title_label.setWordWrap(True)
         self._title_label.setObjectName(
             "pageTitle"
         )
@@ -121,7 +123,7 @@ class CategoryOverviewPage(QWidget):
         self._edit_category_button = QPushButton(
             "EDIT CATEGORY"
         )
-        self._edit_category_button.setEnabled(False)
+        self._edit_category_button.clicked.connect(lambda: self.edit_requested.emit(self._category.id) if self._category else None)
 
         button_row.addWidget(
             self._add_package_button
@@ -131,7 +133,7 @@ class CategoryOverviewPage(QWidget):
         )
         button_row.addStretch()
 
-        children_label = QLabel("PACKAGES")
+        self._packages_label = children_label = QLabel("PACKAGES")
         children_label.setObjectName(
             "sectionLabel"
         )
@@ -166,6 +168,11 @@ class CategoryOverviewPage(QWidget):
         layout.addSpacing(18)
         layout.addWidget(entries_label)
         layout.addLayout(self._entry_grid)
+        self._empty_label = QLabel("This category is ready for your notes. Choose + ENTRY to add a pattern, word, expression, or example.")
+        self._empty_label.setObjectName("pageDescription")
+        self._empty_label.setWordWrap(True)
+        self._empty_label.hide()
+        layout.addWidget(self._empty_label)
 
         layout.addStretch()
 
@@ -174,8 +181,15 @@ class CategoryOverviewPage(QWidget):
             category: Category,
             packages: list[Package],
             entries: list[Entry],
+            natural: bool = False,
     ) -> None:
         self._category = category
+        self._empty_label.setVisible(natural and not entries)
+        self._title_label.setTextFormat(Qt.TextFormat.PlainText)
+        self._description_label.setTextFormat(Qt.TextFormat.PlainText)
+        self._packages_label.setVisible(not natural)
+        self._add_package_button.setVisible(not natural)
+        self._edit_category_button.setEnabled(category.id is not None)
 
         self._title_label.setText(
             category.name.upper()
@@ -190,7 +204,7 @@ class CategoryOverviewPage(QWidget):
             category.id is not None
         )
 
-        self._populate_packages(packages)
+        self._populate_packages([] if natural else packages)
 
         self._add_entry_button.setEnabled(
             category.id is not None

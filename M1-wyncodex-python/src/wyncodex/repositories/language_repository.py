@@ -23,9 +23,9 @@ class LanguageRepository:
                 color,
                 icon_name,
                 is_enabled,
-                sort_order
+                sort_order, language_kind
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 language.uuid,
@@ -36,6 +36,7 @@ class LanguageRepository:
                 language.icon_name,
                 language.is_enabled,
                 language.sort_order,
+                language.language_kind,
             ),
         )
 
@@ -71,13 +72,14 @@ class LanguageRepository:
 
         return self._from_row(row)
 
-    def get_all(self) -> list[Language]:
+    def get_all(self, language_kind: str | None = None) -> list[Language]:
         rows = self._connection.execute(
             """
             SELECT *
             FROM languages
+            WHERE (? IS NULL OR language_kind = ?)
             ORDER BY sort_order, name
-            """
+            """, (language_kind, language_kind)
         ).fetchall()
 
         return [
@@ -91,6 +93,7 @@ class LanguageRepository:
             id=row["id"],
             uuid=row["uuid"],
             name=row["name"],
+            language_kind=row["language_kind"],
             slug=row["slug"],
             description=row["description"],
             color=row["color"],
@@ -114,3 +117,8 @@ class LanguageRepository:
             return None
 
         return self._from_row(row)
+
+    def update(self, language_id: int, name: str, description: str | None) -> Language:
+        self._connection.execute("UPDATE languages SET name=?,description=?,updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=?", (name,description,language_id))
+        self._connection.commit()
+        return self.get_by_id(language_id)

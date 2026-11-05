@@ -10,6 +10,7 @@ class Language:
     slug: str
 
     description: str | None = None
+    language_kind: str = "programming"
     color: str | None = None
     icon_name: str | None = None
 
@@ -25,6 +26,7 @@ class Language:
             name: str,
             slug: str,
             description: str | None = None,
+            language_kind: str = "programming",
     ) -> "Language":
         return cls(
             id=None,
@@ -32,4 +34,5 @@ class Language:
             name=name,
             slug=slug,
             description=description,
+            language_kind=language_kind,
         )

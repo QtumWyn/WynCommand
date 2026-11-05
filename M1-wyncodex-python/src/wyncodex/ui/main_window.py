@@ -1,11 +1,16 @@
+from wyncodex.services.assembly_service import TRACKS, TRACK_BY_ID
 from PySide6.QtCore import (
     QModelIndex,
     QSettings,
+    QSignalBlocker,
     QSortFilterProxyModel,
     Qt,
 )
 from pathlib import Path
 from PySide6.QtWidgets import (
+    QApplication,
+    QButtonGroup,
+    QComboBox,
     QDialog,
     QFileDialog,
     QFrame,
@@ -14,6 +19,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QMainWindow,
+    QMenu,
     QMessageBox,
     QPushButton,
     QSplitter,
@@ -31,6 +37,7 @@ from wyncodex.services.category_service import CategoryService
 from wyncodex.services.package_service import PackageService
 from wyncodex.ui.models.navigation_model import (
     NODE_ID_ROLE,
+    TRACK_ID_ROLE,
     NODE_TYPE_ROLE,
     NavigationModel,
     NavigationNodeType,
@@ -85,12 +92,20 @@ class MainWindow(QMainWindow):
             entry_service: EntryService,
             import_service: JsonImportService,
             search_service: SearchService,
+            assembly_service=None,
+            library_service=None,
     ) -> None:
         super().__init__()
         self._settings = QSettings()
+        self._language_kind = self._settings.value("library/languageKind", "programming")
+        if self._language_kind not in ("programming", "natural"):
+            self._language_kind = "programming"
+        self._assembly_service = assembly_service
+        self._library_service = library_service
+        self._assembly_track = None
 
         self._navigation_history: list[
-            tuple[NavigationNodeType, int]
+            tuple[NavigationNodeType, int, int | None]
         ] = []
 
         self._history_index: int = -1
@@ -112,6 +127,7 @@ class MainWindow(QMainWindow):
             category_service,
             package_service,
             entry_service,
+            assembly_service,
         )
 
         self._navigation_proxy = (
@@ -142,8 +158,7 @@ class MainWindow(QMainWindow):
 
         self._restore_window_state()
 
-        self._navigation_model.reload()
-        self._language_tree.collapseAll()
+        self._set_language_kind(self._language_kind, force=True)
 
     def _build_ui(self) -> None:
         root = QWidget()
@@ -171,8 +186,25 @@ class MainWindow(QMainWindow):
         self._splitter.setStretchFactor(0, 0)
         self._splitter.setStretchFactor(1, 1)
 
+        mode_bar = QWidget()
+        mode_bar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        mode_layout = QHBoxLayout(mode_bar)
+        mode_layout.setContentsMargins(18, 8, 18, 8)
+        self._mode_group = QButtonGroup(self)
+        self._mode_buttons = {}
+        for kind, title in [("programming", "Programming"), ("natural", "Natural Languages")]:
+            button = QPushButton(title)
+            button.setCheckable(True)
+            button.setObjectName("modeButton")
+            button.setAccessibleName(title)
+            button.clicked.connect(lambda checked=False, kind=kind: self._set_language_kind(kind))
+            self._mode_group.addButton(button)
+            self._mode_buttons[kind] = button
+            mode_layout.addWidget(button)
+        mode_layout.addStretch()
         layout.addWidget(stripe)
-        layout.addWidget(self._splitter)
+        layout.addWidget(mode_bar)
+        layout.addWidget(self._splitter, 1)
 
         self.setCentralWidget(root)
 
@@ -201,6 +233,40 @@ class MainWindow(QMainWindow):
         self._search_field.setClearButtonEnabled(
             True
         )
+
+        self._search_language_filter = QComboBox()
+
+        self._search_language_filter.setObjectName(
+            "searchLanguageFilter"
+        )
+
+        self._search_language_filter.setAccessibleName(
+            "Search language"
+        )
+
+        self._search_language_filter.setToolTip(
+            "Limit search results to a language."
+        )
+
+        self._search_language_filter.setMaxVisibleItems(8)
+
+        self._search_language_filter.view().setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
+        )
+
+        self._search_language_filter.currentIndexChanged.connect(
+            self._search_language_changed
+        )
+
+        self._assembly_track_filter = QComboBox()
+        self._assembly_track_filter.setObjectName("searchLanguageFilter")
+        self._assembly_track_filter.setMaxVisibleItems(8)
+        self._assembly_track_filter.setAccessibleName("Assembly target")
+        self._assembly_track_filter.setVisible(False)
+        self._assembly_track_filter.addItem("Assembly target: all", None)
+        for track in TRACKS[1:]:
+            self._assembly_track_filter.addItem(track.name, track.id)
+        self._assembly_track_filter.currentIndexChanged.connect(self._search_track_changed)
 
         # Create the tree FIRST.
         self._language_tree = QTreeView()
@@ -312,7 +378,7 @@ class MainWindow(QMainWindow):
             self._open_language_editor
         )
 
-        import_json_button = QPushButton(
+        self._import_json_button = import_json_button = QPushButton(
             "IMPORT JSON"
         )
 
@@ -324,12 +390,25 @@ class MainWindow(QMainWindow):
             self._import_json
         )
 
+        self._update_library_button = QPushButton('UPDATE LIBRARY')
+        self._update_library_button.setObjectName('primaryButton')
+        self._update_library_button.setEnabled(self._library_service is not None)
+        update_menu = QMenu(self._update_library_button)
+        update_menu.addAction('Use bundled library', lambda: self._update_library())
+        update_menu.addAction('Open downloaded library…', self._open_library_file)
+        self._update_library_button.setMenu(update_menu)
+
         layout.addWidget(title)
 
         layout.addWidget(
             self._search_field
         )
 
+        layout.addWidget(
+            self._search_language_filter
+        )
+
+        layout.addWidget(self._assembly_track_filter)
         layout.addLayout(
             tree_controls
         )
@@ -345,6 +424,8 @@ class MainWindow(QMainWindow):
         layout.addWidget(
             import_json_button
         )
+
+        layout.addWidget(self._update_library_button)
 
         layout.addWidget(
             add_language_button
@@ -444,6 +525,13 @@ class MainWindow(QMainWindow):
 
         self._welcome_page = WelcomePage()
 
+        self._assembly_page = LanguageOverviewPage()
+        self._assembly_page._children_label.setText("TARGETS")
+        self._assembly_page._add_category_button.hide()
+        self._assembly_page._edit_language_button.hide()
+        self._assembly_page.category_selected.connect(self._show_assembly_track)
+        self._content_stack.addWidget(self._assembly_page)
+
         self._language_page = LanguageOverviewPage()
 
         self._language_page.add_category_requested.connect(
@@ -454,7 +542,9 @@ class MainWindow(QMainWindow):
             self._navigate_to_category
         )
 
+        self._language_page.edit_requested.connect(self._edit_language)
         self._category_page = CategoryOverviewPage()
+        self._category_page.edit_requested.connect(self._edit_category)
 
         self._category_page.add_package_requested.connect(
             self._open_package_editor
@@ -531,12 +621,14 @@ class MainWindow(QMainWindow):
         dialog = LanguageEditorDialog(
             self._language_service,
             self,
+            language_kind=self._language_kind,
         )
 
         result = dialog.exec()
 
         if result == QDialog.DialogCode.Accepted:
             self._navigation_model.reload()
+            self._refresh_search_languages()
 
     def _on_navigation_changed(
             self,
@@ -578,7 +670,11 @@ class MainWindow(QMainWindow):
         except ValueError:
             return
 
+        self._set_assembly_track(source_index.data(TRACK_ID_ROLE))
+
         match node_type:
+            case NavigationNodeType.TRACK:
+                self._show_assembly_track(node_id)
             case NavigationNodeType.LANGUAGE:
                 self._show_language(
                     node_id
@@ -609,13 +705,25 @@ class MainWindow(QMainWindow):
             )
         )
 
-        if language is None:
+        if language is None or language.language_kind != self._language_kind:
             return
 
+        self._set_assembly_track(None)
         self._record_navigation(
             NavigationNodeType.LANGUAGE,
             language_id,
         )
+        if language.slug == "nasm" and self._assembly_service:
+            with QSignalBlocker(self._search_language_filter):
+                self._search_language_filter.setCurrentIndex(self._search_language_filter.findData(language_id))
+            self._assembly_track_filter.setVisible(True)
+            self._assembly_page.set_language(language, [])
+            self._assembly_page._title_label.setText("ASSEMBLY")
+            self._assembly_page._description_label.setText("Choose a target before browsing categories. ISA, operating system, ABI and assembler syntax are separate choices. Shared x86-64 entries also appear in Linux and Windows.")
+            self._assembly_page._populate_categories(list(TRACKS))
+            self._content_stack.setCurrentWidget(self._assembly_page)
+            return
+
 
         categories = (
             self._category_service
@@ -634,6 +742,36 @@ class MainWindow(QMainWindow):
         )
 
 
+    def _set_assembly_track(self, track_id):
+        self._assembly_track = track_id
+        if hasattr(self, "_assembly_track_filter"):
+            with QSignalBlocker(self._assembly_track_filter):
+                self._assembly_track_filter.setCurrentIndex(self._assembly_track_filter.findData(track_id if track_id else None))
+
+    def _show_assembly_track(self, track_id):
+        if self._language_kind != "programming" or not self._assembly_service:
+            return
+        self._set_assembly_track(track_id)
+        self._assembly_track_filter.setVisible(True)
+        language_id = self._assembly_service.language_id()
+        language = self._language_service.get_language_by_id(language_id)
+        with QSignalBlocker(self._search_language_filter):
+            self._search_language_filter.setCurrentIndex(self._search_language_filter.findData(language_id))
+        allowed = self._assembly_service.category_ids(track_id)
+        categories = [c for c in self._category_service.get_categories_for_language(language_id) if c.id in allowed]
+        self._language_page.set_language(language, categories)
+        self._language_page._title_label.setText(TRACK_BY_ID[track_id].name.upper())
+        self._language_page._description_label.setText(TRACK_BY_ID[track_id].description)
+        self._content_stack.setCurrentWidget(self._language_page)
+        self._record_navigation(NavigationNodeType.TRACK, track_id)
+        if self._search_field.text().strip():
+            self._search(self._search_field.text())
+
+    def _scoped_entries(self, entries):
+        if self._assembly_service and self._assembly_track is not None:
+            return self._assembly_service.filter_entries(entries, self._assembly_track)
+        return entries
+
     def _show_category(
             self,
             category_id: int,
@@ -645,7 +783,7 @@ class MainWindow(QMainWindow):
             )
         )
 
-        if category is None:
+        if category is None or not self._language_in_mode(category.language_id):
             return
 
         self._record_navigation(
@@ -667,11 +805,12 @@ class MainWindow(QMainWindow):
             )
         )
 
-        self._category_page.set_category(
-            category,
-            packages,
-            entries,
-        )
+        if self._assembly_service and category.language_id == self._assembly_service.language_id():
+            entries = self._scoped_entries(entries)
+            packages = [p for p in packages if self._scoped_entries(self._entry_service.get_entries_for_package(p.id))]
+        else:
+            self._set_assembly_track(None)
+        self._category_page.set_category(category, packages, entries, natural=self._language_kind == "natural")
 
         self._content_stack.setCurrentWidget(
             self._category_page
@@ -688,7 +827,7 @@ class MainWindow(QMainWindow):
             )
         )
 
-        if package is None:
+        if package is None or self._language_kind != "programming":
             return
 
         self._record_navigation(
@@ -705,7 +844,7 @@ class MainWindow(QMainWindow):
 
         self._package_page.set_package(
             package,
-            entries,
+            self._scoped_entries(entries),
         )
 
         self._content_stack.setCurrentWidget(
@@ -742,6 +881,7 @@ class MainWindow(QMainWindow):
             package_id=None,
             default_syntax_hint=syntax_hint,
             parent=self,
+            natural=self._language_kind == "natural",
         )
 
         result = dialog.exec()
@@ -785,6 +925,7 @@ class MainWindow(QMainWindow):
             package_id=package_id,
             default_syntax_hint=syntax_hint,
             parent=self,
+            natural=self._language_kind == "natural",
         )
 
         result = dialog.exec()
@@ -813,6 +954,8 @@ class MainWindow(QMainWindow):
         )
 
         if not source_index.isValid():
+            if node_type == NavigationNodeType.ENTRY:
+                self._show_entry(node_id)
             return
 
         proxy_index = (
@@ -832,9 +975,10 @@ class MainWindow(QMainWindow):
 
             parent = parent.parent()
 
-        self._language_tree.setCurrentIndex(
-            proxy_index
-        )
+        previous = self._language_tree.currentIndex()
+        self._language_tree.setCurrentIndex(proxy_index)
+        if previous == proxy_index:
+            self._on_navigation_changed(proxy_index, QModelIndex())
 
         self._language_tree.scrollTo(
             proxy_index
@@ -891,6 +1035,7 @@ class MainWindow(QMainWindow):
             if (
                     raw_type == int(node_type)
                     and current_id == node_id
+                    and (node_type == NavigationNodeType.LANGUAGE or index.data(TRACK_ID_ROLE) == self._assembly_track)
             ):
                 return index
 
@@ -927,9 +1072,14 @@ class MainWindow(QMainWindow):
             )
         )
 
-        if entry is None:
+        if entry is None or not self._language_in_mode(entry.language_id):
             return
 
+        if self._assembly_service:
+            if entry.language_id != self._assembly_service.language_id():
+                self._set_assembly_track(None)
+            elif self._assembly_track is None or entry.id not in self._assembly_service.entry_ids(self._assembly_track):
+                self._set_assembly_track(0)
         self._record_navigation(
             NavigationNodeType.ENTRY,
             entry_id,
@@ -969,12 +1119,15 @@ class MainWindow(QMainWindow):
             else None
         )
 
+        if language and language.slug == "nasm" and self._assembly_service:
+            syntax_hint = self._assembly_service.syntax_hint(entry_id)
         self._entry_page.set_entry(
             entry,
             arguments,
             examples,
             members,
             syntax_hint,
+            natural=self._language_kind == "natural",
         )
 
         self._content_stack.setCurrentWidget(
@@ -1005,6 +1158,10 @@ class MainWindow(QMainWindow):
         if language is None:
             return None
 
+        if language.language_kind == "natural":
+            return "text"
+        if language.slug == "nasm":
+            return TRACK_BY_ID[self._assembly_track].syntax_hint if self._assembly_track is not None else "text"
         return language.slug
 
     def _open_entry_editor(
@@ -1050,6 +1207,7 @@ class MainWindow(QMainWindow):
             arguments=arguments,
             examples=examples,
             parent=self,
+            natural=self._language_kind == "natural",
         )
 
         result = dialog.exec()
@@ -1062,7 +1220,60 @@ class MainWindow(QMainWindow):
                 entry_id
             )
 
+    def _open_library_file(self) -> None:
+        filename, _ = QFileDialog.getOpenFileName(self, 'Open WynCodex library', '', 'WynCodex library (*.json)')
+        if filename:
+            self._update_library(Path(filename))
+
+    def _update_library(self, source_path=None) -> None:
+        from wyncodex.services.library_update_service import load_package
+        if self._library_service is None:
+            return
+        try:
+            document = load_package(source_path)
+            preview = self._library_service.preview(document)
+        except Exception as error:
+            QMessageBox.warning(self, 'Library could not be read', str(error))
+            return
+        lines = [f'Library {document["version"]}', '']
+        for table in ('languages', 'categories', 'packages', 'entries', 'arguments', 'examples', 'tags', 'entry_tags', 'entry_relations'):
+            count = preview.added.get(table, 0)
+            if count:
+                lines.append(f'New {table.replace("_", " ")}: {count}')
+        lines += ['', 'Your existing entries and examples will be kept.',
+                  f'Existing records with different content kept: {len(preview.differences)}',
+                  f'Records skipped to preserve deletions or conflicting identities: {len(preview.skipped)}']
+        details = '\n'.join(f'{item["table"]}: {item["title"]} — kept existing {", ".join(item["fields"])}' for item in preview.differences)
+        details += '\n' + '\n'.join(f'{item["table"]}: {item["title"]} — {item["reason"]}' for item in preview.skipped)
+        dialog = QMessageBox(self)
+        dialog.setWindowTitle('Update Library')
+        dialog.setText('\n'.join(lines))
+        if details.strip():
+            dialog.setDetailedText(details.strip())
+        if preview.added_total == 0:
+            dialog.setInformativeText('No missing library content was found. Nothing was changed.')
+            dialog.setStandardButtons(QMessageBox.StandardButton.Ok)
+            dialog.exec()
+            return
+        dialog.setInformativeText('A database backup will be saved before adding this content.')
+        dialog.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
+        dialog.setDefaultButton(QMessageBox.StandardButton.Cancel)
+        if dialog.exec() != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            result = self._library_service.apply(document)
+        except Exception as error:
+            QMessageBox.critical(self, 'Library update failed', f'Library changes were rolled back.\n\n{error}')
+            return
+        self._set_language_kind(self._language_kind, force=True)
+        message = f'Added {result.added.get("entries", 0)} entries and {result.added.get("examples", 0)} examples.\nExisting content was kept.'
+        if result.backup:
+            message += f'\n\nBackup: {result.backup}'
+        QMessageBox.information(self, 'Library updated', message)
+
     def _import_json(self) -> None:
+        if self._language_kind != "programming":
+            return
         dialog = QFileDialog(
             self,
             "Import WynCodex JSON",
@@ -1199,6 +1410,8 @@ class MainWindow(QMainWindow):
         self._navigation_model.reload()
         self._language_tree.expandAll()
 
+        self._refresh_search_languages()
+
         QMessageBox.information(
             self,
             "Import Complete",
@@ -1233,6 +1446,50 @@ class MainWindow(QMainWindow):
             ),
         )
 
+    def _refresh_search_languages(self) -> None:
+        selected_language_id = (
+            self._search_language_filter.currentData()
+        )
+
+        languages = self._language_service.get_all_languages(self._language_kind)
+
+        with QSignalBlocker(self._search_language_filter):
+            self._search_language_filter.clear()
+            self._search_language_filter.addItem(
+                "All languages",
+                None,
+            )
+
+            for language in languages:
+                if language.id is not None:
+                    self._search_language_filter.addItem(
+                        language.name,
+                        language.id,
+                    )
+
+            selected_index = self._search_language_filter.findData(
+                selected_language_id
+            )
+
+            self._search_language_filter.setCurrentIndex(
+                max(0, selected_index)
+            )
+
+        if self._search_field.text().strip():
+            self._search(self._search_field.text())
+
+    def _search_language_changed(self, _index):
+        is_assembly = bool(self._language_kind == "programming" and self._assembly_service and self._search_language_filter.currentData() == self._assembly_service.language_id())
+        self._assembly_track_filter.setVisible(is_assembly)
+        if not is_assembly:
+            self._set_assembly_track(None)
+        self._search(self._search_field.text())
+
+    def _search_track_changed(self, _index):
+        track_id = self._assembly_track_filter.currentData()
+        if self._assembly_service:
+            self._show_assembly_track(track_id or 0)
+
     def _search(
             self,
             text: str,
@@ -1256,7 +1513,7 @@ class MainWindow(QMainWindow):
 
             return
 
-        if len(query) < 2:
+        if len(query) < (1 if self._language_kind == "natural" else 2):
             self._search_results.clear()
 
             self._search_status.setText(
@@ -1275,13 +1532,37 @@ class MainWindow(QMainWindow):
 
         results = (
             self._search_service.search(
-                query
+                query,
+                language_kind=self._language_kind,
+                language_id=(
+                    self._search_language_filter.currentData()
+                ),
+                assembly_track=(self._assembly_track if self._assembly_service and self._search_language_filter.currentData() == self._assembly_service.language_id() else None),
             )
         )
 
         self._search_results.clear()
 
-        count = len(results)
+        # Empty natural sections must also be discoverable before the first note.
+        if self._language_kind == "natural":
+            query_key = query.casefold()
+            selected_id = self._search_language_filter.currentData()
+            languages = self._language_service.get_all_languages("natural")
+            languages.sort(key=lambda language: (language.name.casefold() != query_key, not language.name.casefold().startswith(query_key), language.name.casefold()))
+            for language in languages:
+                if selected_id is not None and selected_id != language.id:
+                    continue
+                aliases = language.name + (" Belarusian" if language.slug == "natural-belorussian" else "")
+                if query_key in aliases.casefold():
+                    item = QListWidgetItem(f"{language.name}\nLanguage reference")
+                    item.setData(Qt.ItemDataRole.UserRole, ("language", language.id))
+                    self._search_results.addItem(item)
+                for category in self._category_service.get_categories_for_language(language.id):
+                    if query_key in category.name.casefold():
+                        item = QListWidgetItem(f"{category.name}\n{language.name}")
+                        item.setData(Qt.ItemDataRole.UserRole, ("category", category.id))
+                        self._search_results.addItem(item)
+        count = len(results) + self._search_results.count()
 
         self._search_status.setText(
             (
@@ -1343,6 +1624,13 @@ class MainWindow(QMainWindow):
             Qt.ItemDataRole.UserRole
         )
 
+        if isinstance(entry_id, (tuple, list)) and len(entry_id) == 2:
+            kind, node_id = entry_id
+            if kind == "language":
+                self._show_language(node_id)
+            elif kind == "category":
+                self._show_category(node_id)
+            return
         if not isinstance(
                 entry_id,
                 int,
@@ -1396,6 +1684,7 @@ class MainWindow(QMainWindow):
             parent_entry_id=parent_entry_id,
             default_syntax_hint=syntax_hint,
             parent=self,
+            natural=self._language_kind == "natural",
         )
 
         result = dialog.exec()
@@ -1472,6 +1761,7 @@ class MainWindow(QMainWindow):
         destination = (
             node_type,
             node_id,
+            self._assembly_track,
         )
 
         if (
@@ -1545,7 +1835,7 @@ class MainWindow(QMainWindow):
         ):
             return
 
-        node_type, node_id = (
+        node_type, node_id, track_id = (
             self._navigation_history[
                 self._history_index
             ]
@@ -1554,6 +1844,7 @@ class MainWindow(QMainWindow):
         self._replaying_history = True
 
         try:
+            self._set_assembly_track(track_id)
             self._navigate_to_node(
                 node_type,
                 node_id,
@@ -1580,3 +1871,59 @@ class MainWindow(QMainWindow):
             ) - 1
             )
         )
+    def _language_in_mode(self, language_id):
+        language = self._language_service.get_language_by_id(language_id)
+        return language is not None and language.language_kind == self._language_kind
+
+    def _set_language_kind(self, kind, *, force=False):
+        if kind not in ("programming", "natural"):
+            return False
+        # An editor owns its draft until Save or Cancel. Modal dialogs also block
+        # mouse/keyboard access to this bar; guard direct/queued calls as well.
+        modal = QApplication.activeModalWidget()
+        if modal is not None and modal is not self:
+            self._mode_buttons[self._language_kind].setChecked(True)
+            modal.raise_()
+            modal.setFocus()
+            return False
+        if kind == self._language_kind and not force:
+            self._mode_buttons[kind].setChecked(True)
+            return True
+        self._language_kind = kind
+        self._navigation_model.language_kind = kind
+        self._mode_buttons[kind].setChecked(True)
+        self._set_assembly_track(None)
+        with QSignalBlocker(self._search_field):
+            self._search_field.clear()
+        self._navigation_history.clear()
+        self._history_index = -1
+        self._update_history_buttons()
+        self._navigation_model.reload()
+        self._refresh_search_languages()
+        self._assembly_track_filter.hide()
+        self._import_json_button.setVisible(kind == "programming")
+        self._search_field.setPlaceholderText("Search languages, categories, notes…" if kind == "natural" else "Search languages, packages, entries...")
+        self._search("")
+        self._content_stack.setCurrentWidget(self._welcome_page)
+        self._settings.setValue("library/languageKind", kind)
+        self._settings.sync()
+        return True
+
+    def _edit_language(self, language_id):
+        language = self._language_service.get_language_by_id(language_id)
+        if language is None or not self._language_in_mode(language_id):
+            return
+        dialog = LanguageEditorDialog(self._language_service, self, language=language)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self._navigation_model.reload()
+            self._refresh_search_languages()
+            self._show_language(language_id)
+
+    def _edit_category(self, category_id):
+        category = self._category_service.get_category_by_id(category_id)
+        if category is None or not self._language_in_mode(category.language_id):
+            return
+        dialog = CategoryEditorDialog(self._category_service, category.language_id, self, category=category)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self._navigation_model.reload()
+            self._show_category(category_id)

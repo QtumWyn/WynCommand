@@ -16,7 +16,10 @@ class SearchRepository:
             self,
             query: str,
             *,
+            language_id: int | None = None,
             limit: int = 50,
+            assembly_track: int | None = None,
+            language_kind: str | None = None,
     ) -> list[SearchResult]:
         normalized_query = (
             " ".join(
@@ -65,9 +68,10 @@ class SearchRepository:
                 e.mental_model,
                 e.return_value,
                 e.gotchas,
-                e.notes,
+                e.notes, e.formality, e.dialect, e.related_concepts,
 
                 l.name AS language_name,
+                l.slug AS language_slug,
                 c.name AS category_name,
                 p.name AS package_name,
 
@@ -108,7 +112,7 @@ class SearchRepository:
                             SELECT group_concat(
                                            COALESCE(x.title, '')
                                                || ' '
-                                               || COALESCE(x.code, '')
+                                               || COALESCE(x.code, '') || ' ' || COALESCE(x.romanization, '') || ' ' || COALESCE(x.pronunciation, '')
                                                || ' '
                                                || COALESCE(
                                                    x.output,
@@ -150,12 +154,24 @@ class SearchRepository:
 
                      LEFT JOIN entry_paths
                                ON entry_paths.id = e.id
-            """
+
+            WHERE (:language_id IS NULL
+                   OR e.language_id = :language_id)
+              AND (:language_kind IS NULL OR l.language_kind=:language_kind)
+            """,
+            {"language_id": language_id, "language_kind": language_kind},
         ).fetchall()
 
         results: list[SearchResult] = []
 
+        allowed = None
+        if assembly_track is not None:
+            from wyncodex.services.assembly_service import AssemblyService
+            allowed = AssemblyService(self._connection).entry_ids(assembly_track)
+
         for row in rows:
+            if allowed is not None and row["entry_id"] not in allowed:
+                continue
             result = self._match_row(
                 row,
                 normalized_query,
@@ -203,7 +219,7 @@ class SearchRepository:
         fields: dict[str, str] = {
             "title": title,
             "kind": entry_kind,
-            "language": language,
+            "language": language + " " + row["language_slug"] + (" assembly" if row["language_slug"] == "nasm" else " Belarusian" if row["language_slug"] == "natural-belorussian" else ""),
             "category": category,
             "package": package or "",
             "path": entry_path,
@@ -217,7 +233,7 @@ class SearchRepository:
                     row["return_value"] or ""
             ),
             "gotchas": row["gotchas"] or "",
-            "notes": row["notes"] or "",
+            "notes": " ".join(row[k] or "" for k in ("notes","formality","dialect","related_concepts")),
             "arguments": (
                     row["argument_text"] or ""
             ),

@@ -49,3 +49,7 @@ def clean_optional_text(
     cleaned = value.strip()
 
     return cleaned or None
+
+def unicode_slugify(value: str) -> str:
+    value = unicodedata.normalize('NFC', value.strip()).casefold()
+    return re.sub(r'[^\w]+', '-', value, flags=re.UNICODE).strip('-_')

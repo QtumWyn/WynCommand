@@ -22,6 +22,9 @@ class Entry:
     mental_model: str | None = None
     return_value: str | None = None
     gotchas: str | None = None
+    formality: str | None = None
+    dialect: str | None = None
+    related_concepts: str | None = None
     notes: str | None = None
 
     sort_order: int = 0
@@ -46,6 +49,9 @@ class Entry:
         mental_model: str | None = None,
         return_value: str | None = None,
         gotchas: str | None = None,
+        formality: str | None = None,
+        dialect: str | None = None,
+        related_concepts: str | None = None,
         notes: str | None = None,
     ) -> "Entry":
         return cls(
@@ -67,5 +73,8 @@ class Entry:
             mental_model=mental_model,
             return_value=return_value,
             gotchas=gotchas,
+            formality=formality,
+            dialect=dialect,
+            related_concepts=related_concepts,
             notes=notes,
         )

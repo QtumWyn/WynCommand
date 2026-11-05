@@ -1,0 +1,4 @@
+PySide6==6.11.2
+Pygments==2.21.0
+PyInstaller==6.22.3
+setuptools==84.0.0

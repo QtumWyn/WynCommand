@@ -5,7 +5,7 @@ from wyncodex.repositories.category_repository import (
 from wyncodex.repositories.language_repository import (
     LanguageRepository,
 )
-from wyncodex.utils.text import slugify
+from wyncodex.utils.text import slugify, unicode_slugify
 
 
 class CategoryService:
@@ -33,9 +33,11 @@ class CategoryService:
                 "Category cannot be empty."
             )
 
-        resolved_slug = slugify(
-            slug if slug else name
-        )
+        language = self._language_repository.get_by_id(language_id)
+        if language is None:
+            raise ValueError("The selected language does not exist.")
+        make_slug = unicode_slugify if language.language_kind == "natural" else slugify
+        resolved_slug = make_slug(slug if slug else name)
 
         if not resolved_slug:
             raise ValueError(
@@ -109,3 +111,9 @@ class CategoryService:
                 slug,
             )
         )
+    def update_category(self, category_id: int, *, name: str, description: str | None = None) -> Category:
+        if not name.strip():
+            raise ValueError("Category name cannot be empty.")
+        if self._category_repository.get_by_id(category_id) is None:
+            raise ValueError("Category no longer exists.")
+        return self._category_repository.update(category_id, name.strip(), description)

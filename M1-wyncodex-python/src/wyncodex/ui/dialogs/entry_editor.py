@@ -30,7 +30,10 @@ from wyncodex.domain.argument import Argument
 from wyncodex.domain.example import Example
 
 
-class EntryEditorDialog(QDialog):
+from wyncodex.ui.dialogs.guarded_dialog import GuardedDialog
+
+
+class EntryEditorDialog(GuardedDialog):
     def __init__(
             self,
             entry_service: EntryService,
@@ -42,9 +45,11 @@ class EntryEditorDialog(QDialog):
             arguments: list[Argument] | None = None,
             examples: list[Example] | None = None,
             parent=None,
+            natural: bool = False,
     ) -> None:
         super().__init__(parent)
 
+        self._natural = natural
         self._entry_service = entry_service
         self._category_id = category_id
         self._package_id = package_id
@@ -85,6 +90,7 @@ class EntryEditorDialog(QDialog):
 
         if self._entry is not None:
             self._load_existing_entry()
+        self.remember_initial_state()
 
     def _build_ui(self) -> None:
         layout = QVBoxLayout(self)
@@ -118,6 +124,10 @@ class EntryEditorDialog(QDialog):
             ]
         )
 
+        if self._natural:
+            self._kind_field.clear()
+            self._kind_field.addItems(["note", "grammar", "word", "expression", "example", "common-mistake"])
+        self._kind_field.setEditable(True)
         self._title_field = QLineEdit()
         self._summary_field = QTextEdit()
 
@@ -183,27 +193,27 @@ class EntryEditorDialog(QDialog):
         )
 
         form.addRow(
-            "Signature",
+            "Pattern / grammar" if self._natural else "Signature",
             self._signature_field,
         )
 
         form.addRow(
-            "Definition",
+            "Explanation" if self._natural else "Definition",
             self._definition_field,
         )
 
         form.addRow(
-            "Mental Model",
+            "Usage / structure" if self._natural else "Mental Model",
             self._mental_model_field,
         )
 
         form.addRow(
-            "Return Value",
+            "Meaning / translation" if self._natural else "Return Value",
             self._return_value_field,
         )
 
         form.addRow(
-            "Gotchas",
+            "Common mistakes / gotchas" if self._natural else "Gotchas",
             self._gotchas_field,
         )
 
@@ -212,6 +222,15 @@ class EntryEditorDialog(QDialog):
             self._notes_field,
         )
 
+        self._formality_field = QLineEdit()
+        self._dialect_field = QLineEdit()
+        self._related_concepts_field = QLineEdit()
+        for title, field in [("Formality (optional)", self._formality_field), ("Dialect / variety (optional)", self._dialect_field), ("Related concepts (optional)", self._related_concepts_field)]:
+            field.setParent(self)
+            if self._natural:
+                form.addRow(title, field)
+            else:
+                field.hide()
         self._tabs = QTabWidget()
 
         # -------------------------
@@ -226,10 +245,10 @@ class EntryEditorDialog(QDialog):
         overview_layout.addLayout(form)
         overview_layout.addStretch()
 
-        self._tabs.addTab(
-            overview_tab,
-            "Overview",
-        )
+        self._overview_scroll = QScrollArea()
+        self._overview_scroll.setWidgetResizable(True)
+        self._overview_scroll.setWidget(overview_tab)
+        self._tabs.addTab(self._overview_scroll, "Overview")
 
         # -------------------------
         # Arguments tab
@@ -275,10 +294,8 @@ class EntryEditorDialog(QDialog):
             add_argument_button
         )
 
-        self._tabs.addTab(
-            arguments_tab,
-            "Arguments",
-        )
+        self._tabs.addTab(arguments_tab, "Arguments")
+        self._tabs.setTabVisible(1, not self._natural)
 
         # -------------------------
         # Examples tab
@@ -449,6 +466,9 @@ class EntryEditorDialog(QDialog):
                         .toPlainText()
                     ),
 
+                    formality=self._formality_field.text(),
+                    dialect=self._dialect_field.text(),
+                    related_concepts=self._related_concepts_field.text(),
                     arguments=arguments,
                     examples=examples,
                 )
@@ -493,6 +513,9 @@ class EntryEditorDialog(QDialog):
                         .toPlainText()
                     ),
 
+                    formality=self._formality_field.text(),
+                    dialect=self._dialect_field.text(),
+                    related_concepts=self._related_concepts_field.text(),
                     arguments=arguments,
                     examples=examples,
                 )
@@ -540,7 +563,8 @@ class EntryEditorDialog(QDialog):
 
     def _add_example(self) -> None:
         editor = ExampleEditorWidget(
-            self._default_syntax_hint
+            self._default_syntax_hint,
+            natural=self._natural,
         )
 
         editor.remove_requested.connect(
@@ -577,6 +601,10 @@ class EntryEditorDialog(QDialog):
         if self._entry is None:
             return
 
+        self._formality_field.setText(self._entry.formality or "")
+        self._dialect_field.setText(self._entry.dialect or "")
+        self._related_concepts_field.setText(self._entry.related_concepts or "")
+        self._kind_field.setCurrentText(self._entry.entry_kind)
         kind_index = (
             self._kind_field.findText(
                 self._entry.entry_kind
@@ -665,6 +693,7 @@ class EntryEditorDialog(QDialog):
                 self._default_syntax_hint
             ),
             example=example,
+            natural=self._natural,
         )
 
         editor.remove_requested.connect(

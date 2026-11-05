@@ -14,7 +14,10 @@ class LanguageService:
             description: str | None = None,
             slug: str | None = None,
             commit: bool = True,
+            language_kind: str = "programming",
     ) -> Language:
+        if language_kind not in ("programming", "natural"):
+            raise ValueError("Invalid language kind.")
         name = name.strip()
 
         if not name:
@@ -22,9 +25,12 @@ class LanguageService:
                 "Language name cannot be empty."
             )
 
-        resolved_slug = slugify(
-            slug if slug else name
-        )
+        resolved_slug = slugify(slug if slug else name)
+        if language_kind == "natural":
+            from wyncodex.utils.text import unicode_slugify
+            resolved_slug = unicode_slugify(slug if slug else name)
+            if resolved_slug:
+                resolved_slug = "natural-" + resolved_slug
 
         if not resolved_slug:
             raise ValueError(
@@ -44,6 +50,7 @@ class LanguageService:
             name=name,
             slug=resolved_slug,
             description=description,
+            language_kind=language_kind,
         )
 
         return self._repository.create(
@@ -51,8 +58,8 @@ class LanguageService:
             commit=commit,
         )
 
-    def get_all_languages(self) -> list[Language]:
-        return self._repository.get_all()
+    def get_all_languages(self, language_kind: str | None = None) -> list[Language]:
+        return self._repository.get_all(language_kind)
 
     def get_language_by_id(
             self,
@@ -67,3 +74,10 @@ class LanguageService:
         return self._repository.get_by_slug(
             slug
         )
+
+    def update_language(self, language_id: int, *, name: str, description: str | None = None) -> Language:
+        if not name.strip():
+            raise ValueError("Language name cannot be empty.")
+        if self._repository.get_by_id(language_id) is None:
+            raise ValueError("Language no longer exists.")
+        return self._repository.update(language_id,name.strip(),description)

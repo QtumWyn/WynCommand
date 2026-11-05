@@ -11,6 +11,8 @@ class ExampleDraft:
     example_type: str = "practical"
     syntax_hint: str | None = None
     output: str | None = None
+    romanization: str | None = None
+    pronunciation: str | None = None
 
 
 @dataclass(frozen=True)
@@ -32,6 +34,8 @@ class Example:
 
     created_at: str | None = None
     updated_at: str | None = None
+    romanization: str | None = None
+    pronunciation: str | None = None
 
     @classmethod
     def new(
@@ -41,6 +45,8 @@ class Example:
             title: str,
             code: str,
             output: str | None = None,
+            romanization: str | None = None,
+            pronunciation: str | None = None,
             explanation: str | None = None,
             example_type: str = "practical",
             syntax_hint: str | None = None,
@@ -53,6 +59,8 @@ class Example:
             title=title,
             code=code,
             output=output,
+            romanization=romanization,
+            pronunciation=pronunciation,
             explanation=explanation,
             example_type=example_type,
             syntax_hint=syntax_hint,

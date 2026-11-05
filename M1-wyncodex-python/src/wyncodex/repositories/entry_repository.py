@@ -33,12 +33,15 @@ class EntryRepository:
                 mental_model,
                 return_value,
                 gotchas,
+                formality,
+                dialect,
+                related_concepts,
                 notes,
                 sort_order
             )
             VALUES (
                        ?, ?, ?, ?, ?, ?, ?, ?,
-                       ?, ?, ?, ?, ?, ?, ?, ?
+                       ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                    )
             """,
             (
@@ -56,6 +59,9 @@ class EntryRepository:
                 entry.mental_model,
                 entry.return_value,
                 entry.gotchas,
+                entry.formality,
+                entry.dialect,
+                entry.related_concepts,
                 entry.notes,
                 entry.sort_order,
             ),
@@ -201,6 +207,9 @@ class EntryRepository:
             mental_model=row["mental_model"],
             return_value=row["return_value"],
             gotchas=row["gotchas"],
+            formality=row["formality"],
+            dialect=row["dialect"],
+            related_concepts=row["related_concepts"],
             notes=row["notes"],
             sort_order=row["sort_order"],
             created_at=row["created_at"],
@@ -248,6 +257,9 @@ class EntryRepository:
                 mental_model = ?,
                 return_value = ?,
                 gotchas = ?,
+                formality = ?,
+                dialect = ?,
+                related_concepts = ?,
                 notes = ?,
                 updated_at = (
                     strftime(
@@ -267,6 +279,9 @@ class EntryRepository:
                 entry.mental_model,
                 entry.return_value,
                 entry.gotchas,
+                entry.formality,
+                entry.dialect,
+                entry.related_concepts,
                 entry.notes,
                 entry.id,
             ),

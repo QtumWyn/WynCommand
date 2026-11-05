@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QScrollArea,
 )
 
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Qt
 from PySide6.QtWidgets import QGridLayout
 from wyncodex.domain.language import Language
 from wyncodex.domain.category import Category
@@ -18,6 +18,7 @@ from wyncodex.ui.widgets.overview_card import OverviewCard
 class LanguageOverviewPage(QWidget):
     add_category_requested = Signal(int)
     category_selected = Signal(int)
+    edit_requested = Signal(int)
     def __init__(self) -> None:
         super().__init__()
 
@@ -71,6 +72,7 @@ class LanguageOverviewPage(QWidget):
         )
 
         self._title_label = QLabel()
+        self._title_label.setWordWrap(True)
         self._title_label.setObjectName(
             "pageTitle"
         )
@@ -99,8 +101,7 @@ class LanguageOverviewPage(QWidget):
             self._request_add_category
         )
 
-        # We'll wire these up in the next slices.
-        self._edit_language_button.setEnabled(False)
+        self._edit_language_button.clicked.connect(lambda: self.edit_requested.emit(self._language.id) if self._language else None)
 
         button_row.addWidget(
             self._add_category_button
@@ -119,7 +120,7 @@ class LanguageOverviewPage(QWidget):
 
         layout.addLayout(button_row)
 
-        children_label = QLabel(
+        self._children_label = children_label = QLabel(
             "CATEGORIES"
         )
 
@@ -155,6 +156,9 @@ class LanguageOverviewPage(QWidget):
             categories: list[Category],
     ) -> None:
         self._language = language
+        self._title_label.setTextFormat(Qt.TextFormat.PlainText)
+        self._description_label.setTextFormat(Qt.TextFormat.PlainText)
+        self._edit_language_button.setEnabled(language.id is not None)
 
         self._title_label.setText(
             language.name.upper()

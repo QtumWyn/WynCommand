@@ -30,6 +30,13 @@ def build_stylesheet() -> str:
         }}
 
 
+        /* Scroll view content needs an explicit background on light desktop themes. */
+        QScrollArea,
+        QScrollArea > QWidget > QWidget {{
+            background-color: {palette.PAGE_BACKGROUND};
+            border: none;
+        }}
+
         /* ---------- Labels ---------- */
 
         QLabel {{
@@ -295,6 +302,8 @@ def build_stylesheet() -> str:
         /* ---------- Text input ---------- */
 
         QLineEdit,
+        QComboBox,
+        QPlainTextEdit,
         QTextEdit {{
             background-color: {palette.RAISED_BLACK};
 
@@ -310,18 +319,49 @@ def build_stylesheet() -> str:
         }}
 
         QLineEdit:hover,
+        QComboBox:hover,
+        QPlainTextEdit:hover,
         QTextEdit:hover {{
             border-color: {palette.BRIGHT_IRON};
         }}
 
         QLineEdit:focus,
+        QComboBox:focus,
+        QPlainTextEdit:focus,
         QTextEdit:focus {{
             background-color: {palette.HOVER_BLACK};
 
             border: 1px solid {palette.PASTEL_BLUE};
         }}
 
+        QComboBox#searchLanguageFilter {{
+            /* Respect maxVisibleItems even with menu-style desktop themes. */
+            combobox-popup: 0;
+        }}
 
+        QComboBox QAbstractItemView {{
+            background-color: {palette.RAISED_BLACK};
+            color: {palette.BONE};
+            border: 1px solid {palette.IRON};
+            selection-background-color: {palette.SELECTED_BLACK};
+            selection-color: {palette.PASTEL_PINK};
+        }}
+
+
+        QTabWidget::pane {{
+            border: 1px solid {palette.IRON};
+            background: {palette.PAGE_BACKGROUND};
+        }}
+        QTabBar::tab {{
+            background: {palette.RAISED_BLACK};
+            color: {palette.ASH};
+            padding: 8px 12px;
+            border: 1px solid {palette.IRON};
+        }}
+        QTabBar::tab:selected {{
+            color: {palette.BONE};
+            border-bottom: 2px solid {palette.PASTEL_BLUE};
+        }}
         /* ---------- Buttons ---------- */
 
         QPushButton {{
@@ -347,6 +387,12 @@ def build_stylesheet() -> str:
             background-color: {palette.SELECTED_BLACK};
 
             border-color: {palette.VIOLET};
+        }}
+
+        QPushButton#modeButton:checked {{
+            background-color: {palette.PASTEL_BLUE};
+            color: {palette.VOID_BLACK};
+            border: 1px solid {palette.PASTEL_BLUE};
         }}
 
         QPushButton#accentButton {{

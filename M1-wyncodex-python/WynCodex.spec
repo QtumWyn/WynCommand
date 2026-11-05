@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('src/wyncodex/database/migrations', 'wyncodex/database/migrations'), ('src/wyncodex/resources/starter-library.json', 'wyncodex/resources')]
+datas = [('src/wyncodex/database/migrations', 'wyncodex/database/migrations'), ('src/wyncodex/resources/starter-library.json', 'wyncodex/resources'), ('src/wyncodex/resources/public-library.json', 'wyncodex/resources')]
 binaries = []
 hiddenimports = ['wyncodex.database.migrations', 'wyncodex.resources']
 tmp_ret = collect_all('pygments')

@@ -53,7 +53,7 @@ LEXER_ALIASES: dict[str, str] = {
     "power-shell": "powershell",
     "ps1": "powershell",
 
-    "assembly": "nasm",
+    "assembly": "text",  # Assembly alone does not specify an ISA or dialect.
 
     "shell": "bash",
     "sh": "bash",

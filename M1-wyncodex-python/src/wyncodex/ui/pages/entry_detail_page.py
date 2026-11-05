@@ -7,7 +7,8 @@ from PySide6.QtWidgets import (
     QWidget,
     QScrollArea,
 )
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Qt
+from wyncodex.ui.widgets.natural_example_display import NaturalExampleDisplayWidget
 from wyncodex.domain.entry import Entry
 from wyncodex.domain.argument import Argument
 from wyncodex.domain.example import Example
@@ -71,6 +72,7 @@ class EntryDetailPage(QWidget):
         )
 
         self._title_label = QLabel()
+        self._title_label.setWordWrap(True)
         self._title_label.setObjectName(
             "pageTitle"
         )
@@ -154,6 +156,10 @@ class EntryDetailPage(QWidget):
             "SIGNATURE"
         )
         self._signature_block = CodeBlock()
+        self._pattern_label = self._content_label()
+        self._natural_metadata = []
+        for name in ("FORMALITY", "DIALECT / VARIETY", "RELATED CONCEPTS"):
+            self._natural_metadata.append((self._section_label(name), self._content_label()))
 
         self._definition_title = self._section_label(
             "DEFINITION"
@@ -251,7 +257,8 @@ class EntryDetailPage(QWidget):
             self._signature_block
         )
 
-        for title, content in sections:
+        layout.addWidget(self._pattern_label)
+        for title, content in (*sections, *self._natural_metadata):
             layout.addSpacing(12)
             layout.addWidget(title)
             layout.addWidget(content)
@@ -295,6 +302,8 @@ class EntryDetailPage(QWidget):
         )
 
         label.setWordWrap(True)
+        label.setTextFormat(Qt.TextFormat.PlainText)
+        label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse | Qt.TextInteractionFlag.TextSelectableByKeyboard)
 
         return label
 
@@ -305,8 +314,25 @@ class EntryDetailPage(QWidget):
             examples: list[Example],
             members: list[Entry],
             syntax_hint: str | None,
+            natural: bool = False,
     ) -> None:
         self._entry = entry
+        self._natural = natural
+        self._title_label.setTextFormat(Qt.TextFormat.PlainText)
+        self._summary_label.setTextFormat(Qt.TextFormat.PlainText)
+        for label, regular, natural_title in [
+            (self._signature_title, "SIGNATURE", "PATTERN / GRAMMAR"),
+            (self._definition_title, "DEFINITION", "EXPLANATION"),
+            (self._mental_model_title, "MENTAL MODEL", "USAGE / STRUCTURE"),
+            (self._return_title, "RETURN VALUE", "MEANING / TRANSLATION"),
+            (self._gotchas_title, "GOTCHAS", "COMMON MISTAKES / GOTCHAS"),
+            (self._members_title, "MEMBERS", "SUBENTRIES")]:
+            label.setText(natural_title if natural else regular)
+        self._add_child_button.setText("+ SUBENTRY" if natural else "+ MEMBER")
+        for (title, label), value in zip(self._natural_metadata, (entry.formality, entry.dialect, entry.related_concepts)):
+            self._set_section(title, label, value if natural else None)
+        self._pattern_label.setText(entry.signature or "")
+        self._pattern_label.setVisible(natural and bool(entry.signature))
 
         self._title_label.setText(
             entry.title
@@ -358,11 +384,9 @@ class EntryDetailPage(QWidget):
             has_signature
         )
 
-        self._signature_block.setVisible(
-            has_signature
-        )
+        self._signature_block.setVisible(has_signature and not natural)
 
-        if entry.signature:
+        if entry.signature and not natural:
             self._signature_block.set_code(
                 entry.signature,
                 syntax_hint,
@@ -372,9 +396,7 @@ class EntryDetailPage(QWidget):
             members
         )
 
-        self._populate_arguments(
-            arguments
-        )
+        self._populate_arguments([] if natural else arguments)
 
         self._populate_examples(
             examples
@@ -444,9 +466,7 @@ class EntryDetailPage(QWidget):
 
         for example in examples:
             self._examples_layout.addWidget(
-                ExampleDisplayWidget(
-                    example
-                )
+                (NaturalExampleDisplayWidget if self._natural else ExampleDisplayWidget)(example)
             )
 
     @staticmethod

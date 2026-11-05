@@ -14,22 +14,32 @@ from wyncodex.services.category_service import (
 )
 
 
-class CategoryEditorDialog(QDialog):
+from wyncodex.ui.dialogs.guarded_dialog import GuardedDialog
+
+
+class CategoryEditorDialog(GuardedDialog):
     def __init__(
             self,
             category_service: CategoryService,
             language_id: int,
             parent=None,
+            *, category=None,
     ) -> None:
         super().__init__(parent)
 
         self._category_service = category_service
         self._language_id = language_id
+        self._category = category
 
         self.setWindowTitle("Add Category")
         self.resize(480, 340)
 
         self._build_ui()
+        if category:
+            self.setWindowTitle("Edit Category")
+            self._name_field.setText(category.name)
+            self._description_field.setPlainText(category.description or "")
+        self.remember_initial_state()
 
     def _build_ui(self) -> None:
         layout = QVBoxLayout(self)
@@ -97,14 +107,11 @@ class CategoryEditorDialog(QDialog):
 
     def _save(self) -> None:
         try:
-            self._category_service.create_category(
-                language_id=self._language_id,
-                name=self._name_field.text(),
-                description=(
-                    self._description_field
-                    .toPlainText()
-                ),
-            )
+            values = dict(name=self._name_field.text(), description=self._description_field.toPlainText())
+            if self._category:
+                self._category_service.update_category(self._category.id, **values)
+            else:
+                self._category_service.create_category(language_id=self._language_id, **values)
 
         except ValueError as error:
             self._message_label.setText(

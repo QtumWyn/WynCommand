@@ -131,3 +131,10 @@ class CategoryRepository:
             created_at=row["created_at"],
             updated_at=row["updated_at"],
         )
+    def update(self, category_id: int, name: str, description: str | None) -> Category:
+        self._connection.execute(
+            "UPDATE categories SET name=?, description=?, updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=?",
+            (name, description, category_id),
+        )
+        self._connection.commit()
+        return self.get_by_id(category_id)

@@ -26,6 +26,7 @@ from wyncodex.services.entry_service import (
 )
 from wyncodex.services.language_service import LanguageService
 from wyncodex.ui.main_window import MainWindow
+from wyncodex.services.assembly_service import AssemblyService
 from wyncodex.ui.theme.stylesheet import apply_theme
 from wyncodex.config import (
     APPLICATION_NAME,
@@ -33,7 +34,6 @@ from wyncodex.config import (
     ORGANIZATION_NAME,
 )
 from wyncodex.database.connection import open_database
-from wyncodex.database.migration_runner import run_migrations
 from wyncodex.paths import AppPaths
 from wyncodex.repositories.argument_repository import (
     ArgumentRepository,
@@ -54,9 +54,7 @@ from wyncodex.services.search_service import (
     SearchService,
 )
 
-from wyncodex.services.starter_library_service import (
-    StarterLibraryService,
-)
+from wyncodex.services.library_update_service import LibraryUpdateService, prepare_database, load_package
 
 def main() -> int:
     app = QApplication(sys.argv)
@@ -75,7 +73,7 @@ def main() -> int:
     connection = open_database(paths.database_file)
 
     try:
-        run_migrations(connection)
+        prepare_database(connection)
 
         language_repository = LanguageRepository(connection)
 
@@ -118,26 +116,17 @@ def main() -> int:
             entry_service,
         )
 
-        starter_library_service = (
-            StarterLibraryService(
-                connection,
-                import_service,
-            )
-        )
-
+        library_service = LibraryUpdateService(connection)
         try:
-            seed_result = (
-                starter_library_service
-                .seed_if_needed()
-            )
-
+            if connection.execute('SELECT COUNT(*) FROM languages').fetchone()[0] == 0:
+                library_service.apply(load_package())
         except Exception as error:
             QMessageBox.critical(
                 None,
                 "WynCodex Startup Failed",
                 (
                     "WynCodex could not initialize "
-                    "its starter library.\n\n"
+                    "its public library.\n\n"
                     f"{error}"
                 ),
             )
@@ -146,31 +135,6 @@ def main() -> int:
 
         search_service = SearchService(search_repository)
 
-        if seed_result is not None:
-            print(
-                "Starter library initialized:"
-            )
-
-            print(
-                f"  Languages: "
-                f"{seed_result.languages_created}"
-            )
-
-            print(
-                f"  Categories: "
-                f"{seed_result.categories_created}"
-            )
-
-            print(
-                f"  Packages: "
-                f"{seed_result.packages_created}"
-            )
-
-            print(
-                f"  Entries: "
-                f"{seed_result.entries_created}"
-            )
-
         window = MainWindow(
             language_service,
             category_service,
@@ -178,6 +142,8 @@ def main() -> int:
             entry_service,
             import_service,
             search_service,
+            AssemblyService(connection),
+            library_service,
         )
 
         window.show()

@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QComboBox,
     QFrame,
     QFormLayout,
+    QLayout,
     QHBoxLayout,
     QLineEdit,
     QPlainTextEdit,
@@ -33,14 +34,17 @@ class ExampleEditorWidget(QFrame):
             default_syntax_hint: str | None = None,
             example: Example | None = None,
             parent=None,
+            natural: bool = False,
     ) -> None:
         super().__init__(parent)
 
+        self._natural = natural
         self.setObjectName(
             "editorCard"
         )
 
         layout = QVBoxLayout(self)
+        layout.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
 
         form = QFormLayout()
 
@@ -63,6 +67,9 @@ class ExampleEditorWidget(QFrame):
             "practical"
         )
 
+        if natural:
+            self._type_field.clear()
+            self._type_field.addItems(["example", "phrase", "dialogue", "contrast"])
         self._syntax_field = QLineEdit()
 
         if default_syntax_hint:
@@ -125,20 +132,34 @@ class ExampleEditorWidget(QFrame):
         )
 
         form.addRow(
-            "Code",
+            "Original text" if natural else "Code",
             self._code_field,
         )
 
         form.addRow(
-            "Output",
+            "Translation" if natural else "Output",
             self._output_field,
         )
 
         form.addRow(
-            "Explanation",
+            "Word-by-word breakdown / notes" if natural else "Explanation",
             self._explanation_field,
         )
 
+        self._explanation_field.setAcceptRichText(False)
+        self._romanization_field = QLineEdit()
+        self._pronunciation_field = QLineEdit()
+        for title, field in [("Romanization (optional)", self._romanization_field), ("Pronunciation (optional)", self._pronunciation_field)]:
+            field.setParent(self)
+            if natural:
+                form.addRow(title, field)
+            else:
+                field.hide()
+        if natural:
+            form.setRowVisible(self._syntax_field, False)
+            self._syntax_field.setText("text")
+            self._code_field.setLineWrapMode(QPlainTextEdit.LineWrapMode.WidgetWidth)
+            self._output_field.setLineWrapMode(QPlainTextEdit.LineWrapMode.WidgetWidth)
         self._highlighter = PygmentsHighlighter(
             self._code_field.document(),
             self._syntax_field.text(),
@@ -149,6 +170,8 @@ class ExampleEditorWidget(QFrame):
         )
 
         if example is not None:
+            self._romanization_field.setText(example.romanization or "")
+            self._pronunciation_field.setText(example.pronunciation or "")
             self._title_field.setText(
                 example.title
             )
@@ -207,7 +230,7 @@ class ExampleEditorWidget(QFrame):
                 self._type_field
                 .currentText()
             ),
-            syntax_hint=(
-                self._syntax_field.text()
-            ),
+            syntax_hint="text" if self._natural else self._syntax_field.text(),
+            romanization=self._romanization_field.text(),
+            pronunciation=self._pronunciation_field.text(),
         )

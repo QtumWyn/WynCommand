@@ -44,7 +44,7 @@ class EntryService:
         self._argument_repository = argument_repository
         self._example_repository = example_repository
 
-    def create_entry(
+    def _create_entry(
             self,
             *,
             category_id: int,
@@ -59,6 +59,9 @@ class EntryService:
             mental_model: str | None = None,
             return_value: str | None = None,
             gotchas: str | None = None,
+            formality: str | None = None,
+            dialect: str | None = None,
+            related_concepts: str | None = None,
             notes: str | None = None,
             arguments: list[ArgumentDraft] | None = None,
             examples: list[ExampleDraft] | None = None,
@@ -121,9 +124,7 @@ class EntryService:
                     "The parent entry belongs to a different package."
                 )
 
-        base_slug = slugify(
-            slug if slug else title
-        )
+        base_slug = self._slug(slug if slug else title, category.language_id)
 
         if not base_slug:
             raise ValueError(
@@ -187,6 +188,9 @@ class EntryService:
                 gotchas
             ),
 
+            formality=clean_optional_text(formality),
+            dialect=clean_optional_text(dialect),
+            related_concepts=clean_optional_text(related_concepts),
             notes=clean_optional_text(
                 notes
             ),
@@ -252,7 +256,7 @@ class EntryService:
                 if not code:
                     raise ValueError(
                         f"Example {sort_order + 1} "
-                        f"needs some code."
+                        f"needs original text or code."
                     )
 
                 example = Example.new(
@@ -262,6 +266,8 @@ class EntryService:
                     output=clean_optional_text(
                         draft.output
                     ),
+                    romanization=clean_optional_text(draft.romanization),
+                    pronunciation=clean_optional_text(draft.pronunciation),
                     explanation=clean_optional_text(
                         draft.explanation
                     ),
@@ -338,7 +344,7 @@ class EntryService:
             .get_for_entry(entry_id)
         )
 
-    def update_entry(
+    def _update_entry(
             self,
             *,
             entry_id: int,
@@ -349,6 +355,9 @@ class EntryService:
             mental_model: str | None = None,
             return_value: str | None = None,
             gotchas: str | None = None,
+            formality: str | None = None,
+            dialect: str | None = None,
+            related_concepts: str | None = None,
             notes: str | None = None,
             arguments: list[ArgumentDraft] | None = None,
             examples: list[ExampleDraft] | None = None,
@@ -372,7 +381,7 @@ class EntryService:
                 "Entry title cannot be empty."
             )
 
-        base_slug = slugify(title)
+        base_slug = self._slug(title, existing.language_id)
 
         if not base_slug:
             raise ValueError(
@@ -449,7 +458,7 @@ class EntryService:
             if not draft.code.strip():
                 raise ValueError(
                     f"Example {position + 1} "
-                    f"needs some code."
+                    f"needs original text or code."
                 )
 
         updated_entry = Entry(
@@ -489,6 +498,9 @@ class EntryService:
             gotchas=clean_optional_text(
                 gotchas
             ),
+            formality=clean_optional_text(formality),
+            dialect=clean_optional_text(dialect),
+            related_concepts=clean_optional_text(related_concepts),
             notes=clean_optional_text(
                 notes
             ),
@@ -556,6 +568,8 @@ class EntryService:
                     draft.output
                 ),
 
+                romanization=clean_optional_text(draft.romanization),
+                pronunciation=clean_optional_text(draft.pronunciation),
                 explanation=clean_optional_text(
                     draft.explanation
                 ),
@@ -602,3 +616,36 @@ class EntryService:
             self._entry_repository
             .get_children(entry_id)
         )
+
+    def _slug(self, value, language_id):
+        kind = self._entry_repository._connection.execute("SELECT language_kind FROM languages WHERE id=?", (language_id,)).fetchone()[0]
+        if kind == 'natural':
+            from wyncodex.utils.text import unicode_slugify
+            return unicode_slugify(value)
+        return slugify(value)
+
+    def _save_atomic(self, operation, kwargs):
+        connection = self._entry_repository._connection
+        commit = kwargs.pop('commit', True)
+        had_transaction = connection.in_transaction
+        if not had_transaction:
+            connection.execute('BEGIN')
+        connection.execute('SAVEPOINT entry_edit')
+        try:
+            result = operation(**kwargs, commit=False)
+            connection.execute('RELEASE entry_edit')
+            if commit:
+                connection.commit()
+            return result
+        except BaseException:
+            connection.execute('ROLLBACK TO entry_edit')
+            connection.execute('RELEASE entry_edit')
+            if not had_transaction:
+                connection.rollback()
+            raise
+
+    def create_entry(self, **kwargs):
+        return self._save_atomic(self._create_entry, kwargs)
+
+    def update_entry(self, **kwargs):
+        return self._save_atomic(self._update_entry, kwargs)

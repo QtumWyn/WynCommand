@@ -49,6 +49,8 @@ class OverviewCard(QFrame):
             title
         )
 
+        title_label.setTextFormat(Qt.TextFormat.PlainText)
+        title_label.setWordWrap(True)
         title_label.setObjectName(
             "overviewCardTitle"
         )
@@ -57,6 +59,7 @@ class OverviewCard(QFrame):
             description or "No description yet."
         )
 
+        description_label.setTextFormat(Qt.TextFormat.PlainText)
         description_label.setObjectName(
             "overviewCardDescription"
         )
